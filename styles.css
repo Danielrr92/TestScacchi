@@ -1,0 +1,54 @@
+  .board {   
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    width: 640px; /* Larghezza della scacchiera */
+    height: 640px;
+    max-width: 640px; /* Larghezza massima */
+    margin: auto; /* Centra la scacchiera */ 
+    cursor: grab;
+  }
+  
+  .square {
+    width: 80px; /* Larghezza della casella */
+    height: 80px; /* Altezza della casella (per mantenere un rapporto 1:1) */
+  }
+
+  .light {
+    background-color: #b1b1b1;
+  }
+  
+  .dark {
+    background-color: #874040;
+  }
+  
+  /* .container{
+    
+    width: 80%;
+    height: 80%; 
+    max-width: 1000px;
+    max-height: 1000px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+  } */
+
+  .piece {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: grab;
+    position: absolute;
+  }
+
+  .bordoScacchiera{
+    border: 10px solid rgb(41, 41, 41);
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .nascosto{
+    visibility: hidden;
+  }
