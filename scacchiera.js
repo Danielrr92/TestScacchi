@@ -1,7 +1,9 @@
 class Scacchiera {
+    
     constructor() {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
+        generaPosizioneInizialePezziMatrice();
     }
 
     // Metodo per posizionare un pezzo nella scacchiera
@@ -11,7 +13,8 @@ class Scacchiera {
     }
 
     // Metodo per ottenere il pezzo in una determinata posizione della scacchiera
-    ottieniPezzo(riga, colonna) {
+    ottieniPezzo(posizione) {
+        const [riga, colonna] = this.convertiPosizioneInIndice(posizione);
         return this.matrice[riga][colonna];
     }
 
@@ -56,31 +59,7 @@ class Scacchiera {
     }
 
 
-    disegnaPezzi() {
-        // Ottieni tutte le caselle della scacchiera
-        const caselle = document.querySelectorAll('.square');
-
-        // Attraversa ogni casella e posiziona il pezzo corrispondente
-        caselle.forEach((casella, indice) => {
-            const riga = Math.floor(indice / 8);
-            const colonna = indice % 8;
-            const pezzo = this.ottieniPezzo(riga, colonna);
-            if (pezzo) {
-                // Aggiungi l'immagine del pezzo come background della casella
-                const piece = document.createElement('img');
-                piece.src = pezzo.getImmagineUrl();
-                piece.classList.add('piece');
-                piece.id = pezzo.descrizione();
-                piece.style.position = 'absolute';
-                piece.style.maxWidth = `80px`;
-                piece.style.maxHeight = `80px`;
-                piece.style.zIndex = 1000;
-                piece.style.cursor = 'grab';
-                piece.dataset.dataNome = pezzo.tipo
-                casella.appendChild(piece);
-            }
-        });
-    }
+    
 
     // Metodo per convertire una posizione nella notazione 'a1' in un indice di matrice [riga][colonna]
     convertiPosizioneInIndice(posizione) {
