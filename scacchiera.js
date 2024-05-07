@@ -6,7 +6,7 @@ class Scacchiera {
 
     // Metodo per posizionare un pezzo nella scacchiera
     posizionaPezzo(pezzo) {
-        
+        const [riga, colonna] = this.convertiPosizioneInIndice(pezzo.posizione);
         this.matrice[riga][colonna] = pezzo;
     }
 
@@ -81,5 +81,13 @@ class Scacchiera {
             }
         });
     }
+
+    // Metodo per convertire una posizione nella notazione 'a1' in un indice di matrice [riga][colonna]
+    convertiPosizioneInIndice(posizione) {
+        const colonna = posizione.charCodeAt(0) - 'a'.charCodeAt(0);
+        const riga = 8 - parseInt(posizione[1]);
+        return [riga, colonna];
+    }
+
 
 }

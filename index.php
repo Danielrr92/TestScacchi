@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,11 +100,16 @@
     </div>
   </div>
 
-  <script src="scacchiera.js"></script>
-  <script src="pezzo.js"></script>  
+  <script src="Scacchiera.js"></script>
+  <script src="Pezzo.js"></script>
+  <script src="Pedone.js"></script>
+  <script src="Torre.js"></script>
+  <script src="Cavallo.js"></script>
+  <script src="Alfiere.js"></script>
+  <script src="Regina.js"></script>
+  <script src="Re.js"></script>
   <script src="movimentoPezzi.js"></script>
   <script src="newgame.js"></script>
-  <script src="pedone.js"></script>
 </body>
 
 </html>

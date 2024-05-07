@@ -1,8 +1,8 @@
 class Pedone extends Pezzo {
-    tipo = 'pawn';
+    
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore,tipo, posizioneIniziale)
+        super(colore,'pawn', posizioneIniziale)
     }
 
 }
