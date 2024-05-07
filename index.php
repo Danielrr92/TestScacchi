@@ -12,25 +12,25 @@
   <div class="board bordoScacchiera">
     <div class="row">
       <!-- 8 -->
-      <div class="square light occupata" id="a8"></div>
-      <div class="square dark occupata" id="b8"></div>
-      <div class="square light occupata" id="c8"></div>
-      <div class="square dark occupata" id="d8"></div>
-      <div class="square light occupata" id="e8"></div>
-      <div class="square dark occupata" id="f8"></div>
-      <div class="square light occupata" id="g8"></div>
-      <div class="square dark occupata" id="h8"></div>
+      <div class="square light" id="a8"></div>
+      <div class="square dark" id="b8"></div>
+      <div class="square light" id="c8"></div>
+      <div class="square dark" id="d8"></div>
+      <div class="square light" id="e8"></div>
+      <div class="square dark" id="f8"></div>
+      <div class="square light" id="g8"></div>
+      <div class="square dark" id="h8"></div>
     </div>
     <div class="row">
       <!-- 7 -->
-      <div class="square dark occupata" id="a7"></div>
-      <div class="square light occupata" id="b7"></div>
-      <div class="square dark occupata" id="c7"></div>
-      <div class="square light occupata" id="d7"></div>
-      <div class="square dark occupata" id="e7"></div>
-      <div class="square light occupata" id="f7"></div>
-      <div class="square dark occupata" id="g7"></div>
-      <div class="square light occupata" id="h7"></div>
+      <div class="square dark" id="a7"></div>
+      <div class="square light" id="b7"></div>
+      <div class="square dark" id="c7"></div>
+      <div class="square light" id="d7"></div>
+      <div class="square dark" id="e7"></div>
+      <div class="square light" id="f7"></div>
+      <div class="square dark" id="g7"></div>
+      <div class="square light" id="h7"></div>
     </div>
     <div class="row">
       <!-- 6 -->
@@ -78,37 +78,37 @@
     </div>
     <div class="row">
       <!-- 2 -->
-      <div class="square light occupata" id="a2"></div>
-      <div class="square dark occupata" id="b2"></div>
-      <div class="square light occupata" id="c2"></div>
-      <div class="square dark occupata" id="d2"></div>
-      <div class="square light occupata" id="e2"></div>
-      <div class="square dark occupata" id="f2"></div>
-      <div class="square light occupata" id="g2"></div>
-      <div class="square dark occupata" id="h2"></div>
+      <div class="square light" id="a2"></div>
+      <div class="square dark" id="b2"></div>
+      <div class="square light" id="c2"></div>
+      <div class="square dark" id="d2"></div>
+      <div class="square light" id="e2"></div>
+      <div class="square dark" id="f2"></div>
+      <div class="square light" id="g2"></div>
+      <div class="square dark" id="h2"></div>
     </div>
     <div class="row">
       <!-- 1 -->
-      <div class="square dark occupata" id="a1"></div>
-      <div class="square light occupata" id="b1"></div>
-      <div class="square dark occupata" id="c1"></div>
-      <div class="square light occupata" id="d1"></div>
-      <div class="square dark occupata" id="e1"></div>
-      <div class="square light occupata" id="f1"></div>
-      <div class="square dark occupata" id="g1"></div>
-      <div class="square light occupata" id="h1"></div>
+      <div class="square dark" id="a1"></div>
+      <div class="square light" id="b1"></div>
+      <div class="square dark" id="c1"></div>
+      <div class="square light" id="d1"></div>
+      <div class="square dark" id="e1"></div>
+      <div class="square light" id="f1"></div>
+      <div class="square dark" id="g1"></div>
+      <div class="square light" id="h1"></div>
     </div>
   </div>
 
-  <script src="Pezzo.js"></script>
-  <script src="Pedone.js"></script>
-  <script src="Torre.js"></script>
-  <script src="Cavallo.js"></script>
-  <script src="Alfiere.js"></script>
-  <script src="Regina.js"></script>
-  <script src="Re.js"></script>
+  <script src="classi/Pezzo.js"></script>
+  <script src="classi/Pedone.js"></script>
+  <script src="classi/Torre.js"></script>
+  <script src="classi/Cavallo.js"></script>
+  <script src="classi/Alfiere.js"></script>
+  <script src="classi/Regina.js"></script>
+  <script src="classi/Re.js"></script>
+  <script src="classi/Scacchiera.js"></script>
   <script src="GestoreEventiMouse.js"></script>
-  <script src="Scacchiera.js"></script>
   <script src="NewGame.js"></script>  
   <script src="Scacchi.js"></script>
 </body>
