@@ -18,6 +18,11 @@ class Scacchiera {
         return this.matrice[riga][colonna];
     }
 
+    rimuoviPezzo(posizione){
+        const [riga, colonna] = this.convertiPosizioneInIndice(posizione);
+        this.matrice[riga][colonna] = null;
+    }
+
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
     generaPosizioneInizialePezziMatrice() {
         // Pezzi bianchi
@@ -57,15 +62,21 @@ class Scacchiera {
         this.posizionaPezzo(new Cavallo('black', 'g8'));
         this.posizionaPezzo(new Torre('black', 'h8'));
     }
-
-
-    
+   
 
     // Metodo per convertire una posizione nella notazione 'a1' in un indice di matrice [riga][colonna]
     convertiPosizioneInIndice(posizione) {
         const colonna = posizione.charCodeAt(0) - 'a'.charCodeAt(0);
         const riga = 8 - parseInt(posizione[1]);
         return [riga, colonna];
+    }
+
+    verificaCasellaOccupata(posizione){
+        const [riga, colonna] = this.convertiPosizioneInIndice(posizione);
+        if(this.matrice[riga][colonna] == null)
+            return false;
+        else
+            return true;
     }
 
 

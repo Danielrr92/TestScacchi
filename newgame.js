@@ -23,20 +23,25 @@ class newGame {
         caselle.forEach((casella) => {
             const pezzo = scacchiera.ottieniPezzo(casella.id);
             if (pezzo) {
-                // Aggiungi l'immagine del pezzo come background della casella
-                const piece = document.createElement('img');
-                piece.src = pezzo.getImmagineUrl();
-                piece.classList.add('piece');
-                piece.id = pezzo.descrizione();
-                piece.style.position = 'absolute';
-                piece.style.maxWidth = `80px`;
-                piece.style.maxHeight = `80px`;
-                piece.style.zIndex = 1000;
-                piece.style.cursor = 'grab';
-                piece.dataset.dataNome = pezzo.tipo
-                casella.appendChild(piece);
+                // Aggiungi l'immagine del pezzo come background della casella nel caso in cui esistesse il pezzo su quella casella
+                const htmlPieceImg = document.createElement('img');
+                this.creaImgPezzo(pezzo, htmlPieceImg, casella);              
             }
         });
+    }
+
+    creaImgPezzo(pezzo, htmlPieceImg, casella) {
+        htmlPieceImg.src = pezzo.getImmagineUrl();
+        htmlPieceImg.id = pezzo.descrizione();
+        htmlPieceImg.classList.add('piece');
+        htmlPieceImg.style.position = 'absolute';
+        htmlPieceImg.style.maxWidth = `80px`;
+        htmlPieceImg.style.maxHeight = `80px`;
+        htmlPieceImg.style.zIndex = 1000;
+        htmlPieceImg.style.draggable = false;
+        htmlPieceImg.style.cursor = 'grab';
+        htmlPieceImg.dataset.dataNome = pezzo.tipo
+        casella.appendChild(htmlPieceImg);
     }
 
 }

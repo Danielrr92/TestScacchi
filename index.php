@@ -108,7 +108,7 @@
   <script src="classi/Regina.js"></script>
   <script src="classi/Re.js"></script>
   <script src="classi/Scacchiera.js"></script>
-  <script src="GestoreEventiMouse.js"></script>
+  <script src="MovimentoPezzi.js"></script>
   <script src="NewGame.js"></script>  
   <script src="Scacchi.js"></script>
 </body>

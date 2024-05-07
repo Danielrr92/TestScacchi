@@ -14,9 +14,8 @@
 
   .square {
     width: 80px;
-    /* Larghezza della casella */
     height: 80px;
-    /* Altezza della casella (per mantenere un rapporto 1:1) */
+    position: relative; /* Aggiunto il posizionamento relativo */
   }
 
   .light {

@@ -22,10 +22,5 @@ class Pezzo {
     }
 
     
-    // convertiCoordinate(rigaArray, colonnaArray){
-    //     this.traversa = rigaArray + 1;
-    //     let leo = ["a","b","c","d","e","f","g","h"];
-    //     this.colonna = leo[colonnaArray]; 
-    //     console.log(this.descrizione() + ' - casella: ' + this.colonna + this.traversa);
-    // }
+
 }
