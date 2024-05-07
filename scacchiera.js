@@ -1,9 +1,9 @@
 class Scacchiera {
-    
+
     constructor() {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
-        generaPosizioneInizialePezziMatrice();
+        this.generaPosizioneInizialePezziMatrice();
     }
 
     // Metodo per posizionare un pezzo nella scacchiera

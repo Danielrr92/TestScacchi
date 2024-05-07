@@ -100,7 +100,6 @@
     </div>
   </div>
 
-  <script src="Scacchiera.js"></script>
   <script src="Pezzo.js"></script>
   <script src="Pedone.js"></script>
   <script src="Torre.js"></script>
@@ -108,8 +107,10 @@
   <script src="Alfiere.js"></script>
   <script src="Regina.js"></script>
   <script src="Re.js"></script>
-  <script src="movimentoPezzi.js"></script>
-  <script src="newgame.js"></script>
+  <script src="GestoreEventiMouse.js"></script>
+  <script src="Scacchiera.js"></script>
+  <script src="NewGame.js"></script>  
+  <script src="Scacchi.js"></script>
 </body>
 
 </html>
