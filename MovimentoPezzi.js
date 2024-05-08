@@ -4,14 +4,16 @@ function inizializzaGestoriEventiMouse(scacchiera) {
     const pezzi = document.querySelectorAll('.piece');
 
     pezzi.forEach((pezzo) => {
-        pezzo.addEventListener('mousedown', iniziaTrascinamento);
+        pezzo.addEventListener('mousedown', (event) => iniziaTrascinamento(event, scacchiera));
+        pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchiera));
     });
 
-    document.addEventListener('mouseup', terminaTrascinamento);
+    //document.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchiera));
 }
 
-function iniziaTrascinamento(event) {
+function iniziaTrascinamento(event, scacchiera) {
     event.preventDefault();
+
     pezzoSelezionato = event.target; // Imposta il pezzo selezionato
 
     // Memorizza le coordinate del punto in cui è iniziato il trascinamento
@@ -27,6 +29,7 @@ function iniziaTrascinamento(event) {
 
     // Aggiunge un evento mousemove al documento per seguire il movimento del mouse
     document.addEventListener('mousemove', muoviPezzo);
+
 }
 
 function muoviPezzo(event) {
@@ -45,21 +48,28 @@ function muoviPezzo(event) {
     }
 }
 
-function terminaTrascinamento(event) {
+function terminaTrascinamento(event, scacchiera) {
     // Imposta il cursore a 'grabbing' durante il trascinamento
     pezzoSelezionato.style.cursor = 'grab';
     if (pezzoSelezionato) {
         // Rimuove l'evento mousemove dal documento
         document.removeEventListener('mousemove', muoviPezzo);
 
-        // Ottieni la casella di destinazione
+        // Ottieni la caselle di partenza e di destinazione
+        const casellaPartenza = pezzoSelezionato.offsetParent.id;
         const casellaDestinazione = ottieniCasellaDestinazione(event.clientX, event.clientY);
 
         pezzoSelezionato.style.left = 0;
         pezzoSelezionato.style.top = 0;
+        
         casellaDestinazione.appendChild(pezzoSelezionato);
 
         // Resetta il pezzo selezionato
+        pezzoSelezionato = null;
+
+        pezzo = scacchiera.ottieniPezzo(casellaPartenza.id);
+        scacchiera.aggiornaPosizionePezzo(pezzo,casellaDestinazione.id)
+        console.log(scacchiera);
         pezzoSelezionato = null;
     }
 }

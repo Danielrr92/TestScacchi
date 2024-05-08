@@ -18,9 +18,17 @@ class Scacchiera {
         return this.matrice[riga][colonna];
     }
 
+    // Metodo per rimuovere un pezzo in una determinata posizione della scacchiera
     rimuoviPezzo(posizione){
         const [riga, colonna] = this.convertiPosizioneInIndice(posizione);
         this.matrice[riga][colonna] = null;
+    }
+
+    // Metodo per aggiornare la posizione di un pezzo sulla scacchiera
+    aggiornaPosizionePezzo(pezzo, nuovaPosizione) {
+        this.rimuoviPezzo(pezzo.posizione);
+        pezzo.posizione = nuovaPosizione;
+        this.posizionaPezzo(pezzo);
     }
 
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
