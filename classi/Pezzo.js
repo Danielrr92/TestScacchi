@@ -9,6 +9,7 @@ class Pezzo {
         this.colore = colore; // Colore del pezzo (nero o bianco)
         this.tipo = tipo; // Tipo del pezzo (torre, cavallo, alfiere, regina, re, pedone)
         this.posizione= posizione; // Posizione del pezzo 'a1' , 'a2' ecc
+        this.id = this.colore + this.tipo + this.posizione
     }
 
     // Metodo per ottenere una rappresentazione testuale del pezzo

@@ -1,44 +1,71 @@
 class Pedone extends Pezzo {
-    
+
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore,'pawn', posizioneIniziale)
+        super(colore, 'Pawn', posizioneIniziale)
+        this.primaMossa = true;
+        this.promozione = false;
     }
 
-    calcolaMosseDisponibili(scacchiera, pezzo) {
-        const [riga, colonna] = scacchiera.convertiPosizioneInIndice(pezzo.posizione);
-        const mosseDisponibili = [];
-    
-        // Calcola la direzione del movimento in base al colore del pedone
-        const direzioneMovimento = (pezzo.colore === 'white') ? -1 : 1;
-    
-        // Controlla la casella davanti al pedone
-        const casellaDavanti = scacchiera.convertiIndiceInPosizione(riga + direzioneMovimento, colonna);
-        if (!scacchiera.verificaCasellaOccupata(casellaDavanti)) {
-            mosseDisponibili.push(casellaDavanti);
-    
-            // Controlla se è la prima mossa e se può avanzare di due caselle
-            if ((pezzo.colore === 'white' && riga === 6) || (pezzo.colore === 'black' && riga === 1)) {
-                const casellaDoppiaAvanti = scacchiera.convertiIndiceInPosizione(riga + 2 * direzioneMovimento, colonna);
-                if (!scacchiera.verificaCasellaOccupata(casellaDoppiaAvanti)) {
-                    mosseDisponibili.push(casellaDoppiaAvanti);
+
+    isLegalMove(scacchiera, casellaDestinazione) {
+        const mosseDisponibili = this.trovaMosseDisponibili(scacchiera);
+        if (!mosseDisponibili.includes(casellaDestinazione))
+            return false;
+
+        return true;
+    }
+
+
+    trovaMosseDisponibili(scacchiera) {
+        const mosse = [];
+        const [riga, colonna] = scacchiera.convertiPosizioneInIndice(this.posizione);
+        const direzione = (this.colore === 'white') ? -1 : 1;
+
+        // Calcola la casella davanti al pedone
+        const nuovaRiga = riga + direzione;
+
+        // Verifica se la casella davanti al pedone è all'interno della scacchiera e se è libera
+        //casellaDaControllare 
+
+        if (scacchiera.verificaPosizioneValida(nuovaRiga, colonna)) {
+            if (!scacchiera.verificaPosizioneOccupata(nuovaRiga, colonna)) {
+                mosse.push(scacchiera.convertiIndiceInPosizione(nuovaRiga, colonna));
+
+                // Se è la prima mossa del pedone, verifica se può muoversi di due caselle in avanti
+                if (this.primaMossa && scacchiera.verificaPosizioneValida(nuovaRiga + direzione, colonna)) {
+                    if (!scacchiera.verificaPosizioneOccupata(nuovaRiga + direzione, colonna)) {
+                        mosse.push(scacchiera.convertiIndiceInPosizione(nuovaRiga + direzione, colonna));
+                    }
+                }
+
+                // se la casella avanti è l'ottava traversa(pezzo bianco) o la prima traversa(pezzo nero) effettuo la promozione
+                if((nuovaRiga == 0 && this.colore =='white') || (nuovaRiga == 7 && this.colore == 'black')){
+                    this.promozione = true;
                 }
             }
         }
-    
-        // Controlla le mosse di cattura diagonale
-        const catturaSinistra = scacchiera.convertiIndiceInPosizione(riga + direzioneMovimento, colonna - 1);
-        const catturaDestra = scacchiera.convertiIndiceInPosizione(riga + direzioneMovimento, colonna + 1);
-        if (scacchiera.verificaCasellaOccupata(catturaSinistra) && scacchiera.ottieniPezzo(catturaSinistra).colore !== pezzo.colore) {
-            mosseDisponibili.push(catturaSinistra);
+
+        // Calcola la casella diagonale sinistra per la possibile cattura
+        if (scacchiera.verificaPosizioneValida(nuovaRiga, colonna - 1)) {
+            const catturaSinistra = scacchiera.convertiIndiceInPosizione(nuovaRiga, colonna - 1);
+            // Se ci sono pezzi avversari nelle caselle diagonali, può catturare
+            if (catturaSinistra && scacchiera.verificaCasellaOccupata(catturaSinistra) && scacchiera.ottieniPezzo(catturaSinistra).colore !== this.colore) {
+                mosse.push(catturaSinistra);
+            }
         }
-        if (scacchiera.verificaCasellaOccupata(catturaDestra) && scacchiera.ottieniPezzo(catturaDestra).colore !== pezzo.colore) {
-            mosseDisponibili.push(catturaDestra);
+
+        if (scacchiera.verificaPosizioneValida(nuovaRiga, colonna + 1)) {
+            const catturaDestra = scacchiera.convertiIndiceInPosizione(nuovaRiga, colonna + 1);
+
+            if (catturaDestra && scacchiera.verificaCasellaOccupata(catturaDestra) && scacchiera.ottieniPezzo(catturaDestra).colore !== this.colore) {
+                mosse.push(catturaDestra);
+            }
+
         }
-    
-        return mosseDisponibili;
+        return mosse;
+
+
     }
 
-    
-    
 }

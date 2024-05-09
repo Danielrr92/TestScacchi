@@ -12,93 +12,92 @@
   <div class="board bordoScacchiera">
     <div class="row">
       <!-- 8 -->
-      <div class="square light" id="a8"></div>
-      <div class="square dark" id="b8"></div>
-      <div class="square light" id="c8"></div>
-      <div class="square dark" id="d8"></div>
-      <div class="square light" id="e8"></div>
-      <div class="square dark" id="f8"></div>
-      <div class="square light" id="g8"></div>
-      <div class="square dark" id="h8"></div>
+      <div class="square light" id="A8"></div>
+      <div class="square dark" id="B8"></div>
+      <div class="square light" id="C8"></div>
+      <div class="square dark" id="D8"></div>
+      <div class="square light" id="E8"></div>
+      <div class="square dark" id="F8"></div>
+      <div class="square light" id="G8"></div>
+      <div class="square dark" id="H8"></div>
     </div>
     <div class="row">
       <!-- 7 -->
-      <div class="square dark" id="a7"></div>
-      <div class="square light" id="b7"></div>
-      <div class="square dark" id="c7"></div>
-      <div class="square light" id="d7"></div>
-      <div class="square dark" id="e7"></div>
-      <div class="square light" id="f7"></div>
-      <div class="square dark" id="g7"></div>
-      <div class="square light" id="h7"></div>
+      <div class="square dark" id="A7"></div>
+      <div class="square light" id="B7"></div>
+      <div class="square dark" id="C7"></div>
+      <div class="square light" id="D7"></div>
+      <div class="square dark" id="E7"></div>
+      <div class="square light" id="F7"></div>
+      <div class="square dark" id="G7"></div>
+      <div class="square light" id="H7"></div>
     </div>
     <div class="row">
       <!-- 6 -->
-      <div class="square light" id="a6"></div>
-      <div class="square dark" id="b6"></div>
-      <div class="square light" id="c6"></div>
-      <div class="square dark" id="d6"></div>
-      <div class="square light" id="e6"></div>
-      <div class="square dark" id="f6"></div>
-      <div class="square light" id="g6"></div>
-      <div class="square dark" id="h6"></div>
+      <div class="square light" id="A6"></div>
+      <div class="square dark" id="B6"></div>
+      <div class="square light" id="C6"></div>
+      <div class="square dark" id="D6"></div>
+      <div class="square light" id="E6"></div>
+      <div class="square dark" id="F6"></div>
+      <div class="square light" id="G6"></div>
+      <div class="square dark" id="H6"></div>
     </div>
     <div class="row">
       <!-- 5 -->
-      <div class="square dark" id="a5"></div>
-      <div class="square light" id="b5"></div>
-      <div class="square dark" id="c5"></div>
-      <div class="square light" id="d5"></div>
-      <div class="square dark" id="e5"></div>
-      <div class="square light" id="f5"></div>
-      <div class="square dark" id="g5"></div>
-      <div class="square light" id="h5"></div>
+      <div class="square dark" id="A5"></div>
+      <div class="square light" id="B5"></div>
+      <div class="square dark" id="C5"></div>
+      <div class="square light" id="D5"></div>
+      <div class="square dark" id="E5"></div>
+      <div class="square light" id="F5"></div>
+      <div class="square dark" id="G5"></div>
+      <div class="square light" id="H5"></div>
     </div>
     <div class="row">
       <!-- 4 -->
-      <div class="square light" id="a4"></div>
-      <div class="square dark" id="b4"></div>
-      <div class="square light" id="c4"></div>
-      <div class="square dark" id="d4"></div>
-      <div class="square light" id="e4"></div>
-      <div class="square dark" id="f4"></div>
-      <div class="square light" id="g4"></div>
-      <div class="square dark" id="h4"></div>
+      <div class="square light" id="A4"></div>
+      <div class="square dark" id="B4"></div>
+      <div class="square light" id="C4"></div>
+      <div class="square dark" id="D4"></div>
+      <div class="square light" id="E4"></div>
+      <div class="square dark" id="F4"></div>
+      <div class="square light" id="G4"></div>
+      <div class="square dark" id="H4"></div>
     </div>
     <div class="row">
-      <!-- 3 -->
-      <div class="square dark" id="a3"></div>
-      <div class="square light" id="b3"></div>
-      <div class="square dark" id="c3"></div>
-      <div class="square light" id="d3"></div>
-      <div class="square dark" id="e3"></div>
-      <div class="square light" id="f3"></div>
-      <div class="square dark" id="g3"></div>
-      <div class="square light" id="h3"></div>
-    </div>
-    <div class="row">
-      <!-- 2 -->
-      <div class="square light" id="a2"></div>
-      <div class="square dark" id="b2"></div>
-      <div class="square light" id="c2"></div>
-      <div class="square dark" id="d2"></div>
-      <div class="square light" id="e2"></div>
-      <div class="square dark" id="f2"></div>
-      <div class="square light" id="g2"></div>
-      <div class="square dark" id="h2"></div>
-    </div>
-    <div class="row">
-      <!-- 1 -->
-      <div class="square dark" id="a1"></div>
-      <div class="square light" id="b1"></div>
-      <div class="square dark" id="c1"></div>
-      <div class="square light" id="d1"></div>
-      <div class="square dark" id="e1"></div>
-      <div class="square light" id="f1"></div>
-      <div class="square dark" id="g1"></div>
-      <div class="square light" id="h1"></div>
-    </div>
-  </div>
+    <!-- 3 -->
+    <div class="square dark" id="A3"></div>
+    <div class="square light" id="B3"></div>
+    <div class="square dark" id="C3"></div>
+    <div class="square light" id="D3"></div>
+    <div class="square dark" id="E3"></div>
+    <div class="square light" id="F3"></div>
+    <div class="square dark" id="G3"></div>
+    <div class="square light" id="H3"></div>
+</div>
+<div class="row">
+    <!-- 2 -->
+    <div class="square light" id="A2"></div>
+    <div class="square dark" id="B2"></div>
+    <div class="square light" id="C2"></div>
+    <div class="square dark" id="D2"></div>
+    <div class="square light" id="E2"></div>
+    <div class="square dark" id="F2"></div>
+    <div class="square light" id="G2"></div>
+    <div class="square dark" id="H2"></div>
+</div>
+<div class="row">
+    <!-- 1 -->
+    <div class="square dark" id="A1"></div>
+    <div class="square light" id="B1"></div>
+    <div class="square dark" id="C1"></div>
+    <div class="square light" id="D1"></div>
+    <div class="square dark" id="E1"></div>
+    <div class="square light" id="F1"></div>
+    <div class="square dark" id="G1"></div>
+    <div class="square light" id="H1"></div>
+</div>
 
   <script src="classi/Pezzo.js"></script>
   <script src="classi/Pedone.js"></script>

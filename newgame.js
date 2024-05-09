@@ -32,7 +32,7 @@ class newGame {
     creaImgPezzo(pezzo) {
         const htmlPieceImg = document.createElement('img');
         htmlPieceImg.src = pezzo.getImmagineUrl();
-        htmlPieceImg.id = pezzo.descrizione();
+        htmlPieceImg.id = pezzo.id;
         htmlPieceImg.classList.add('piece');
         htmlPieceImg.style.position = 'absolute';
         htmlPieceImg.style.maxWidth = `80px`;

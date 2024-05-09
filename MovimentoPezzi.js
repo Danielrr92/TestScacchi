@@ -73,31 +73,35 @@ function terminaTrascinamento(event, scacchiera) {
         // Ottieni la caselle di partenza e di destinazione        
         const divCasellaPartenza = pezzoSelezionato.offsetParent;
         const divCasellaDestinazione = ottieniCasellaDestinazione(event.clientX, event.clientY);
-        const casellaPartenza = divCasellaPartenza.id;
-        const casellaDestinazione = divCasellaDestinazione.id;
 
-        //ovviamente se ho solamente cliccato il pezzo anche solo per una frazione di secondo l'evento viene scatenato ma se ho rilasciato subito il mouse casella di partenza e casella di destinazione saranno equivalenti. 
-        //in quel caso non faccio nulla.
-        if (casellaPartenza != casellaDestinazione) {
+        //se sto spostando il pezzo fuori dalla scacchiera non faccio nulla, altrimenti procedo
+        if (divCasellaDestinazione) {
+            const casellaPartenza = divCasellaPartenza.id;
+            const casellaDestinazione = divCasellaDestinazione.id;
 
-            // console.log('Termina Trascinamento');
-            // console.log(casellaPartenza);
-            // console.log(casellaDestinazione);
-
-
-            const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
-
-            let legalMove = isLegalMove(scacchiera, pezzo, casellaDestinazione);
-
-            if (legalMove) {
-                scacchiera.aggiornaPosizionePezzo(pezzo, casellaDestinazione)
-                scacchiera.aggiornaMossaAl();
-                divCasellaDestinazione.appendChild(pezzoSelezionato);
+            //ovviamente se ho solamente cliccato il pezzo anche solo per una frazione di secondo l'evento viene scatenato ma se ho rilasciato subito il mouse casella di partenza e casella di destinazione saranno equivalenti. 
+            //in quel caso non faccio nulla.
+            if (casellaPartenza != casellaDestinazione) {
+                const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
+                let legalMove = checkIsLegalMove(scacchiera, pezzo, casellaDestinazione);
+                if (legalMove) {
+                    if (scacchiera.verificaCasellaOccupata(casellaDestinazione)){
+                        //mangio il pezzo (lo elimino dal DOM)
+                        pezzoMangiato = scacchiera.ottieniPezzo(casellaDestinazione);
+                        imgPezzoMangiato = document.getElementById(pezzoMangiato.descrizione());
+                        divCasellaDestinazione.removeChild(imgPezzoMangiato);
+                    }          
+                    //aggiorno scacchiera con nuova posizione              
+                    scacchiera.aggiornaPosizionePezzo(pezzo, casellaDestinazione)
+                    scacchiera.aggiornaMossaAl();
+                    //sposto il pezzo sul DOM
+                    divCasellaDestinazione.appendChild(pezzoSelezionato);
+                }
+                //stampo la nuova posizione della scacchiera
+                console.log(scacchiera);
             }
-
-
-            console.log(scacchiera);
         }
+
 
         pezzoSelezionato = null;
     }
@@ -119,9 +123,58 @@ function ottieniCasellaDestinazione(mouseX, mouseY) {
 }
 
 
-function isLegalMove(scacchiera, pezzo, casellaDestinazione) {
-    //QUI DENTRO CI SARANNO I CONTROLLI DELLA LOGICA DEGLI SCACCHI, A CHI TOCCA, SE IL PEZZO SI PUò MUOVERE IN QUELLA CASELLA, MANGIARE.
-    //controllo se tocca al bianco oppure al nero
+function checkIsLegalMove(scacchiera, pezzo, casellaDestinazione) {
+    //QUI DENTRO EFFETTUO IL CONTROLLO SE UNA MOSSA è LEGALE RICHIAMANDO IL METODO isLegalMove CONTENUTO IN OGNI CLASSE DI OGNI PEZZO DEGLI SCACCHI 
+    let mossaLegale = true;
+    try {
+
+        //controllo se tocca al bianco oppure al nero
+        if (!checkMossaAlBiancoMossaAlNero(scacchiera, pezzo))
+            return false;
+
+        //controllo che pezzo sto muovendo e richiamo il metodo per controllare se quel pezzo può effettuare la mossa
+        switch (pezzo.tipo) {
+            case "Pawn":
+                if (!pezzo.isLegalMove(scacchiera, casellaDestinazione))
+                    return false;
+                pezzo.primaMossa = false;
+                break;
+            case "rook":
+
+                break;
+            case "knight":
+
+                break;
+            case "bishop":
+
+                break;
+            case "queen":
+
+                break;
+            case "king":
+
+                break;
+            default:
+                //qualcosa è andato storto. errore applicazione.
+                return false;
+                break;
+
+
+        }
+    } catch (errore) {
+        // Blocco di gestione dell'errore
+        // Viene eseguito solo se si verifica un errore nel blocco try
+        console.log('Si è verificato un errore:', errore);
+        return false;
+    }
+
+
+
+    return true;
+}
+
+
+function checkMossaAlBiancoMossaAlNero(scacchiera, pezzo) {
     if (scacchiera.mossaAl == 'bianco') {
         if (pezzo.colore == 'black') {
             return false;
@@ -131,35 +184,6 @@ function isLegalMove(scacchiera, pezzo, casellaDestinazione) {
         if (pezzo.colore == 'white') {
             return false;
         }
-
     }
-    //controllo che pezzo sto muovendo 
-    switch (pezzo.tipo) {
-        case "pawn":
-            const mosseDisponibili = pezzo.calcolaMosseDisponibili(scacchiera, pezzo);
-            break;
-        case "rook":
-
-            break;
-        case "knight":
-
-            break;
-        case "bishop":
-
-            break;
-        case "queen":
-
-            break;
-        case "king":
-
-            break;
-        default:
-            //qualcosa è andato storto. errore applicazione.
-            return false;
-            break;
-
-
-    }
-
     return true;
 }
