@@ -41,7 +41,3 @@
   .row {
     display: flex;
   }
-
-  .nascosto {
-    visibility: hidden;
-  }

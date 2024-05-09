@@ -1,5 +1,15 @@
 let pezzoSelezionato = null; // Variabile globale per memorizzare il pezzo selezionato
 
+
+//PROSSIMI STEP
+//CALCOLO DELLE MOSSE DISPONIBILI(CASELLE IN CUI PUOI ANDARE) RISPETTO AL PEZZO SELEZIONATO
+//se la casella selezionata non è tra quelle disponibili blocco il movimento a prescindere
+
+//se è tra queste eseguo la mossa, se mangio copro la posizione del pezzo dove sto andando ed elimino il pezzo che c'era prima dalla scacchiera
+
+
+
+
 function inizializzaGestoriEventiMouse(scacchiera) {
     const pezzi = document.querySelectorAll('.piece');
 
@@ -15,6 +25,8 @@ function iniziaTrascinamento(event, scacchiera) {
     event.preventDefault();
 
     pezzoSelezionato = event.target; // Imposta il pezzo selezionato
+    //per debug
+    console.log('Inizio Trascinameto: ' + pezzoSelezionato.id + ' Casella iniziale ' + pezzoSelezionato.offsetParent.id);
 
     // Memorizza le coordinate del punto in cui è iniziato il trascinamento
     pezzoSelezionato.inizioX = event.clientX;
@@ -28,11 +40,11 @@ function iniziaTrascinamento(event, scacchiera) {
     pezzoSelezionato.style.cursor = 'grabbing';
 
     // Aggiunge un evento mousemove al documento per seguire il movimento del mouse
-    document.addEventListener('mousemove', muoviPezzo);
+    document.addEventListener('mousemove', muoviPezzoGraficamente);
 
 }
 
-function muoviPezzo(event) {
+function muoviPezzoGraficamente(event) {
     if (pezzoSelezionato) {
         // Calcola la distanza spostata dal mouse rispetto al punto di inizio
         const spostamentoX = event.clientX - pezzoSelezionato.inizioX;
@@ -53,23 +65,40 @@ function terminaTrascinamento(event, scacchiera) {
     pezzoSelezionato.style.cursor = 'grab';
     if (pezzoSelezionato) {
         // Rimuove l'evento mousemove dal documento
-        document.removeEventListener('mousemove', muoviPezzo);
-
-        // Ottieni la caselle di partenza e di destinazione
-        const casellaPartenza = pezzoSelezionato.offsetParent.id;
-        const casellaDestinazione = ottieniCasellaDestinazione(event.clientX, event.clientY);
+        document.removeEventListener('mousemove', muoviPezzoGraficamente);
 
         pezzoSelezionato.style.left = 0;
         pezzoSelezionato.style.top = 0;
-        
-        casellaDestinazione.appendChild(pezzoSelezionato);
 
-        // Resetta il pezzo selezionato
-        pezzoSelezionato = null;
+        // Ottieni la caselle di partenza e di destinazione        
+        const divCasellaPartenza = pezzoSelezionato.offsetParent;
+        const divCasellaDestinazione = ottieniCasellaDestinazione(event.clientX, event.clientY);
+        const casellaPartenza = divCasellaPartenza.id;
+        const casellaDestinazione = divCasellaDestinazione.id;
 
-        pezzo = scacchiera.ottieniPezzo(casellaPartenza.id);
-        scacchiera.aggiornaPosizionePezzo(pezzo,casellaDestinazione.id)
-        console.log(scacchiera);
+        //ovviamente se ho solamente cliccato il pezzo anche solo per una frazione di secondo l'evento viene scatenato ma se ho rilasciato subito il mouse casella di partenza e casella di destinazione saranno equivalenti. 
+        //in quel caso non faccio nulla.
+        if (casellaPartenza != casellaDestinazione) {
+
+            // console.log('Termina Trascinamento');
+            // console.log(casellaPartenza);
+            // console.log(casellaDestinazione);
+
+
+            const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
+
+            let legalMove = isLegalMove(scacchiera, pezzo, casellaDestinazione);
+
+            if (legalMove) {
+                scacchiera.aggiornaPosizionePezzo(pezzo, casellaDestinazione)
+                scacchiera.aggiornaMossaAl();
+                divCasellaDestinazione.appendChild(pezzoSelezionato);
+            }
+
+
+            console.log(scacchiera);
+        }
+
         pezzoSelezionato = null;
     }
 }
@@ -89,3 +118,48 @@ function ottieniCasellaDestinazione(mouseX, mouseY) {
     return null;
 }
 
+
+function isLegalMove(scacchiera, pezzo, casellaDestinazione) {
+    //QUI DENTRO CI SARANNO I CONTROLLI DELLA LOGICA DEGLI SCACCHI, A CHI TOCCA, SE IL PEZZO SI PUò MUOVERE IN QUELLA CASELLA, MANGIARE.
+    //controllo se tocca al bianco oppure al nero
+    if (scacchiera.mossaAl == 'bianco') {
+        if (pezzo.colore == 'black') {
+            return false;
+        }
+    }
+    else if (scacchiera.mossaAl == 'nero') {
+        if (pezzo.colore == 'white') {
+            return false;
+        }
+
+    }
+    //controllo che pezzo sto muovendo 
+    switch (pezzo.tipo) {
+        case "pawn":
+            
+            break;
+        case "rook":
+
+            break;
+        case "knight":
+
+            break;
+        case "bishop":
+
+            break;
+        case "queen":
+
+            break;
+        case "king":
+
+            break;
+        default:
+            //qualcosa è andato storto. errore applicazione.
+            return false;
+            break;
+
+
+    }
+
+    return true;
+}

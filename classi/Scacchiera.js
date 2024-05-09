@@ -4,6 +4,7 @@ class Scacchiera {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
         this.generaPosizioneInizialePezziMatrice();
+        this.mossaAl = 'bianco';
     }
 
     // Metodo per posizionare un pezzo nella scacchiera
@@ -85,6 +86,15 @@ class Scacchiera {
             return false;
         else
             return true;
+    }
+
+    aggiornaMossaAl(){
+        if (this.mossaAl == 'bianco'){
+            this.mossaAl = 'nero';
+        }
+        else if(this.mossaAl == 'nero'){
+            this.mossaAl = 'bianco';
+        }
     }
 
 

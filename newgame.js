@@ -23,14 +23,14 @@ class newGame {
         caselle.forEach((casella) => {
             const pezzo = scacchiera.ottieniPezzo(casella.id);
             if (pezzo) {
-                // Aggiungi l'immagine del pezzo come background della casella nel caso in cui esistesse il pezzo su quella casella
-                const htmlPieceImg = document.createElement('img');
-                this.creaImgPezzo(pezzo, htmlPieceImg, casella);              
+                // Aggiungi l'immagine del pezzo come background della casella nel caso in cui esistesse il pezzo su quella casella                
+                this.creaImgPezzo(pezzo, casella);              
             }
         });
     }
 
-    creaImgPezzo(pezzo, htmlPieceImg, casella) {
+    creaImgPezzo(pezzo, casella) {
+        const htmlPieceImg = document.createElement('img');
         htmlPieceImg.src = pezzo.getImmagineUrl();
         htmlPieceImg.id = pezzo.descrizione();
         htmlPieceImg.classList.add('piece');
@@ -41,7 +41,7 @@ class newGame {
         htmlPieceImg.style.draggable = false;
         htmlPieceImg.style.cursor = 'grab';
         htmlPieceImg.dataset.dataNome = pezzo.tipo
-        casella.appendChild(htmlPieceImg);
+        htmlPieceImg.appendChild(htmlPieceImg);
     }
 
 }
