@@ -136,7 +136,7 @@ function isLegalMove(scacchiera, pezzo, casellaDestinazione) {
     //controllo che pezzo sto muovendo 
     switch (pezzo.tipo) {
         case "pawn":
-            
+            const mosseDisponibili = pezzo.calcolaMosseDisponibili(scacchiera, pezzo);
             break;
         case "rook":
 
