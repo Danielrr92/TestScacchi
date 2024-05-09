@@ -35,41 +35,42 @@ class Scacchiera {
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
     generaPosizioneInizialePezziMatrice() {
         // Pezzi bianchi
-        this.posizionaPezzo(new Pedone('White', 'A2'));
-        this.posizionaPezzo(new Pedone('White', 'B2'));
-        this.posizionaPezzo(new Pedone('White', 'C2'));
-        this.posizionaPezzo(new Pedone('White', 'D2'));
-        this.posizionaPezzo(new Pedone('White', 'E2'));
-        this.posizionaPezzo(new Pedone('White', 'F2'));
-        this.posizionaPezzo(new Pedone('White', 'G2'));
-        this.posizionaPezzo(new Pedone('White', 'H2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'A2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'B2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'C2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'D2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'E2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'F2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'G2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'H2'));
 
-        this.posizionaPezzo(new Torre('White', 'A1'));
-        this.posizionaPezzo(new Cavallo('White', 'B1'));
-        this.posizionaPezzo(new Alfiere('White', 'C1'));
-        this.posizionaPezzo(new Regina('White', 'D1'));
-        this.posizionaPezzo(new Re('White', 'E1'));
-        this.posizionaPezzo(new Alfiere('White', 'F1'));
-        this.posizionaPezzo(new Cavallo('White', 'G1'));
-        this.posizionaPezzo(new Torre('White', 'H1'));
+        this.posizionaPezzo(new Torre(COLOR_WHITE, 'A1'));
+        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'B1'));
+        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'C1'));
+        this.posizionaPezzo(new Regina(COLOR_WHITE, 'D1'));
+        this.posizionaPezzo(new Re(COLOR_WHITE, 'E1'));
+        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'F1'));
+        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'G1'));
+        this.posizionaPezzo(new Torre(COLOR_WHITE, 'H1'));
 
-        this.posizionaPezzo(new Pedone('Black', 'A7'));
-        this.posizionaPezzo(new Pedone('Black', 'B7'));
-        this.posizionaPezzo(new Pedone('Black', 'C7'));
-        this.posizionaPezzo(new Pedone('Black', 'D7'));
-        this.posizionaPezzo(new Pedone('Black', 'E7'));
-        this.posizionaPezzo(new Pedone('Black', 'F7'));
-        this.posizionaPezzo(new Pedone('Black', 'G7'));
-        this.posizionaPezzo(new Pedone('Black', 'H7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'A7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'B7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'C7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'D7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'E7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'F7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'G7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'H7'));
 
-        this.posizionaPezzo(new Torre('Black', 'A8'));
-        this.posizionaPezzo(new Cavallo('Black', 'B8'));
-        this.posizionaPezzo(new Alfiere('Black', 'C8'));
-        this.posizionaPezzo(new Regina('Black', 'D8'));
-        this.posizionaPezzo(new Re('Black', 'E8'));
-        this.posizionaPezzo(new Alfiere('Black', 'F8'));
-        this.posizionaPezzo(new Cavallo('Black', 'G8'));
-        this.posizionaPezzo(new Torre('Black', 'H8'));
+        this.posizionaPezzo(new Torre(COLOR_BLACK, 'A8'));
+        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'B8'));
+        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'C8'));
+        this.posizionaPezzo(new Regina(COLOR_BLACK, 'D8'));
+        this.posizionaPezzo(new Re(COLOR_BLACK, 'E8'));
+        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'F8'));
+        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'G8'));
+        this.posizionaPezzo(new Torre(COLOR_BLACK, 'H8'));
+
     }
 
 
@@ -106,7 +107,7 @@ class Scacchiera {
         else
             return true;
     }
-    
+
     verificaPosizioneOccupata(riga, colonna) {
         if (this.matrice[riga][colonna] == null)
             return false;

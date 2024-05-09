@@ -9,6 +9,7 @@
 </head>
 
 <body>
+
   <div class="board bordoScacchiera">
     <div class="row">
       <!-- 8 -->
@@ -66,50 +67,51 @@
       <div class="square dark" id="H4"></div>
     </div>
     <div class="row">
-    <!-- 3 -->
-    <div class="square dark" id="A3"></div>
-    <div class="square light" id="B3"></div>
-    <div class="square dark" id="C3"></div>
-    <div class="square light" id="D3"></div>
-    <div class="square dark" id="E3"></div>
-    <div class="square light" id="F3"></div>
-    <div class="square dark" id="G3"></div>
-    <div class="square light" id="H3"></div>
-</div>
-<div class="row">
-    <!-- 2 -->
-    <div class="square light" id="A2"></div>
-    <div class="square dark" id="B2"></div>
-    <div class="square light" id="C2"></div>
-    <div class="square dark" id="D2"></div>
-    <div class="square light" id="E2"></div>
-    <div class="square dark" id="F2"></div>
-    <div class="square light" id="G2"></div>
-    <div class="square dark" id="H2"></div>
-</div>
-<div class="row">
-    <!-- 1 -->
-    <div class="square dark" id="A1"></div>
-    <div class="square light" id="B1"></div>
-    <div class="square dark" id="C1"></div>
-    <div class="square light" id="D1"></div>
-    <div class="square dark" id="E1"></div>
-    <div class="square light" id="F1"></div>
-    <div class="square dark" id="G1"></div>
-    <div class="square light" id="H1"></div>
-</div>
+      <!-- 3 -->
+      <div class="square dark" id="A3"></div>
+      <div class="square light" id="B3"></div>
+      <div class="square dark" id="C3"></div>
+      <div class="square light" id="D3"></div>
+      <div class="square dark" id="E3"></div>
+      <div class="square light" id="F3"></div>
+      <div class="square dark" id="G3"></div>
+      <div class="square light" id="H3"></div>
+    </div>
+    <div class="row">
+      <!-- 2 -->
+      <div class="square light" id="A2"></div>
+      <div class="square dark" id="B2"></div>
+      <div class="square light" id="C2"></div>
+      <div class="square dark" id="D2"></div>
+      <div class="square light" id="E2"></div>
+      <div class="square dark" id="F2"></div>
+      <div class="square light" id="G2"></div>
+      <div class="square dark" id="H2"></div>
+    </div>
+    <div class="row">
+      <!-- 1 -->
+      <div class="square dark" id="A1"></div>
+      <div class="square light" id="B1"></div>
+      <div class="square dark" id="C1"></div>
+      <div class="square light" id="D1"></div>
+      <div class="square dark" id="E1"></div>
+      <div class="square light" id="F1"></div>
+      <div class="square dark" id="G1"></div>
+      <div class="square light" id="H1"></div>
+    </div>
 
-  <script src="classi/Pezzo.js"></script>
-  <script src="classi/Pedone.js"></script>
-  <script src="classi/Torre.js"></script>
-  <script src="classi/Cavallo.js"></script>
-  <script src="classi/Alfiere.js"></script>
-  <script src="classi/Regina.js"></script>
-  <script src="classi/Re.js"></script>
-  <script src="classi/Scacchiera.js"></script>
-  <script src="MovimentoPezzi.js"></script>
-  <script src="NewGame.js"></script>  
-  <script src="Scacchi.js"></script>
+    <script src="Costanti.js"></script>
+    <script src="classi/Pezzo.js"></script>
+    <script src="classi/Pedone.js"></script>
+    <script src="classi/Torre.js"></script>
+    <script src="classi/Cavallo.js"></script>
+    <script src="classi/Alfiere.js"></script>
+    <script src="classi/Regina.js"></script>
+    <script src="classi/Re.js"></script>
+    <script src="classi/Scacchiera.js"></script>
+    <script src="MovimentoPezzi.js"></script>
+    <script src="NewGame.js"></script>
+    <script src="Scacchi.js"></script>
 </body>
 
 </html>

@@ -2,7 +2,7 @@ class Regina extends Pezzo {
     tipo = 'queen';
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore,'queen', posizioneIniziale)
+        super(colore, QUEEN, posizioneIniziale)
     }
 
 }

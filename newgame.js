@@ -1,6 +1,4 @@
-
-// Utilizzo delle classi Pezzo e Scacchiera per generare una nuova partita e disegnare i pezzi
-class newGame {
+class NewGame {
 
     constructor() {
 
@@ -11,20 +9,19 @@ class newGame {
         //dopodichè disegno in html i vari pezzi seguendo come sono posizionati nella matrice scacchiera
         this.scacchiera = new Scacchiera();
         this.disegnaPezziImgHtml(this.scacchiera);
-
         inizializzaGestoriEventiMouse(this.scacchiera);
     }
 
-    disegnaPezziImgHtml(scacchiera) {
+    disegnaPezziImgHtml() {
         // Ottieni tutte le caselle della scacchiera
         const caselle = document.querySelectorAll('.square');
 
         // Attraversa ogni casella e posiziona il pezzo corrispondente
         caselle.forEach((casella) => {
-            const pezzo = scacchiera.ottieniPezzo(casella.id);
+            const pezzo = this.scacchiera.ottieniPezzo(casella.id);
             if (pezzo) {
                 // Aggiungi l'immagine del pezzo come background della casella nel caso in cui esistesse il pezzo su quella casella    
-                casella.appendChild(this.creaImgPezzo(pezzo, casella));         
+                casella.appendChild(this.creaImgPezzo(pezzo, casella));
             }
         });
     }
@@ -43,5 +40,4 @@ class newGame {
         htmlPieceImg.dataset.dataNome = pezzo.tipo
         return htmlPieceImg;
     }
-
 }

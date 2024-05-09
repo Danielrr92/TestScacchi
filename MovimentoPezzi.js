@@ -85,12 +85,12 @@ function terminaTrascinamento(event, scacchiera) {
                 const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
                 let legalMove = checkIsLegalMove(scacchiera, pezzo, casellaDestinazione);
                 if (legalMove) {
-                    if (scacchiera.verificaCasellaOccupata(casellaDestinazione)){
+                    if (scacchiera.verificaCasellaOccupata(casellaDestinazione)) {
                         //mangio il pezzo (lo elimino dal DOM)
                         pezzoMangiato = scacchiera.ottieniPezzo(casellaDestinazione);
                         imgPezzoMangiato = document.getElementById(pezzoMangiato.descrizione());
                         divCasellaDestinazione.removeChild(imgPezzoMangiato);
-                    }          
+                    }
                     //aggiorno scacchiera con nuova posizione              
                     scacchiera.aggiornaPosizionePezzo(pezzo, casellaDestinazione)
                     scacchiera.aggiornaMossaAl();
@@ -134,24 +134,24 @@ function checkIsLegalMove(scacchiera, pezzo, casellaDestinazione) {
 
         //controllo che pezzo sto muovendo e richiamo il metodo per controllare se quel pezzo può effettuare la mossa
         switch (pezzo.tipo) {
-            case "Pawn":
+            case PAWN:
                 if (!pezzo.isLegalMove(scacchiera, casellaDestinazione))
                     return false;
                 pezzo.primaMossa = false;
                 break;
-            case "rook":
+            case ROOK:
 
                 break;
-            case "knight":
+            case KNIGHT:
 
                 break;
-            case "bishop":
+            case BISHOP:
 
                 break;
-            case "queen":
+            case QUEEN:
 
                 break;
-            case "king":
+            case KING:
 
                 break;
             default:
