@@ -20,7 +20,7 @@ class Pedone extends Pezzo {
     trovaMosseDisponibili(scacchiera) {
         const mosse = [];
         const [riga, colonna] = scacchiera.convertiPosizioneInIndice(this.posizione);
-        const direzione = (this.colore === 'white') ? -1 : 1;
+        const direzione = (this.colore === COLOR_WHITE) ? -1 : 1;
 
         // Calcola la casella davanti al pedone
         const nuovaRiga = riga + direzione;
@@ -37,12 +37,11 @@ class Pedone extends Pezzo {
                     if (!scacchiera.verificaPosizioneOccupata(nuovaRiga + direzione, colonna)) {
                         mosse.push(scacchiera.convertiIndiceInPosizione(nuovaRiga + direzione, colonna));
                     }
-                }
-
-                // se la casella avanti è l'ottava traversa(pezzo bianco) o la prima traversa(pezzo nero) effettuo la promozione
-                if((nuovaRiga == 0 && this.colore =='white') || (nuovaRiga == 7 && this.colore == 'black')){
-                    this.promozione = true;
-                }
+                }                
+            }
+            // se la casella avanti è l'ottava traversa(pezzo bianco) o la prima traversa(pezzo nero) effettuo la promozione
+            if((nuovaRiga == 0 && this.colore ==COLOR_WHITE) || (nuovaRiga == 7 && this.colore == COLOR_BLACK)){
+                this.promozione = true;
             }
         }
 

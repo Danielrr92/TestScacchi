@@ -4,7 +4,9 @@ class Scacchiera {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
         this.generaPosizioneInizialePezziMatrice();
-        this.mossaAl = 'bianco';
+        this.mossaAl = COLOR_WHITE;
+        this.posizioneReBianco = COLONNE[4] + RIGHE[1];
+        this.posizioneReNero = COLONNE[4] + RIGHE[8];
     }
 
     // Metodo per posizionare un pezzo nella scacchiera
@@ -116,16 +118,82 @@ class Scacchiera {
     }
 
     aggiornaMossaAl() {
-        if (this.mossaAl == 'bianco') {
-            this.mossaAl = 'nero';
+        if (this.mossaAl == COLOR_WHITE) {
+            this.mossaAl = COLOR_BLACK;
         }
-        else if (this.mossaAl == 'nero') {
-            this.mossaAl = 'bianco';
+        else if (this.mossaAl == COLOR_BLACK) {
+            this.mossaAl = COLOR_WHITE;
         }
     }
 
     verificaPosizioneValida(riga, colonna) {
         return riga >= 0 && riga < 8 && colonna >= 0 && colonna < 8;
+    }
+
+
+    //metodo per trovare se la mossa mette l'avversario sotto scacco
+    isCheck(mossa) {
+        // Posizione del re avversario
+        const posizioneReAvversario  = (this.mossaAl === COLORE_BIANCO) ? this.posizioneReNero : this.posizioneReBianco;
+
+        // Simula la mossa
+        const scacchieraSimulata = this.simulaMossa(mossa);
+
+        // Verifica se il re avversario è sotto attacco nella nuova configurazione della scacchiera
+        const isSottoScacco = this.isPosizioneAttaccata(posizioneReAvversario);
+
+        return isSottoScacco;
+    }
+
+    // Funzione per trovare la posizione del re avversario
+    trovaPosizioneReAvversario() {
+        let reAvversarioPosizione = null;
+
+        // Attraversa tutte le caselle della scacchiera
+        for (let riga = 0; riga < 8; riga++) {
+            for (let colonna = 0; colonna < 8; colonna++) {
+                const casella = this.scacchiera[riga][colonna];
+                if (casella && casella.pezzo instanceof Re && casella.pezzo.colore !== turnoCorrente) {
+                    // Trovato il re avversario
+                    reAvversarioPosizione = { riga, colonna };
+                    break;
+                }
+            }
+            if (reAvversarioPosizione) break;
+        }
+
+        return reAvversarioPosizione;
+    }
+
+    // Funzione per simulare una mossa sulla scacchiera
+    simulaMossa(mossa) {
+        // Effettua una copia della scacchiera corrente
+        const nuovaScacchiera = this.copiaScacchiera();
+
+        // Effettua la mossa sulla copia della scacchiera
+        // (implementa la logica per effettuare la mossa)
+
+        return nuovaScacchiera;
+    }
+
+    // Funzione per verificare se una posizione è attaccata da un pezzo avversario
+    isPosizioneAttaccata(posizione) {
+        const avversarioColore = (this.mossaAl === COLORE_BIANCO) ? COLORE_NERO : COLORE_BIANCO;
+
+        // Attraversa tutte le caselle della scacchiera
+        for (let riga = 0; riga < 8; riga++) {
+            for (let colonna = 0; colonna < 8; colonna++) {
+                const casella = this.scacchiera[riga][colonna];
+                if (casella && casella.pezzo && casella.pezzo.colore === avversarioColore) {
+                    // Se il pezzo nella casella attuale può muoversi sulla posizione specificata, la posizione è attaccata
+                    if (casella.pezzo.trovaMosseDisponibili(this).includes(posizione)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
 

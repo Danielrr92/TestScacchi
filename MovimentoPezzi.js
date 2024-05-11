@@ -1,6 +1,5 @@
 let pezzoSelezionato = null; // Variabile globale per memorizzare il pezzo selezionato
 
-
 //PROSSIMI STEP
 //CALCOLO DELLE MOSSE DISPONIBILI(CASELLE IN CUI PUOI ANDARE) RISPETTO AL PEZZO SELEZIONATO
 //se la casella selezionata non è tra quelle disponibili blocco il movimento a prescindere
@@ -38,6 +37,17 @@ function iniziaTrascinamento(event, scacchiera) {
 
     // Imposta il cursore a 'grabbing' durante il trascinamento
     pezzoSelezionato.style.cursor = 'grabbing';
+    pezzoSelezionato.style.zIndex = 2000;
+
+    // const rect = pezzoSelezionato.getBoundingClientRect();
+    // const x = rect.left;
+    // const y = rect.top;
+
+    // const nuovaPosizioneX = event.clientX - rect.left;// + (rect.width/2);
+    // const nuovaPosizioneY = event.clientY - rect.top;// + (rect.height/2);
+
+    // pezzoSelezionato.style.left = nuovaPosizioneX + 'px';
+    // pezzoSelezionato.style.top = nuovaPosizioneY + 'px';
 
     // Aggiunge un evento mousemove al documento per seguire il movimento del mouse
     document.addEventListener('mousemove', muoviPezzoGraficamente);
@@ -47,22 +57,47 @@ function iniziaTrascinamento(event, scacchiera) {
 function muoviPezzoGraficamente(event) {
     if (pezzoSelezionato) {
         // Calcola la distanza spostata dal mouse rispetto al punto di inizio
-        const spostamentoX = event.clientX - pezzoSelezionato.inizioX;
-        const spostamentoY = event.clientY - pezzoSelezionato.inizioY;
+        //il punto di inizio deve essere l'immagine centrata rispetto al cursore del mouse
+        const rect = pezzoSelezionato.getBoundingClientRect();
+        const x = rect.left;
+        const y = rect.top;
+
+        //posizionamento dell'immagine sul
+        const spostamentoCentraImmagineMouseX = 0;//event.clientX - rect.left + (rect.width / 2);
+        const spostamentoCentraImmagineMouseY = 0;//event.clientY - rect.top + (rect.height / 2);
+        const spostamentoX = event.clientX - pezzoSelezionato.inizioX - spostamentoCentraImmagineMouseX;
+        const spostamentoY = event.clientY - pezzoSelezionato.inizioY - spostamentoCentraImmagineMouseY;
 
         // Calcola la nuova posizione del pezzo basata sullo spostamento
         const nuovaPosizioneX = pezzoSelezionato.posizioneInizialeX + spostamentoX;
         const nuovaPosizioneY = pezzoSelezionato.posizioneInizialeY + spostamentoY;
 
-        // Sposta il pezzo nella nuova posizione
+        // Sposta il pezzo al centro del mouse
         pezzoSelezionato.style.left = nuovaPosizioneX + 'px';
         pezzoSelezionato.style.top = nuovaPosizioneY + 'px';
+
+
+
+        // Rimuovi la classe highlighted da tutte le caselle
+        const caselle = document.querySelectorAll('.square');
+        caselle.forEach((casella) => {
+            casella.classList.remove('highlighted');
+        });
+
+        // Ottieni la casella sotto il cursore del mouse
+        const casellaDestinazione = ottieniCasellaDestinazione(event.clientX, event.clientY);
+        if (casellaDestinazione) {
+            // Aggiungi la classe highlighted alla casella destinazione
+            casellaDestinazione.classList.add('highlighted');
+        }
     }
 }
+
 
 function terminaTrascinamento(event, scacchiera) {
     // Imposta il cursore a 'grabbing' durante il trascinamento
     pezzoSelezionato.style.cursor = 'grab';
+    pezzoSelezionato.style.zIndex = 1000;
     if (pezzoSelezionato) {
         // Rimuove l'evento mousemove dal documento
         document.removeEventListener('mousemove', muoviPezzoGraficamente);
@@ -88,7 +123,7 @@ function terminaTrascinamento(event, scacchiera) {
                     if (scacchiera.verificaCasellaOccupata(casellaDestinazione)) {
                         //mangio il pezzo (lo elimino dal DOM)
                         pezzoMangiato = scacchiera.ottieniPezzo(casellaDestinazione);
-                        imgPezzoMangiato = document.getElementById(pezzoMangiato.descrizione());
+                        imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
                         divCasellaDestinazione.removeChild(imgPezzoMangiato);
                     }
                     //aggiorno scacchiera con nuova posizione              
@@ -102,7 +137,11 @@ function terminaTrascinamento(event, scacchiera) {
             }
         }
 
-
+        // Rimuovi la classe highlighted da tutte le caselle
+        const caselle = document.querySelectorAll('.square');
+        caselle.forEach((casella) => {
+            casella.classList.remove('highlighted');
+        });
         pezzoSelezionato = null;
     }
 }
@@ -126,64 +165,51 @@ function ottieniCasellaDestinazione(mouseX, mouseY) {
 function checkIsLegalMove(scacchiera, pezzo, casellaDestinazione) {
     //QUI DENTRO EFFETTUO IL CONTROLLO SE UNA MOSSA è LEGALE RICHIAMANDO IL METODO isLegalMove CONTENUTO IN OGNI CLASSE DI OGNI PEZZO DEGLI SCACCHI 
     let mossaLegale = true;
-    try {
+    //controllo se tocca al bianco oppure al nero
+    mossaLegale = checkMossaAlBiancoMossaAlNero(scacchiera, pezzo);
 
-        //controllo se tocca al bianco oppure al nero
-        if (!checkMossaAlBiancoMossaAlNero(scacchiera, pezzo))
-            return false;
-
-        //controllo che pezzo sto muovendo e richiamo il metodo per controllare se quel pezzo può effettuare la mossa
+    if (mossaLegale) {
+        //richiamo il metodo per controllare se quel pezzo può effettuare la mossa(viene richiamato il metodo relativo alla classe del pezzo)
         switch (pezzo.tipo) {
             case PAWN:
-                if (!pezzo.isLegalMove(scacchiera, casellaDestinazione))
-                    return false;
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 pezzo.primaMossa = false;
                 break;
             case ROOK:
-
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 break;
             case KNIGHT:
-
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 break;
             case BISHOP:
-
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 break;
             case QUEEN:
-
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 break;
             case KING:
-
+                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
                 break;
             default:
                 //qualcosa è andato storto. errore applicazione.
-                return false;
-                break;
-
-
+                throw new Error('Il tipo del pezzo non è definito.');
         }
-    } catch (errore) {
-        // Blocco di gestione dell'errore
-        // Viene eseguito solo se si verifica un errore nel blocco try
-        console.log('Si è verificato un errore:', errore);
-        return false;
     }
-
-
-
-    return true;
+    return mossaLegale;
 }
 
 
 function checkMossaAlBiancoMossaAlNero(scacchiera, pezzo) {
-    if (scacchiera.mossaAl == 'bianco') {
-        if (pezzo.colore == 'black') {
-            return false;
+    toccaAMe = true;
+    if (scacchiera.mossaAl == COLOR_WHITE) {
+        if (pezzo.colore == COLOR_BLACK) {
+            toccaAMe = false;
         }
     }
-    else if (scacchiera.mossaAl == 'nero') {
-        if (pezzo.colore == 'white') {
-            return false;
+    else if (scacchiera.mossaAl == COLOR_BLACK) {
+        if (pezzo.colore == COLOR_WHITE) {
+            toccaAMe = false;
         }
     }
-    return true;
+    return toccaAMe;
 }
