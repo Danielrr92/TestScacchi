@@ -100,17 +100,17 @@
       <div class="square light" id="H1"></div>
     </div>
 
-    <script src="Costanti.js"></script>
-    <script src="classi/Pezzo.js"></script>
-    <script src="classi/Pedone.js"></script>
-    <script src="classi/Torre.js"></script>
-    <script src="classi/Cavallo.js"></script>
-    <script src="classi/Alfiere.js"></script>
-    <script src="classi/Regina.js"></script>
-    <script src="classi/Re.js"></script>
+    <script src="Utility/Costanti.js"></script>
+    <script src="classiPezzi/Pezzo.js"></script>
+    <script src="classiPezzi/Pedone.js"></script>
+    <script src="classiPezzi/Torre.js"></script>
+    <script src="classiPezzi/Cavallo.js"></script>
+    <script src="classiPezzi/Alfiere.js"></script>
+    <script src="classiPezzi/Regina.js"></script>
+    <script src="classiPezzi/Re.js"></script>
     <script src="classi/Scacchiera.js"></script>
-    <script src="MovimentoPezzi.js"></script>
-    <script src="NewGame.js"></script>
+    <script src="classi/MovimentoPezzi.js"></script>
+    <script src="classi/NewGame.js"></script>
     <script src="Scacchi.js"></script>
 </body>
 
