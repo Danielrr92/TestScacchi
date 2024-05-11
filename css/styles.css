@@ -10,6 +10,7 @@
     margin: auto;
     /* Centra la scacchiera */
     cursor: grab;
+    box-sizing: content-box;
   }
 
   .square {
@@ -39,7 +40,7 @@
     border: 10px solid rgb(41, 41, 41);
   }
 
-  .row {
+  .chessBoardRow {
     display: flex;
   }
 

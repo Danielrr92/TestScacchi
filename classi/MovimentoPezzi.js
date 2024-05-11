@@ -1,14 +1,5 @@
 let pezzoSelezionato = null; // Variabile globale per memorizzare il pezzo selezionato
 
-//PROSSIMI STEP
-//CALCOLO DELLE MOSSE DISPONIBILI(CASELLE IN CUI PUOI ANDARE) RISPETTO AL PEZZO SELEZIONATO
-//se la casella selezionata non è tra quelle disponibili blocco il movimento a prescindere
-
-//se è tra queste eseguo la mossa, se mangio copro la posizione del pezzo dove sto andando ed elimino il pezzo che c'era prima dalla scacchiera
-
-
-
-
 function inizializzaGestoriEventiMouse(scacchiera) {
     const pezzi = document.querySelectorAll('.piece');
 
@@ -192,9 +183,12 @@ function checkIsLegalMove(scacchiera, pezzo, casellaDestinazione) {
                 break;
             default:
                 //qualcosa è andato storto. errore applicazione.
-                throw new Error('Il tipo del pezzo non è definito.');
+                console.log(pezzo);
         }
     }
+
+    //controllo se la mossa che sto effettuando genera uno scacco al mio re, se si non è una mossa legale perchè il pezzo è inchiodato
+    if(isPezzoInchiodato(scacchiera, pezzo, casellaDestinazione))
     return mossaLegale;
 }
 
