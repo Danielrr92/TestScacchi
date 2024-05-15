@@ -101,6 +101,7 @@
       <div class="square light" id="H1"></div>
     </div>
   </div>
+  
   <script src="Utility/Costanti.js"></script>
   <script src="classiPezzi/Pezzo.js"></script>
   <script src="classiPezzi/Pedone.js"></script>
@@ -109,7 +110,10 @@
   <script src="classiPezzi/Alfiere.js"></script>
   <script src="classiPezzi/Regina.js"></script>
   <script src="classiPezzi/Re.js"></script>
+  <script src="classi/Mossa.js"></script>
+  <script src="classi/SerieDiMosse.js"></script>
   <script src="classi/Scacchiera.js"></script>
+  <script src="classi/Checks.js"></script>
   <script src="classi/MovimentoPezzi.js"></script>
   <script src="classi/NewGame.js"></script>
   <script src="Scacchi.js"></script>

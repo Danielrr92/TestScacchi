@@ -8,9 +8,7 @@ class Alfiere extends Pezzo {
     isLegalMove(scacchiera, casellaDestinazione) {
         const mosseDisponibili = this.trovaMosseDisponibili(scacchiera);
         if (!mosseDisponibili.includes(casellaDestinazione))
-            return false;
-
-        return true;
+            throw new Error("Questa mossa non è tra quelle disponibili per l'Alfiere");
     }
 
     trovaMosseDisponibili(scacchiera) {

@@ -4,6 +4,7 @@ function inizializzaGestoriEventiMouse(scacchiera) {
     const pezzi = document.querySelectorAll('.piece');
 
     pezzi.forEach((pezzo) => {
+        // cambia iniziaTrascinamento con selezione pezzo / integra in modo che posso effettuare la mossa anche cliccando sul pezzo e poi cliccando sulla casella 
         pezzo.addEventListener('mousedown', (event) => iniziaTrascinamento(event, scacchiera));
         pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchiera));
     });
@@ -108,22 +109,64 @@ function terminaTrascinamento(event, scacchiera) {
             //ovviamente se ho solamente cliccato il pezzo anche solo per una frazione di secondo l'evento viene scatenato ma se ho rilasciato subito il mouse casella di partenza e casella di destinazione saranno equivalenti. 
             //in quel caso non faccio nulla.
             if (casellaPartenza != casellaDestinazione) {
+                //oggetto pezzo che sto muovendo
                 const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
-                let legalMove = checkIsLegalMove(scacchiera, pezzo, casellaDestinazione);
+
+                //mossa che sto effettuando ad es. Ab3
+                const mossa = new Mossa(pezzo, casellaPartenza, casellaDestinazione);
+                let legalMove = checkIsLegalMove(scacchiera, mossa);
                 if (legalMove) {
-                    if (scacchiera.verificaCasellaOccupata(casellaDestinazione)) {
-                        //mangio il pezzo (lo elimino dal DOM)
-                        pezzoMangiato = scacchiera.ottieniPezzo(casellaDestinazione);
-                        imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
-                        divCasellaDestinazione.removeChild(imgPezzoMangiato);
-                    }
+
                     //aggiorno scacchiera con nuova posizione              
-                    scacchiera.aggiornaPosizionePezzo(pezzo, casellaDestinazione)
-                    scacchiera.aggiornaMossaAl();
-                    //sposto il pezzo sul DOM
-                    divCasellaDestinazione.appendChild(pezzoSelezionato);
+                    scacchiera.aggiornaPosizionePezzo(mossa);
+
+                    //controllo eventuali scacchi al mio re(mossa illegale, annullo la mossa) oppure al re avversario(prendo provvedimenti sulle mosse legali del mio avversario al prossimo turno)
+                    const checks = new Checks()
+                    let pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchiera);
+                    if (pezzoInchiodatoSulProprioRe) {
+                        //devo annullare la mossa effettuata e toglierla dalla listaMosse presente nell'oggetto scacchiera (non devo annullare la mossa dal DOM dato che non l'ho ancora effettuata in questo punto)
+                        scacchiera.annullaUltimaMossa();
+                    } else {
+                        //terminati i controlli e verificato che la mossa è legale, effettuo la mossa graficamente ed aggiorno alcune proprietà del pezzo e della scacchiera. infine aggiorno chi deve muovere tra il bianco e il nero
+                        switch (pezzo.tipo) {
+                            case PAWN:
+                                pezzo.primaMossa = false;
+                                break;
+                            case ROOK:
+                                break;
+                            case KNIGHT:
+                                break;
+                            case BISHOP:
+                                break;
+                            case QUEEN:
+                                break;
+                            case KING:
+                                if (scacchiera.mossaAl == COLOR_WHITE)
+                                    scacchiera.posizioneReBianco = casellaDestinazione;
+                                else
+                                    scacchiera.posizioneReNero = casellaDestinazione;
+                                break;
+                        }
+                        scacchiera.aggiornaMossaAl();
+
+                        //variabili per la verifica di un eventuale pezzo mangiato (modifiche DOM)
+                        const pezzoMangiato = null;
+                        const imgPezzoMangiato = null;
+                        if (scacchiera.verificaCasellaOccupata(mossa.casellaDestinazione)) {
+                            pezzoMangiato = scacchiera.ottieniPezzo(mossa.casellaDestinazione);
+                            imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
+                            //elimino il pezzo mangiato dal DOM
+                            divCasellaDestinazione.removeChild(imgPezzoMangiato);
+                        }
+
+                        //sposto il pezzo sul DOM
+                        divCasellaPartenza.removeChild(pezzoSelezionato);
+                        divCasellaDestinazione.appendChild(pezzoSelezionato);
+                    }
+
                 }
                 //stampo la nuova posizione della scacchiera
+                console.log('scacchiera reale');
                 console.log(scacchiera);
             }
         }
@@ -153,57 +196,31 @@ function ottieniCasellaDestinazione(mouseX, mouseY) {
 }
 
 
-function checkIsLegalMove(scacchiera, pezzo, casellaDestinazione) {
-    //QUI DENTRO EFFETTUO IL CONTROLLO SE UNA MOSSA è LEGALE RICHIAMANDO IL METODO isLegalMove CONTENUTO IN OGNI CLASSE DI OGNI PEZZO DEGLI SCACCHI 
-    let mossaLegale = true;
-    //controllo se tocca al bianco oppure al nero
-    mossaLegale = checkMossaAlBiancoMossaAlNero(scacchiera, pezzo);
-
-    if (mossaLegale) {
-        //richiamo il metodo per controllare se quel pezzo può effettuare la mossa(viene richiamato il metodo relativo alla classe del pezzo)
-        switch (pezzo.tipo) {
-            case PAWN:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                pezzo.primaMossa = false;
-                break;
-            case ROOK:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                break;
-            case KNIGHT:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                break;
-            case BISHOP:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                break;
-            case QUEEN:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                break;
-            case KING:
-                mossaLegale = pezzo.isLegalMove(scacchiera, casellaDestinazione);
-                break;
-            default:
-                //qualcosa è andato storto. errore applicazione.
-                console.log(pezzo);
-        }
+function checkIsLegalMove(scacchiera, mossa) {
+    try {
+        //controllo se tocca al bianco oppure al nero
+        checkMossaAlBiancoMossaAlNero(scacchiera, mossa);
+        //richiamo il metodo per controllare se quella mossa è compresa nell'insieme di mosse possibili per quella pedina
+        mossa.verificaLegalitaMossa(scacchiera);
+        //controllo se la mossa che sto effettuando genera uno scacco al re avversario. se si è ovviamente una mossa legale ma devo gestire poi le mosse che potrà fare l'avversario
+    } catch (Error) {
+        console.log(Error.message);
+        return false;
     }
-
-    //controllo se la mossa che sto effettuando genera uno scacco al mio re, se si non è una mossa legale perchè il pezzo è inchiodato
-    if(isPezzoInchiodato(scacchiera, pezzo, casellaDestinazione))
-    return mossaLegale;
+    return true;
 }
 
 
-function checkMossaAlBiancoMossaAlNero(scacchiera, pezzo) {
+function checkMossaAlBiancoMossaAlNero(scacchiera, mossa) {
     toccaAMe = true;
     if (scacchiera.mossaAl == COLOR_WHITE) {
-        if (pezzo.colore == COLOR_BLACK) {
-            toccaAMe = false;
+        if (mossa.pezzo.colore == COLOR_BLACK) {
+            throw new Error("Tocca al bianco")
         }
     }
     else if (scacchiera.mossaAl == COLOR_BLACK) {
-        if (pezzo.colore == COLOR_WHITE) {
-            toccaAMe = false;
+        if (mossa.pezzo.colore == COLOR_WHITE) {
+            throw new Error("Tocca al nero")
         }
     }
-    return toccaAMe;
 }

@@ -1,14 +1,18 @@
 class NewGame {
 
     constructor() {
-
+        this.scacchiera = new Scacchiera();
     }
 
     start() {
+
         //creo la scacchiera che è una matrice 8x8 con all'interno posizionati gli oggetti Pezzi(Pedoni, Cavalli, Torri ecc..)
-        //dopodichè disegno in html i vari pezzi seguendo come sono posizionati nella matrice scacchiera
-        this.scacchiera = new Scacchiera();
+        this.scacchiera.generaPosizioneInizialeScacchiera();
+
+        //disegno in html i vari pezzi seguendo come sono posizionati nella matrice scacchiera        
         this.disegnaPezziImgHtml(this.scacchiera);
+
+        //eventi mouse per il trascinamento dei pezzi e per poter effettuare la mossa ( per ora non è possibile effettuare la mossa tramite il click del mouse sul pezzo seguito dal click sulla casella destinazione)
         inizializzaGestoriEventiMouse(this.scacchiera);
     }
 

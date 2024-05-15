@@ -3,10 +3,15 @@ class Scacchiera {
     constructor() {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
+
+    }
+
+    generaPosizioneInizialeScacchiera() {
         this.generaPosizioneInizialePezziMatrice();
         this.mossaAl = COLOR_WHITE;
-        this.posizioneReBianco = COLONNE[4] + RIGHE[1];
-        this.posizioneReNero = COLONNE[4] + RIGHE[8];
+        this.posizioneReBianco = COLONNE[4] + RIGHE[0];
+        this.posizioneReNero = COLONNE[4] + RIGHE[7];
+        this.listaMossePartita = [];
     }
 
     // Metodo per posizionare un pezzo nella scacchiera
@@ -28,10 +33,11 @@ class Scacchiera {
     }
 
     // Metodo per aggiornare la posizione di un pezzo sulla scacchiera
-    aggiornaPosizionePezzo(pezzo, nuovaPosizione) {
-        this.rimuoviPezzo(pezzo.posizione);
-        pezzo.posizione = nuovaPosizione;
-        this.posizionaPezzo(pezzo);
+    aggiornaPosizionePezzo(mossa) {
+        this.rimuoviPezzo(mossa.pezzo.posizione);
+        mossa.pezzo.posizione = mossa.casellaDestinazione;
+        this.posizionaPezzo(mossa.pezzo);
+        this.aggiornaListaMosseEffettuate(mossa);
     }
 
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
@@ -118,11 +124,12 @@ class Scacchiera {
     }
 
     aggiornaMossaAl() {
-        if (this.mossaAl == COLOR_WHITE) {
+        if (this.mossaAl === COLOR_WHITE) {
             this.mossaAl = COLOR_BLACK;
         }
-        else if (this.mossaAl == COLOR_BLACK) {
+        else if (this.mossaAl === COLOR_BLACK) {
             this.mossaAl = COLOR_WHITE;
+            this.numeroMossa += 1;
         }
     }
 
@@ -130,7 +137,28 @@ class Scacchiera {
         return riga >= 0 && riga < 8 && colonna >= 0 && colonna < 8;
     }
 
+    aggiornaListaMosseEffettuate(mossa) {
+        //salvo la mossa effettuata nella lista mosse che mi fa da storico
+        if (this.mossaAl === COLOR_WHITE) {
+            this.listaMossePartita.push(
+                new SerieDiMosse({
+                    mossa: mossa
+                }));
+        }
+        else {
+            // Aggiorna la mossa del nero dell'oggetto SerieDiMosse contenuto nella listaMosse
+            this.storicoMosse[storicoMosse.length - 1].setMossaNero(mossa);
+        }
+    }
 
+    // Metodo per annullare l'ultima coppia di mosse
+    annullaUltimaMossa() {
+        if (this.storicoMosse === COLOR_WHITE) {
+            this.mosse.pop(); // Rimuove l'ultima coppia di mosse
+        } else {
+            this.storicoMosse[storicoMosse.length - 1].setMossaNero(null);
+        }
+    }
 
 
 
