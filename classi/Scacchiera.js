@@ -43,48 +43,48 @@ class Scacchiera {
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
     generaPosizioneInizialePezziMatrice() {
         // Pezzi bianchi
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'A2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'B2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'C2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'D2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'E2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'F2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'G2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'H2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'a2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'b2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'c2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'd2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'e2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'f2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'g2'));
+        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'h2'));
 
-        this.posizionaPezzo(new Torre(COLOR_WHITE, 'A1'));
-        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'B1'));
-        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'C1'));
-        this.posizionaPezzo(new Regina(COLOR_WHITE, 'D1'));
-        this.posizionaPezzo(new Re(COLOR_WHITE, 'E1'));
-        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'F1'));
-        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'G1'));
-        this.posizionaPezzo(new Torre(COLOR_WHITE, 'H1'));
+        this.posizionaPezzo(new Torre(COLOR_WHITE, 'a1'));
+        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'b1'));
+        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'c1'));
+        this.posizionaPezzo(new Regina(COLOR_WHITE, 'd1'));
+        this.posizionaPezzo(new Re(COLOR_WHITE, 'e1'));
+        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'f1'));
+        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'g1'));
+        this.posizionaPezzo(new Torre(COLOR_WHITE, 'h1'));
 
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'A7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'B7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'C7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'D7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'E7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'F7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'G7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'H7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'a7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'b7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'c7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'd7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'e7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'f7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'g7'));
+        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'h7'));
 
-        this.posizionaPezzo(new Torre(COLOR_BLACK, 'A8'));
-        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'B8'));
-        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'C8'));
-        this.posizionaPezzo(new Regina(COLOR_BLACK, 'D8'));
-        this.posizionaPezzo(new Re(COLOR_BLACK, 'E8'));
-        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'F8'));
-        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'G8'));
-        this.posizionaPezzo(new Torre(COLOR_BLACK, 'H8'));
+        this.posizionaPezzo(new Torre(COLOR_BLACK, 'a8'));
+        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'b8'));
+        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'c8'));
+        this.posizionaPezzo(new Regina(COLOR_BLACK, 'd8'));
+        this.posizionaPezzo(new Re(COLOR_BLACK, 'e8'));
+        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'f8'));
+        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'g8'));
+        this.posizionaPezzo(new Torre(COLOR_BLACK, 'h8'));
 
     }
 
 
     // Metodo per convertire una posizione nella notazione 'a1' in un indice di matrice [riga][colonna]
     convertiPosizioneInIndice(posizione) {
-        const colonna = posizione.charCodeAt(0) - 'A'.charCodeAt(0);
+        const colonna = posizione.charCodeAt(0) - 'a'.charCodeAt(0);
         const riga = 8 - parseInt(posizione[1]);
 
         // Verifica i limiti della scacchiera
@@ -102,7 +102,7 @@ class Scacchiera {
             throw new Error('Indice della scacchiera non valido.');
         }
 
-        const colonnaChar = String.fromCharCode(colonna + 'A'.charCodeAt(0));
+        const colonnaChar = String.fromCharCode(colonna + 'a'.charCodeAt(0));
         const rigaNum = 8 - riga;
 
         return colonnaChar + rigaNum;
@@ -129,7 +129,6 @@ class Scacchiera {
         }
         else if (this.mossaAl === COLOR_BLACK) {
             this.mossaAl = COLOR_WHITE;
-            this.numeroMossa += 1;
         }
     }
 
@@ -140,23 +139,32 @@ class Scacchiera {
     aggiornaListaMosseEffettuate(mossa) {
         //salvo la mossa effettuata nella lista mosse che mi fa da storico
         if (this.mossaAl === COLOR_WHITE) {
-            this.listaMossePartita.push(
-                new SerieDiMosse({
-                    mossa: mossa
-                }));
+            //quando tocca al bianco creo una nuova serie di mosse del tipo 1) e4
+            const serieDiMosse = new SerieDiMosse();
+            serieDiMosse.setMossaBianco(mossa);
+            this.listaMossePartita.push(serieDiMosse);
         }
         else {
-            // Aggiorna la mossa del nero dell'oggetto SerieDiMosse contenuto nella listaMosse
-            this.storicoMosse[storicoMosse.length - 1].setMossaNero(mossa);
+            // Aggiorna la mossa del nero dell'oggetto SerieDiMosse contenuto nella listaMosse del tipo 1) ... e5 (l'oggetto già esiste perchè è stato creato alla mossa del bianco)
+            this.listaMossePartita[this.listaMossePartita.length - 1].setMossaNero(mossa);
         }
     }
 
     // Metodo per annullare l'ultima coppia di mosse
-    annullaUltimaMossa() {
-        if (this.storicoMosse === COLOR_WHITE) {
-            this.mosse.pop(); // Rimuove l'ultima coppia di mosse
+    annullaUltimaMossa(pezzo, pezzoMangiato, casellaPartenza) {
+        if (this.mossaAl === COLOR_WHITE) {
+            this.listaMossePartita.pop(); // Rimuove l'ultima coppia di mosse            
         } else {
-            this.storicoMosse[storicoMosse.length - 1].setMossaNero(null);
+            this.listaMossePartita[this.listaMossePartita.length - 1].setMossaNero(null);
+        }
+        //tolgo il pezzo dalla posizione illegale
+        this.rimuoviPezzo(pezzo.posizione);
+        //rimetto il pezzo che stavo muovendo nella posizione di partenza
+        pezzo.posizione = casellaPartenza;
+        this.posizionaPezzo(pezzo);
+        if (pezzoMangiato) {
+            //riposiziono il pezzo che era stato eliminato nel fare la mossa
+            this.posizionaPezzo(pezzoMangiato)
         }
     }
 

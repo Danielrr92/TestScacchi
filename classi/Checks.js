@@ -1,7 +1,7 @@
 class Checks {
 
     constructor(){
-
+        this.pezziCheAttaccanoLaPosizione = [];
     }
     
     //VERIFICO SE LA MOSSA GENERA UNO SCACCO AL MIO RE, IN TAL CASO è UNA MOSSA ILLEGALE
@@ -11,15 +11,15 @@ class Checks {
 
         // Se il mio re è sotto scacco nella nuova configurazione della scacchiera è una mossa illegale 
         if (this.isPosizioneAttaccata(posizioneMioRe, scacchiera)){            
-            console.log("Commento mio scritto a mano nella classe Checks: checkIsPezzoInchiodatoSulMioRe: isPosizioneAttaccata = true");
+            stampaMessaggio("Non puoi muovere perchè il pezzo è inchiodato sul tuo re");
             return true
         }
         return false;
     }
 
     // Funzione per verificare se una posizione è attaccata da un pezzo avversario
-    isPosizioneAttaccata(posizione, scacchiera) {
-        const avversarioColore = (scacchiera.mossaAl === COLOR_WHITE) ? COLOR_BLACK : COLOR_BLACK;
+    isPosizioneAttaccata(posizione, scacchiera, pezziCheAttaccanoLaPosizione) {
+        const avversarioColore = (scacchiera.mossaAl === COLOR_WHITE) ? COLOR_BLACK : COLOR_WHITE;
 
         // Attraversa tutte le caselle della scacchiera
         for (let riga = 0; riga < 8; riga++) {
@@ -28,6 +28,7 @@ class Checks {
                 if (pezzo && pezzo.colore === avversarioColore) {
                     // Se il pezzo nella casella attuale può muoversi sulla posizione specificata(che è quella del re), la posizione è attaccata
                     if (pezzo.trovaMosseDisponibili(scacchiera).includes(posizione)) {
+                        this.pezziCheAttaccanoLaPosizione.push(pezzo);
                         return true;
                     }
                 }

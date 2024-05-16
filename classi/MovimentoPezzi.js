@@ -114,8 +114,12 @@ function terminaTrascinamento(event, scacchiera) {
 
                 //mossa che sto effettuando ad es. Ab3
                 const mossa = new Mossa(pezzo, casellaPartenza, casellaDestinazione);
+                //controllo se è una mossa compresa nelle possibilità di quel pezzo
                 let legalMove = checkIsLegalMove(scacchiera, mossa);
                 if (legalMove) {
+                    //verifico se la casella di destinazione è occupata, in quel caso sto mangiando la pedina
+                    const casellaOccupata = scacchiera.verificaCasellaOccupata(mossa.casellaDestinazione);
+                    const pezzoMangiato = scacchiera.ottieniPezzo(mossa.casellaDestinazione);
 
                     //aggiorno scacchiera con nuova posizione              
                     scacchiera.aggiornaPosizionePezzo(mossa);
@@ -124,8 +128,8 @@ function terminaTrascinamento(event, scacchiera) {
                     const checks = new Checks()
                     let pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchiera);
                     if (pezzoInchiodatoSulProprioRe) {
-                        //devo annullare la mossa effettuata e toglierla dalla listaMosse presente nell'oggetto scacchiera (non devo annullare la mossa dal DOM dato che non l'ho ancora effettuata in questo punto)
-                        scacchiera.annullaUltimaMossa();
+                        //ripristino la scacchiera a com'era prima della mossa illegale (pezzo inchiodato)
+                        scacchiera.annullaUltimaMossa(pezzo, pezzoMangiato, casellaPartenza);
                     } else {
                         //terminati i controlli e verificato che la mossa è legale, effettuo la mossa graficamente ed aggiorno alcune proprietà del pezzo e della scacchiera. infine aggiorno chi deve muovere tra il bianco e il nero
                         switch (pezzo.tipo) {
@@ -150,11 +154,8 @@ function terminaTrascinamento(event, scacchiera) {
                         scacchiera.aggiornaMossaAl();
 
                         //variabili per la verifica di un eventuale pezzo mangiato (modifiche DOM)
-                        const pezzoMangiato = null;
-                        const imgPezzoMangiato = null;
-                        if (scacchiera.verificaCasellaOccupata(mossa.casellaDestinazione)) {
-                            pezzoMangiato = scacchiera.ottieniPezzo(mossa.casellaDestinazione);
-                            imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
+                        if (casellaOccupata && pezzoMangiato) {                            
+                            const imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
                             //elimino il pezzo mangiato dal DOM
                             divCasellaDestinazione.removeChild(imgPezzoMangiato);
                         }
@@ -166,7 +167,6 @@ function terminaTrascinamento(event, scacchiera) {
 
                 }
                 //stampo la nuova posizione della scacchiera
-                console.log('scacchiera reale');
                 console.log(scacchiera);
             }
         }
@@ -205,6 +205,7 @@ function checkIsLegalMove(scacchiera, mossa) {
         //controllo se la mossa che sto effettuando genera uno scacco al re avversario. se si è ovviamente una mossa legale ma devo gestire poi le mosse che potrà fare l'avversario
     } catch (Error) {
         console.log(Error.message);
+        stampaMessaggio(Error.message);
         return false;
     }
     return true;
