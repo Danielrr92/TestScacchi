@@ -1,6 +1,7 @@
 class NewGame {
 
     constructor() {
+        this.togliTutteLePedineDallaScacchiera();
         this.scacchiera = new Scacchiera();
     }
 
@@ -35,13 +36,16 @@ class NewGame {
         htmlPieceImg.src = pezzo.getImmagineUrl();
         htmlPieceImg.id = pezzo.id;
         htmlPieceImg.classList.add('piece');
-        htmlPieceImg.style.position = 'absolute';
-        htmlPieceImg.style.maxWidth = `80px`;
-        htmlPieceImg.style.maxHeight = `80px`;
-        htmlPieceImg.style.zIndex = 1000;
         htmlPieceImg.style.draggable = false;
-        htmlPieceImg.style.cursor = 'grab';
         htmlPieceImg.dataset.dataNome = pezzo.tipo
         return htmlPieceImg;
+    }
+
+    togliTutteLePedineDallaScacchiera(){
+        const pezzi = document.querySelectorAll('.piece');
+
+        pezzi.forEach((pezzo) => {
+            pezzo.parentNode.removeChild(pezzo);
+        });
     }
 }

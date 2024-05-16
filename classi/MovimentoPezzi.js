@@ -31,15 +31,6 @@ function iniziaTrascinamento(event, scacchiera) {
     pezzoSelezionato.style.cursor = 'grabbing';
     pezzoSelezionato.style.zIndex = 2000;
 
-    // const rect = pezzoSelezionato.getBoundingClientRect();
-    // const x = rect.left;
-    // const y = rect.top;
-
-    // const nuovaPosizioneX = event.clientX - rect.left;// + (rect.width/2);
-    // const nuovaPosizioneY = event.clientY - rect.top;// + (rect.height/2);
-
-    // pezzoSelezionato.style.left = nuovaPosizioneX + 'px';
-    // pezzoSelezionato.style.top = nuovaPosizioneY + 'px';
 
     // Aggiunge un evento mousemove al documento per seguire il movimento del mouse
     document.addEventListener('mousemove', muoviPezzoGraficamente);

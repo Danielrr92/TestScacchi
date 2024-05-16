@@ -11,7 +11,7 @@ class Checks {
 
         // Se il mio re è sotto scacco nella nuova configurazione della scacchiera è una mossa illegale 
         if (this.isPosizioneAttaccata(posizioneMioRe, scacchiera)){            
-            stampaMessaggio("Non puoi muovere perchè il pezzo è inchiodato sul tuo re");
+            stampaMessaggio("Non puoi muovere il pezzo perchè è inchiodato sul tuo re");
             return true
         }
         return false;
