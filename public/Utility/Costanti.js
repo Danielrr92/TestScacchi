@@ -15,3 +15,5 @@ const KING = 'King';
 //Costanti per le righe e le colonne
 const COLONNE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const RIGHE = [1, 2, 3, 4, 5, 6, 7, 8];
+
+
