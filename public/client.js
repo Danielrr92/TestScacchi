@@ -42,7 +42,7 @@ socket.onmessage = (event) => {
             console.log('Opponent left the game');
             break;
         case 'error':
-            console.log('Errore con id partita');
+            console.log('Errore: ', data.message);
     }
 };
 
