@@ -7,6 +7,15 @@ socket.onopen = () => {
     socket.send(JSON.stringify({ type: 'createGame' }));
 };
 
+socket.onerror = (error) => {
+    console.error('WebSocket error:', error);
+};
+
+socket.onclose = () => {
+    console.log('WebSocket connection closed');
+};
+
+
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
