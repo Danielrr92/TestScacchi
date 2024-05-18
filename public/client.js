@@ -1,10 +1,10 @@
+let gameId = "";
 // client.js
 const socket = new WebSocket('wss://testscacchi.onrender.com');
 console.log(socket);
 
 socket.onopen = () => {
     console.log('Connected to server');
-    socket.send(JSON.stringify({ type: 'createGame' }));
 };
 
 socket.onerror = (error) => {
@@ -22,6 +22,7 @@ socket.onmessage = (event) => {
     switch (data.type) {
         case 'gameCreated':
             console.log('Game created with ID:', data.gameId);
+            gameId = data.gameId;
             break;
 
         case 'gameJoined':
@@ -54,4 +55,12 @@ function updateBoard(board) {
 
 function getGameId() {
     // Retrieve the game ID from your state
+}
+
+function createGame(){
+    socket.send(JSON.stringify({ type: 'createGame' }));
+}
+
+function joinGame(gameId){
+    socket.send(JSON.stringify({ type: 'joinGame' , gameId }));
 }

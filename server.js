@@ -69,9 +69,8 @@ function generateGameId() {
 }
 
 function initializeBoard() {
-    return {
-        // Initial chess board setup
-    };
+    // newGame = new newGame();
+    // newGame.start();
 }
 
 console.log(process.env.PORT);
