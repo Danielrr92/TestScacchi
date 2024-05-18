@@ -4,17 +4,18 @@ const WebSocket = require('ws');
 const path = require('path');
 
 const app = express();
+console.log("app express creata")
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 let games = {};
 
 wss.on('connection', (ws) => {
+    console.log("wss.connection - iniziato");
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-
+        console.log("data.type: " + data.type);
         switch (data.type) {
             case 'createGame':
                 const gameId = generateGameId();
@@ -72,6 +73,8 @@ function initializeBoard() {
         // Initial chess board setup
     };
 }
+
+console.log(process.env.PORT);
 
 server.listen(process.env.PORT || 8080, () => {
     console.log(`Server is listening on port ${server.address().port}`);
