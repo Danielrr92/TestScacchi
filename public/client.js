@@ -41,6 +41,8 @@ socket.onmessage = (event) => {
         case 'opponentLeft':
             console.log('Opponent left the game');
             break;
+        case 'error':
+            console.log('Errore con id partita');
     }
 };
 
@@ -57,10 +59,10 @@ function getGameId() {
     // Retrieve the game ID from your state
 }
 
-function createGame(){
+function createGame() {
     socket.send(JSON.stringify({ type: 'createGame' }));
 }
 
-function joinGame(gameId){
-    socket.send(JSON.stringify({ type: 'joinGame' , gameId }));
+function joinGame(gameId) {
+    socket.send(JSON.stringify({ type: 'joinGame', gameId }));
 }

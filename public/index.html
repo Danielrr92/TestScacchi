@@ -104,8 +104,8 @@
             <div class="btn-new-game">
                 <!-- <button type="button" id="btnNewGame">Nuova Partita</button> -->
                 <button onclick="createGame()">Crea Nuova Partita</button>
-                <input type="text" placeholder="inserisci l'id della partita alla quale ti vuoi unire"/>
-                <button onclick="joinGame()">Unisciti A una Partita Esistente</button>
+                <input type="text" id="textBoxIdPartita" placeholder="inserisci l'id della partita alla quale ti vuoi unire"/>
+                <button onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti A una Partita Esistente</button>
             </div>
         </div>
     </div>
