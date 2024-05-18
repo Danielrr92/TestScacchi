@@ -7,7 +7,6 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 let games = {};
@@ -49,7 +48,6 @@ wss.on('connection', (ws) => {
     });
 
     ws.on('close', () => {
-        // Handle player disconnection
         for (const gameId in games) {
             const game = games[gameId];
             if (game.players.includes(ws)) {
@@ -70,12 +68,11 @@ function generateGameId() {
 }
 
 function initializeBoard() {
-    // Initialize the chess board state
     return {
-        // Your board initialization logic
+        // Initial chess board setup
     };
 }
 
-server.listen(8080, () => {
-    console.log('Server is listening on port 8080');
+server.listen(process.env.PORT || 8080, () => {
+    console.log(`Server is listening on port ${server.address().port}`);
 });
