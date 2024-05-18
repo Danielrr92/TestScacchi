@@ -3,6 +3,7 @@ class Pezzo {
     colore = "";
     tipo = "";
     posizione = "";
+    hasMoved = false;
 
     // Costruttore della classe
     constructor(colore, tipo, posizione) {

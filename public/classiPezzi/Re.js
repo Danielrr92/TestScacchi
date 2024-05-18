@@ -37,6 +37,8 @@ class Re extends Pezzo {
             }
         });
 
+        //controllo se arrocco è una mossa disponibile, se si, la aggiungo alla lista mosse
+
         return mosse;
     }
 

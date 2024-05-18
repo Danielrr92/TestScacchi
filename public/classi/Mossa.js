@@ -5,6 +5,7 @@ class Mossa {
         this.casellaPartenza = casellaPartenza;
         this.casellaDestinazione = casellaDestinazione; 
         this.notazione = this.pezzo.tipo + "" + this.casellaDestinazione;
+        this.isArrocco = false;
     }
 
     verificaLegalitaMossa(scacchiera) {

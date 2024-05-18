@@ -29,7 +29,17 @@ class Cavallo extends Pezzo {
 
             if (scacchiera.verificaPosizioneValida(nuovaRiga, nuovaColonna)) {
                 const posizione = scacchiera.convertiIndiceInPosizione(nuovaRiga, nuovaColonna);
-                mosse.push(posizione);
+                const pezzo = scacchiera.ottieniPezzo(posizione);
+
+                // Se la casella è vuota, aggiungi la mossa e vai avanti nella stessa direzione
+                if (!pezzo) {
+                    mosse.push(posizione);
+                } else {
+                    // Se c'è un pezzo avversario, aggiungi la mossa e interrompi la ricerca in questa direzione
+                    if (pezzo.colore !== this.colore) {
+                        mosse.push(posizione);
+                    }
+                }
             }
         });
 

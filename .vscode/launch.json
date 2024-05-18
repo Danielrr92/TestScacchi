@@ -1,11 +1,12 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "chrome",
-        "request": "launch",
-        "name": "Launch my cool app",
-        "url": "http://localhost/testScacchi"
-      }
-    ]
+  "name": "testScacchi",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.3"
   }
+}
