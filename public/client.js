@@ -1,5 +1,5 @@
 // client.js
-const socket = new WebSocket('ws://testscacchi.onrender.com:10000');
+const socket = new WebSocket('ws://localhost:10000');
 console.log(socket);
 
 socket.onopen = () => {
