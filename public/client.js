@@ -1,6 +1,10 @@
 let gameId = "";
 // client.js
-const socket = new WebSocket('wss://testscacchi.onrender.com');
+//produzione
+//const socket = new WebSocket('wss://testscacchi.onrender.com');
+
+//test locale
+const socket = new WebSocket('ws://localhost:10000');
 console.log(socket);
 
 socket.onopen = () => {

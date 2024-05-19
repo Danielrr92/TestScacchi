@@ -75,6 +75,6 @@ function initializeBoard() {
 
 console.log(process.env.PORT);
 
-server.listen(process.env.PORT || 8080, () => {
+server.listen(process.env.PORT || 10000, () => {
     console.log(`Server is listening on port ${server.address().port}`);
 });
