@@ -1,23 +1,26 @@
-class Regina extends Pezzo {
-    
+const Pezzo = require('./Pezzo');
+const Costanti = require('../classi/Costanti');
+
+class Alfiere extends Pezzo {
+
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, QUEEN, posizioneIniziale)
+        super(colore, Costanti.BISHOP, posizioneIniziale)
     }
 
     isLegalMove(scacchiera, casellaDestinazione) {
         const mosseDisponibili = this.trovaMosseDisponibili(scacchiera);
         if (!mosseDisponibili.includes(casellaDestinazione))
-            throw new Error("Questa mossa non è tra quelle disponibili per la Regina");
+            throw new Error("Questa mossa non è tra quelle disponibili per l'Alfiere");
     }
 
     trovaMosseDisponibili(scacchiera) {
         const mosse = [];
         const [riga, colonna] = scacchiera.convertiPosizioneInIndice(this.posizione);
 
-        // Definisci le possibili direzioni della regina: verticali, orizzontali e diagonali
+        // Definisci i possibili movimenti dell'alfiere: diagonali
         const direzioni = [
-            [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]
+            [-1, -1], [-1, 1], [1, -1], [1, 1]
         ];
 
         // Per ogni direzione, controlla tutte le caselle fino a che non si incontra un ostacolo o si esce dalla scacchiera
@@ -48,3 +51,5 @@ class Regina extends Pezzo {
     }
 
 }
+
+module.exports = Alfiere;

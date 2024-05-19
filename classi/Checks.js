@@ -71,10 +71,6 @@ class Checks {
             for (let j = 0; j < scacchiera.matrice[i].length; j++) {
                 const pezzo = scacchiera.matrice[i][j];
                 if (pezzo && pezzo.colore === re.colore) {
-                    if(pezzo.id == 'BlackPawng7'){
-                        let iasdf = 32;
-                        let sdfg = 45;
-                    }
                     const mossePossibili = pezzo.trovaMosseDisponibili(scacchiera);
                     for (const mossa of mossePossibili) {
                         const mossaSimulata = new Mossa(pezzo,pezzo.posizione, mossa);

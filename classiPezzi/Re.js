@@ -1,8 +1,11 @@
+const Pezzo = require('./Pezzo');
+const Costanti = require('../classi/Costanti');
+
 class Re extends Pezzo {
 
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, KING, posizioneIniziale)
+        super(colore, Costanti.KING, posizioneIniziale)
         this.isSottoScacco = false;
     }
 
@@ -43,3 +46,5 @@ class Re extends Pezzo {
     }
 
 }
+
+module.exports = Re;

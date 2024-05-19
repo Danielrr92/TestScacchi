@@ -1,8 +1,11 @@
+const Pezzo = require('./Pezzo');
+const Costanti = require('../classi/Costanti');
+
 class Pedone extends Pezzo {
 
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, PAWN, posizioneIniziale)
+        super(colore, Costanti.PAWN, posizioneIniziale)
         this.primaMossa = true;
         this.promozione = false;
     }
@@ -66,3 +69,5 @@ class Pedone extends Pezzo {
     }
 
 }
+
+module.exports = Pedone;

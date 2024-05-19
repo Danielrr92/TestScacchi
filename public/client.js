@@ -5,7 +5,6 @@ let gameId = "";
 
 //test locale
 const socket = new WebSocket('ws://localhost:10000');
-console.log(socket);
 
 socket.onopen = () => {
     console.log('Connected to server');
@@ -26,6 +25,7 @@ socket.onmessage = (event) => {
     switch (data.type) {
         case 'gameCreated':
             console.log('Game created with ID:', data.gameId);
+            console.log(data.games);
             gameId = data.gameId;
             break;
 
@@ -39,7 +39,7 @@ socket.onmessage = (event) => {
 
         case 'move':
             // Update the board state
-            updateBoard(data.board);
+            updateBoard(data.scacchiera);
             break;
 
         case 'opponentLeft':
@@ -50,12 +50,12 @@ socket.onmessage = (event) => {
     }
 };
 
-function sendMove(board) {
+function sendMove(scacchiera) {
     const gameId = getGameId();
-    socket.send(JSON.stringify({ type: 'move', gameId, board }));
+    socket.send(JSON.stringify({ type: 'move', gameId, scacchiera }));
 }
 
-function updateBoard(board) {
+function updateBoard(scacchiera) {
     // Update the board state in your UI
 }
 

@@ -5,15 +5,12 @@ class Scacchiera {
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
         this.pezzoMangiato = null;
         this.isScaccoMatto = false;
-    }
-
-    generaPosizioneInizialeScacchiera() {
-        this.generaPosizioneInizialePezziMatrice();
         this.mossaAl = COLOR_WHITE;
         this.posizioneReBianco = COLONNE[4] + RIGHE[0];
         this.posizioneReNero = COLONNE[4] + RIGHE[7];
         this.listaMossePartita = [];
     }
+
 
     // Metodo per posizionare un pezzo nella scacchiera
     posizionaPezzo(pezzo) {

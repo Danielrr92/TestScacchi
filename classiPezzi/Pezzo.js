@@ -30,3 +30,5 @@ class Pezzo {
 
 
 }
+
+module.exports = Pezzo;

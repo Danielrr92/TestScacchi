@@ -2,32 +2,33 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
+const Scacchiera = require('./classi/Scacchiera');
 
 const app = express();
-console.log("app express creata")
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 let games = {};
 
 wss.on('connection', (ws) => {
-    console.log("wss.connection - iniziato");
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-        console.log("data.type: " + data.type);
         switch (data.type) {
             case 'createGame':
                 const gameId = generateGameId();
-                games[gameId] = { players: [ws], board: initializeBoard() };
-                ws.send(JSON.stringify({ type: 'gameCreated', gameId }));
+                let coloreGiocatoreUno = decidiColoreGiocatoreUno();
+                let coloreGiocatoreDue = assegnaColoreGiocatoreDue(coloreGiocatoreUno);
+                games[gameId] = { players: [ws], scacchiera: initializeScacchiera(), coloreGiocatoreUno: coloreGiocatoreUno , coloreGiocatoreDue:  coloreGiocatoreDue };
+                ws.send(JSON.stringify({ type: 'gameCreated', gameId , game: games[gameId] }));
                 break;
 
             case 'joinGame':
                 const game = games[data.gameId];
                 if (game && game.players.length === 1) {
                     game.players.push(ws);
-                    ws.send(JSON.stringify({ type: 'gameJoined', gameId: data.gameId }));
+                    ws.send(JSON.stringify({ type: 'gameJoined', gameId: data.gameId ,  }));
                     game.players[0].send(JSON.stringify({ type: 'opponentJoined' }));
                 } else {
                     ws.send(JSON.stringify({ type: 'error', message: 'Game not found or already full' }));
@@ -37,10 +38,10 @@ wss.on('connection', (ws) => {
             case 'move':
                 const currentGame = games[data.gameId];
                 if (currentGame) {
-                    currentGame.board = data.board;
+                    currentGame.scacchiera = data.scacchiera;
                     currentGame.players.forEach(player => {
                         if (player !== ws) {
-                            player.send(JSON.stringify({ type: 'move', board: data.board }));
+                            player.send(JSON.stringify({ type: 'move', scacchiera: data.scacchiera }));
                         }
                     });
                 }
@@ -68,13 +69,30 @@ function generateGameId() {
     return Math.random().toString(36).substr(2, 9);
 }
 
-function initializeBoard() {
-    // newGame = new newGame();
-    // newGame.start();
+function initializeScacchiera() {
+    scacchiera = new Scacchiera();
+    return scacchiera;
 }
-
-console.log(process.env.PORT);
 
 server.listen(process.env.PORT || 10000, () => {
     console.log(`Server is listening on port ${server.address().port}`);
 });
+
+
+function decidiColoreGiocatoreUno(){
+    if(Math.random() == 0){
+        return Costanti.COLOR_WHITE;
+    }
+    else{
+        return Costanti.COLOR_BLACK;
+    }
+}
+
+function assegnaColoreGiocatoreDue(coloreGiocatoreUno){
+    if(coloreGiocatoreUno == Costanti.COLOR_BLACK){
+        return Costanti.COLOR_WHITE;
+    }
+    else{
+        return Costanti.COLOR_BLACK;
+    }
+}

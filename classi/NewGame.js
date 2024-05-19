@@ -1,7 +1,7 @@
 class NewGame {
 
     constructor() {
-        this.togliTutteLePedineDallaScacchiera();
+         this.togliTutteLePedineDallaScacchiera();
         this.scacchiera = new Scacchiera();
     }
 
@@ -11,10 +11,10 @@ class NewGame {
         this.scacchiera.generaPosizioneInizialeScacchiera();
 
         //disegno in html i vari pezzi seguendo come sono posizionati nella matrice scacchiera        
-        this.disegnaPezziImgHtml(this.scacchiera);
+        //this.disegnaPezziImgHtml(this.scacchiera);
 
         //eventi mouse per il trascinamento dei pezzi e per poter effettuare la mossa ( per ora non è possibile effettuare la mossa tramite il click del mouse sul pezzo seguito dal click sulla casella destinazione)
-        inizializzaGestoriEventiMouse(this.scacchiera);
+        //inizializzaGestoriEventiMouse(this.scacchiera);
     }
 
     disegnaPezziImgHtml() {

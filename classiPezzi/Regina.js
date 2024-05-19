@@ -1,23 +1,26 @@
-class Torre extends Pezzo {
+const Pezzo = require('./Pezzo');
+const Costanti = require('../classi/Costanti');
 
+class Regina extends Pezzo {
+    
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, ROOK, posizioneIniziale)
+        super(colore, Costanti.QUEEN, posizioneIniziale)
     }
 
     isLegalMove(scacchiera, casellaDestinazione) {
         const mosseDisponibili = this.trovaMosseDisponibili(scacchiera);
         if (!mosseDisponibili.includes(casellaDestinazione))
-            throw new Error("Questa mossa non è tra quelle disponibili per la Torre");
+            throw new Error("Questa mossa non è tra quelle disponibili per la Regina");
     }
 
     trovaMosseDisponibili(scacchiera) {
         const mosse = [];
         const [riga, colonna] = scacchiera.convertiPosizioneInIndice(this.posizione);
 
-        // Definisci i possibili movimenti della torre: verticali e orizzontali
+        // Definisci le possibili direzioni della regina: verticali, orizzontali e diagonali
         const direzioni = [
-            [-1, 0], [1, 0], [0, -1], [0, 1]
+            [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]
         ];
 
         // Per ogni direzione, controlla tutte le caselle fino a che non si incontra un ostacolo o si esce dalla scacchiera
@@ -46,4 +49,7 @@ class Torre extends Pezzo {
 
         return mosse;
     }
+
 }
+
+module.exports = Regina;
