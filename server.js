@@ -3,6 +3,7 @@ const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
 const Scacchiera = require('./classi/Scacchiera');
+const Costanti = require('./classi/Costanti');
 
 const app = express();
 const server = http.createServer(app);
@@ -20,16 +21,16 @@ wss.on('connection', (ws) => {
                 const gameId = generateGameId();
                 let coloreGiocatoreUno = decidiColoreGiocatoreUno();
                 let coloreGiocatoreDue = assegnaColoreGiocatoreDue(coloreGiocatoreUno);
-                games[gameId] = { players: [ws], scacchiera: initializeScacchiera(), coloreGiocatoreUno: coloreGiocatoreUno , coloreGiocatoreDue:  coloreGiocatoreDue };
-                ws.send(JSON.stringify({ type: 'gameCreated', gameId , game: games[gameId] }));
+                games[gameId] = { players: [ws], scacchiera: initializeScacchiera(), coloreGiocatoreUno: coloreGiocatoreUno, coloreGiocatoreDue: coloreGiocatoreDue };
+                ws.send(JSON.stringify({ type: 'gameCreated', gameId, game: games[gameId] }));
                 break;
 
             case 'joinGame':
                 const game = games[data.gameId];
                 if (game && game.players.length === 1) {
                     game.players.push(ws);
-                    ws.send(JSON.stringify({ type: 'gameJoined', gameId: data.gameId ,  }));
-                    game.players[0].send(JSON.stringify({ type: 'opponentJoined' }));
+                    ws.send(JSON.stringify({ type: 'gameJoined', gameId: data.gameId, scacchiera: game.scacchiera, coloreGiocatoreUno: game.coloreGiocatoreUno, coloreGiocatoreDue: game.coloreGiocatoreDue }));
+                    game.players[0].send(JSON.stringify({ type: 'opponentJoined', gameId: data.gameId, scacchiera: game.scacchiera, coloreGiocatoreUno: game.coloreGiocatoreUno, coloreGiocatoreDue: game.coloreGiocatoreDue }));
                 } else {
                     ws.send(JSON.stringify({ type: 'error', message: 'Game not found or already full' }));
                 }
@@ -79,20 +80,20 @@ server.listen(process.env.PORT || 10000, () => {
 });
 
 
-function decidiColoreGiocatoreUno(){
-    if(Math.random() == 0){
+function decidiColoreGiocatoreUno() {
+    if (Math.random() == 0) {
         return Costanti.COLOR_WHITE;
     }
-    else{
+    else {
         return Costanti.COLOR_BLACK;
     }
 }
 
-function assegnaColoreGiocatoreDue(coloreGiocatoreUno){
-    if(coloreGiocatoreUno == Costanti.COLOR_BLACK){
+function assegnaColoreGiocatoreDue(coloreGiocatoreUno) {
+    if (coloreGiocatoreUno == Costanti.COLOR_BLACK) {
         return Costanti.COLOR_WHITE;
     }
-    else{
+    else {
         return Costanti.COLOR_BLACK;
     }
 }

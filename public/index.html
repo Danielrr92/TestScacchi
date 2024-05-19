@@ -101,11 +101,23 @@
             <div class="messaggi">
                 <label id="messaggi"></label>
             </div>
-            <div class="btn-new-game">
-                <!-- <button type="button" id="btnNewGame">Nuova Partita</button> -->
-                <button onclick="createGame()">Crea Nuova Partita</button>
-                <input type="text" id="textBoxIdPartita" placeholder="inserisci l'id della partita alla quale ti vuoi unire"/>
-                <button onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti A una Partita Esistente</button>
+            <div class="btn-new-game" id="pannelloBtnInizioPartita">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <button id="btnCreateGame" onclick="createGame()">Crea Nuova Partita</button>
+                    </div>
+                    <div id="divIdPartita" class="col-xl-12 hidden">
+                        <label id="labelIdPartita"></label>    
+                        <div><code lang="markup" class="language-markup" > <button  onclick="getElementById('labelIdPartita').innerHtml.execCommand('copy');">Copia ID</button></code></div>                   
+                    </div>
+                    <div class="col-xl-12">
+                        <p>Altrimenti unisciti ad una partita già iniziata</p>
+                        <input type="text" id="textBoxIdPartita" placeholder="inserisci l'id della partita alla quale ti vuoi unire"/>
+                    </div>
+                    <div class="col-xl-12">
+                        <button id="btnJoinGame" onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti A una Partita Esistente</button>
+                    </div>
+                </div>     
             </div>
         </div>
     </div>

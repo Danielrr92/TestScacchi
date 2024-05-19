@@ -25,16 +25,25 @@ socket.onmessage = (event) => {
     switch (data.type) {
         case 'gameCreated':
             console.log('Game created with ID:', data.gameId);
-            console.log(data.games);
+            document.getElementById('labelIdPartita').innerHTML = data.gameId;
+            document.getElementById('divIdPartita').classList.remove('hidden');
             gameId = data.gameId;
             break;
 
         case 'gameJoined':
             console.log('Joined game with ID:', data.gameId);
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + data.coloreGiocatoreDue;
+            document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
+            //disegnamo sta scacchiera
+            setBoardInitial(data.scacchiera);
             break;
 
         case 'opponentJoined':
             console.log('Opponent joined the game');
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + data.coloreGiocatoreUno;
+            document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
+            //disegnamo sta scacchiera
+            setBoardInitial(data.scacchiera);
             break;
 
         case 'move':
@@ -57,6 +66,12 @@ function sendMove(scacchiera) {
 
 function updateBoard(scacchiera) {
     // Update the board state in your UI
+}
+
+function setBoardInitial(scacchiera) {
+    
+    togliTutteLePedineDallaScacchiera();
+    disegnaPezziImgHtml(scacchiera);
 }
 
 function getGameId() {

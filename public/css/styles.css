@@ -75,3 +75,7 @@
 .casellaMossaPossibile{
   box-shadow: inset 0px 0px 50px rgba(32, 149, 196, 0.6);
 }
+
+.hidden{
+  display: none;
+}

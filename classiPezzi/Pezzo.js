@@ -13,22 +13,6 @@ class Pezzo {
         this.id = this.colore + this.tipo + this.posizione
     }
 
-    // Metodo per ottenere una rappresentazione testuale del pezzo
-    descrizione() {
-        return this.colore + ' ' + this.tipo;
-    }
-
-    getImmagineUrl() {
-        // Costruisci il percorso dell'immagine del pezzo
-        return `img/${this.colore}_${this.tipo}.png`; // Supponendo che le immagini dei pezzi siano in una cartella "images"
-    }
-
-
-    isLegalMove(scacchiera, casellaDestinazione) {
-        //metodo di cui viene fatto l'override nelle varie classi per i pezzi della scacchiera
-    }
-
-
 }
 
 module.exports = Pezzo;
