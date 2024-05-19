@@ -32,7 +32,7 @@ socket.onmessage = (event) => {
 
         case 'gameJoined':
             console.log('Joined game with ID:', data.gameId);
-            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + data.coloreGiocatoreDue;
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + (data.coloreGiocatoreDue == 'White') ? 'Bianco' : 'Nero';
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
             //disegnamo sta scacchiera
             setBoardInitial(data.scacchiera);
@@ -40,7 +40,7 @@ socket.onmessage = (event) => {
 
         case 'opponentJoined':
             console.log('Opponent joined the game');
-            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + data.coloreGiocatoreUno;
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + (data.coloreGiocatoreUno == 'White') ? 'Bianco' : 'Nero';
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
             //disegnamo sta scacchiera
             setBoardInitial(data.scacchiera);
