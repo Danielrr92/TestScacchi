@@ -1,6 +1,10 @@
 class ScacchieraClient {
 
-    constructor(scacchiera) {
+    constructor() {
+
+    }
+
+    inizializza(scacchiera) {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
         this.generaPosizioneInizialePezziMatrice(scacchiera);
@@ -9,8 +13,9 @@ class ScacchieraClient {
         this.mossaAl = scacchiera.mossaAl;
         this.posizioneReBianco = scacchiera.posizioneReBianco;
         this.posizioneReNero = scacchiera.posizioneReNero;
-        this.listaMossePartita = scacchiera.listaMossePartita;
-        this.gameId;
+        this.listaMossePartita = [];
+        this.listaMossePartita = this.generaListaMossePartita(scacchiera);
+        this.gameId = scacchiera.gameId;
     }
 
 
@@ -39,7 +44,7 @@ class ScacchieraClient {
         this.rimuoviPezzo(mossa.pezzo.posizione);
         mossa.pezzo.posizione = mossa.casellaDestinazione;
         this.posizionaPezzo(mossa.pezzo);
-        this.aggiornaListaMosseEffettuate(mossa);
+        //this.aggiornaListaMosseEffettuate(mossa);
         //segno che il pezzo ha mosso almeno una mossa
         mossa.pezzo.hasMoved = true;
         if (mossa.pezzo.tipo == KING) {
@@ -106,42 +111,61 @@ class ScacchieraClient {
                 }
             }
         }
-        // Pezzi bianchi
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'a2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'b2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'c2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'd2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'e2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'f2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'g2'));
-        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'h2'));
 
-        // this.posizionaPezzo(new Torre(COLOR_WHITE, 'a1'));
-        // this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'b1'));
-        // this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'c1'));
-        // this.posizionaPezzo(new Regina(COLOR_WHITE, 'd1'));
-        // this.posizionaPezzo(new Re(COLOR_WHITE, 'e1'));
-        // this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'f1'));
-        // this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'g1'));
-        // this.posizionaPezzo(new Torre(COLOR_WHITE, 'h1'));
+    }
 
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'a7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'b7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'c7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'd7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'e7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'f7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'g7'));
-        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'h7'));
-
-        // this.posizionaPezzo(new Torre(COLOR_BLACK, 'a8'));
-        // this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'b8'));
-        // this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'c8'));
-        // this.posizionaPezzo(new Regina(COLOR_BLACK, 'd8'));
-        // this.posizionaPezzo(new Re(COLOR_BLACK, 'e8'));
-        // this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'f8'));
-        // this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'g8'));
-        // this.posizionaPezzo(new Torre(COLOR_BLACK, 'h8'));
+    generaListaMossePartita(scacchiera) {
+        scacchiera.listaMossePartita.forEach((element) => {
+            const serieDiMosse = new SerieDiMosse();
+            let pezzo;
+            //pezzo mosso
+            switch (element.mossaBianco.pezzo.tipo) {
+                case PAWN:
+                    pezzo = new Pedone(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+                case KING:
+                    pezzo = new Re(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+                case QUEEN:
+                    pezzo = new Regina(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+                case ROOK:
+                    pezzo = new Torre(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+                case BISHOP:
+                    pezzo = new Alfiere(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+                case KNIGHT:
+                    pezzo = new Cavallo(element.mossaBianco.pezzo.colore, element.mossaBianco.pezzo.posizione);
+                    break;
+            }
+            serieDiMosse.mossaBianco = new Mossa(pezzo, element.mossaBianco.casellaPartenza, element.mossaBianco.casellaDestinazione)
+            //controllo se c'è anche la mossa del nero (devo fare il controllo perchè ad ogni riga 1) e4 2) e5 ecc.. potrebbe esserci solamente la mossa del bianco)
+            if (element.mossaNero){
+                switch (element.mossaNero.pezzo.tipo) {
+                    case PAWN:
+                        pezzo = new Pedone(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                    case KING:
+                        pezzo = new Re(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                    case QUEEN:
+                        pezzo = new Regina(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                    case ROOK:
+                        pezzo = new Torre(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                    case BISHOP:
+                        pezzo = new Alfiere(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                    case KNIGHT:
+                        pezzo = new Cavallo(element.mossaNero.pezzo.colore, element.mossaNero.pezzo.posizione);
+                        break;
+                }
+                serieDiMosse.mossaNero = new Mossa(pezzo, element.mossaNero.casellaPartenza, element.mossaNero.casellaDestinazione)
+            }
+            this.listaMossePartita.push(serieDiMosse);
+        })
 
     }
 

@@ -1,4 +1,3 @@
-
 function togliTutteLePedineDallaScacchiera() {
     const pezzi = document.querySelectorAll('.piece');
 
@@ -11,9 +10,8 @@ function disegnaPezziImgHtml(scacchiera, colore) {
     //istruzioni per la visione della scacchiera da nero
     const scacchieraElement = document.getElementById('scacchiera');
     const rowScacchiera = document.querySelectorAll('.row-Scacchiera');
-    if (colore == 'Nero') {       
-        scacchieraElement.classList.add('black');
-        
+    if (colore == COLOR_BLACK) {       
+        scacchieraElement.classList.add('black');        
         rowScacchiera.forEach((riga) => riga.classList.add('black'))
     } else {
         scacchieraElement.classList.remove('black');
@@ -34,7 +32,8 @@ function disegnaPezziImgHtml(scacchiera, colore) {
             htmlPieceImg.id = pezzo.id;
             htmlPieceImg.classList.add('piece');
             htmlPieceImg.style.draggable = false;
-            htmlPieceImg.dataset.dataNome = pezzo.tipo
+            htmlPieceImg.dataset.nome = pezzo.tipo;
+            htmlPieceImg.dataset.colore = pezzo.colore;
             casella.appendChild(htmlPieceImg);
         }
 
@@ -72,4 +71,24 @@ function convertiIndiceInPosizione(riga, colonna) {
 function getImmagineUrl(colore, tipo) {
     // Costruisci il percorso dell'immagine del pezzo
     return `./img/${colore}_${tipo}.png`;
+}
+
+function eseguiMossaGraficamente(scacchiera, mossa){
+    //invece che riaggiornare tutta la scacchiera, eseguo a livello grafico solamente la mossa effettuata
+    //gli id delle img dei pezzi sono gli stessi degli id dei pezzi sulla classe scacchiera quindi
+
+    const divCasellaPartenza = document.getElementById(mossa.casellaPartenza);
+    const divCasellaDestinazione = document.getElementById(mossa.casellaDestinazione);
+
+    
+    if (scacchiera.pezzoMangiato) {
+        const divPezzoMangiato = document.getElementById(scacchiera.pezzoMangiato.posizione)
+        //elimino il pezzo mangiato dal DOM
+        divCasellaDestinazione.removeChild(imgPezzoMangiato);
+    }
+
+    const pezzoSelezionato = document.getElementById(mossa.pezzo.id);
+    //sposto il pezzo graficamente sul DOM
+    divCasellaPartenza.removeChild(pezzoSelezionato);
+    divCasellaDestinazione.appendChild(pezzoSelezionato);
 }

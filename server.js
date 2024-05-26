@@ -22,7 +22,7 @@ wss.on('connection', (ws) => {
                 const gameId = generateGameId();
                 let coloreGiocatoreUno = decidiColoreGiocatoreUno();
                 let coloreGiocatoreDue = assegnaColoreGiocatoreDue(coloreGiocatoreUno);
-                games[gameId] = { players: [ws], scacchiera: initializeScacchiera(), coloreGiocatoreUno: coloreGiocatoreUno, coloreGiocatoreDue: coloreGiocatoreDue };
+                games[gameId] = { players: [ws], scacchiera: initializeScacchiera(gameId), coloreGiocatoreUno: coloreGiocatoreUno, coloreGiocatoreDue: coloreGiocatoreDue };
                 ws.send(JSON.stringify({ type: 'gameCreated', gameId, game: games[gameId] }));
                 break;
 
@@ -42,19 +42,21 @@ wss.on('connection', (ws) => {
                 if (currentGame) {
                     //valido la mossa
                     const controlloMossaServer = new ControllaMossaServer();
-                    //questo metodo controlla se la mossa è legale, se si aggiorna la scacchiera a livello server che è quella ufficiale del gioco
+                    //questo metodo controlla se la mossa è legale, se si, aggiorna la scacchiera a livello server che è quella ufficiale del gioco
                     if (controlloMossaServer.verificaMossa(currentGame.scacchiera, data.mossa)){
                         //mossa valida, aggiorno la scacchiera del giocatore avversario
                         currentGame.players.forEach(player => {
                             if (player !== ws) {
-                                player.send(JSON.stringify({ type: 'move', scacchiera: currentGame.scacchiera }));
+                                player.send(JSON.stringify({ type: 'move', scacchiera: currentGame.scacchiera , mossa: data.mossa }));
+                            }else{
+                                player.send(JSON.stringify({ type: 'moveValidated', scacchiera: currentGame.scacchiera , mossa: data.mossa }));
                             }
                         });
                     }else{
                         //mossa non valida, annullo la mossa appena effettuata
                         currentGame.players.forEach(player => {
                             if (player == ws) {
-                                player.send(JSON.stringify({ type: 'move', scacchiera: currentGame.scacchiera }));
+                                player.send(JSON.stringify({ type: 'invalidMove', scacchiera: currentGame.scacchiera }));
                             }
                         });
                     }
@@ -84,12 +86,12 @@ function generateGameId() {
     return Math.random().toString(36).substr(2, 9);
 }
 
-function initializeScacchiera() {
-    scacchiera = new Scacchiera();
+function initializeScacchiera(gameId) {
+    scacchiera = new Scacchiera(gameId);
     return scacchiera;
 }
 
-server.listen(process.env.PORT || 10000, () => {
+server.listen(process.env.PORT || 10001, () => {
     console.log(`Server is listening on port ${server.address().port}`);
 });
 

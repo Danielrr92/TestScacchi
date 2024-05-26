@@ -1,12 +1,12 @@
 let pezzoSelezionato = null; // Variabile globale per memorizzare il pezzo selezionato
 
-function inizializzaGestoriEventiMouse(scacchieraClient) {
+function inizializzaGestoriEventiMouse(scacchieraClient, coloreGiocatore) {
     const pezzi = document.querySelectorAll('.piece');
 
     pezzi.forEach((pezzo) => {
         // cambia iniziaTrascinamento con selezione pezzo / integra in modo che posso effettuare la mossa anche cliccando sul pezzo e poi cliccando sulla casella 
         pezzo.addEventListener('mousedown', (event) => iniziaTrascinamento(event, scacchieraClient));
-        pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchieraClient));
+        pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchieraClient, coloreGiocatore));
     });
 
 }
@@ -83,7 +83,7 @@ function muoviPezzoGraficamente(event) {
 }
 
 
-function terminaTrascinamento(event, scacchieraClient) {
+function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
     try {
         // Imposta il cursore a 'grabbing' durante il trascinamento
         pezzoSelezionato.style.cursor = 'grab';
@@ -95,8 +95,13 @@ function terminaTrascinamento(event, scacchieraClient) {
         // Rimuove l'evento mousemove dal documento
         document.removeEventListener('mousemove', muoviPezzoGraficamente);
 
+
         pezzoSelezionato.style.left = 0;
         pezzoSelezionato.style.top = 0;
+
+        if(pezzoSelezionato.dataset.colore !== coloreGiocatore){
+            throw new Error('Non puoi muovere i pezzi dell\'avversario');
+        }
 
         // Ottieni la caselle di partenza e di destinazione        
         const divCasellaPartenza = pezzoSelezionato.offsetParent;

@@ -1,4 +1,5 @@
 let gameId = "";
+let scacchieraClient = new ScacchieraClient();
 // client.js
 //produzione
 //const socket = new WebSocket('wss://testscacchi.onrender.com');
@@ -21,7 +22,8 @@ socket.onclose = () => {
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-
+    let coloreItaliano = '';
+    let colorePlayer = '';
     switch (data.type) {
         case 'gameCreated':
             console.log('Game created with ID:', data.gameId);
@@ -32,29 +34,35 @@ socket.onmessage = (event) => {
 
         case 'gameJoined':
             console.log('Joined game with ID:', data.gameId);
-            let colore = (data.coloreGiocatoreDue == 'White') ? 'Bianco' : 'Nero';
-            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + colore;
+            colorePlayer = (data.coloreGiocatoreDue == COLOR_WHITE) ? COLOR_WHITE : COLOR_BLACK;
+            coloreItaliano = (colorePlayer == COLOR_WHITE) ? 'Bianco' : 'Nero';
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + coloreItaliano;
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
             //disegnamo sta scacchiera
-            setBoardInitial(data.scacchiera, colore, data.gameId);
+            setBoardInitial(data.scacchiera, colorePlayer, data.gameId);
             break;
 
         case 'opponentJoined':
             console.log('Opponent joined the game');
             console.log('gameIdAtOpponentJoined: ' + gameId);
-            gameId = data.gameId;
-            let colore1 = (data.coloreGiocatoreUno == 'White') ? 'Bianco' : 'Nero';
-            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + colore1;
+            colorePlayer = (data.coloreGiocatoreUno == COLOR_WHITE) ? COLOR_WHITE : COLOR_BLACK;
+            coloreItaliano = (colorePlayer == COLOR_WHITE) ? 'Bianco' : 'Nero';
+            document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + coloreItaliano;
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
             //disegnamo sta scacchiera
-            setBoardInitial(data.scacchiera, colore1, data.gameId);
+            setBoardInitial(data.scacchiera, colorePlayer);
             break;
 
         case 'move':
-            // Update the board state
-            updateBoard(data.scacchiera, data.gameId);
+            // La mossa è legale, aggiorno la scacchiera
+            updateBoard(data.scacchiera, data.mossa);
             break;
-
+        case 'moveValidated':
+            updateBoardLogically(data.scacchiera)
+            break;
+        case 'invalidMove':
+            
+            break;
         case 'opponentLeft':
             stampaMessaggio('L\'avversario ha lasciato la partita')
             console.log('Opponent left the game');
@@ -72,21 +80,26 @@ function joinGame(gameId) {
     socket.send(JSON.stringify({ type: 'joinGame', gameId }));
 }
 
-function setBoardInitial(scacchiera, colore, gameId) {
-    scacchieraClient = new ScacchieraClient(scacchiera)
-    scacchieraClient.gameId = gameId;
+function setBoardInitial(scacchiera, coloreGiocatore) {
+    scacchieraClient.inizializza(scacchiera)
     togliTutteLePedineDallaScacchiera();
-    disegnaPezziImgHtml(scacchieraClient, colore);
-    inizializzaGestoriEventiMouse(scacchieraClient);
+    disegnaPezziImgHtml(scacchieraClient, coloreGiocatore);
+    inizializzaGestoriEventiMouse(scacchieraClient, coloreGiocatore);
 }
 
 
 function sendMove(gameId, mossa) {
-    socket.send(JSON.stringify({ type: 'move', gameId , mossa}));
+    socket.send(JSON.stringify({ type: 'move', gameId, mossa }));
 }
 
-function updateBoard(scacchiera) {
+function updateBoard(scacchiera, mossa) {
     // Update the board state in your UI
+    updateBoardLogically(scacchiera)
+    eseguiMossaGraficamente(scacchieraClient, mossa);
+}
+
+function updateBoardLogically(scacchiera) {
+    scacchieraClient.inizializza(scacchiera)
 }
 
 

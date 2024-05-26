@@ -9,7 +9,7 @@ const SerieDiMosse = require('./SerieDiMosse');
 
 class Scacchiera {
 
-    constructor() {
+    constructor(gameId) {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
         this.generaPosizioneInizialePezziMatrice();
@@ -20,6 +20,7 @@ class Scacchiera {
         this.posizioneReNero = Costanti.COLONNE[4] + Costanti.RIGHE[7];
         this.listaMossePartita = [];
         this.messaggi = '';
+        this.gameId = gameId;
     }
 
 
