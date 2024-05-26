@@ -19,6 +19,7 @@ class Scacchiera {
         this.posizioneReBianco = Costanti.COLONNE[4] + Costanti.RIGHE[0];
         this.posizioneReNero = Costanti.COLONNE[4] + Costanti.RIGHE[7];
         this.listaMossePartita = [];
+        this.messaggi = '';
     }
 
 

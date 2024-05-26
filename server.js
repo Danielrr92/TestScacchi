@@ -43,13 +43,22 @@ wss.on('connection', (ws) => {
                     //valido la mossa
                     const controlloMossaServer = new ControllaMossaServer();
                     //questo metodo controlla se la mossa è legale, se si aggiorna la scacchiera a livello server che è quella ufficiale del gioco
-                    controlloMossaServer.verificaMossa(currentGame.scacchiera, data.mossa);
-                    currentGame.scacchiera = data.scacchiera;
-                    currentGame.players.forEach(player => {
-                        if (player !== ws) {
-                            player.send(JSON.stringify({ type: 'move', scacchiera: data.scacchiera }));
-                        }
-                    });
+                    if (controlloMossaServer.verificaMossa(currentGame.scacchiera, data.mossa)){
+                        //mossa valida, aggiorno la scacchiera del giocatore avversario
+                        currentGame.players.forEach(player => {
+                            if (player !== ws) {
+                                player.send(JSON.stringify({ type: 'move', scacchiera: currentGame.scacchiera }));
+                            }
+                        });
+                    }else{
+                        //mossa non valida, annullo la mossa appena effettuata
+                        currentGame.players.forEach(player => {
+                            if (player == ws) {
+                                player.send(JSON.stringify({ type: 'move', scacchiera: currentGame.scacchiera }));
+                            }
+                        });
+                    }
+                    
                 }
                 break;
         }

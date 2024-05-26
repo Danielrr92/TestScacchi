@@ -81,12 +81,12 @@ class ControllaMossaServer {
                     scacchiera.isScaccoMatto = true;
 
                 } else {
-                    //stampaMessaggio('Scacco al Re ' + reAvversario.colore + '!')
+                    scacchiera.messaggi = 'Scacco al Re ' + reAvversario.colore + '!';
                 }
             }
             else {
                 //cancello la lavagna messaggi
-                stampaMessaggio('');
+                scacchiera.messaggi = '';
             }
 
             switch (pezzo.tipo) {
@@ -104,7 +104,7 @@ class ControllaMossaServer {
             scacchiera.aggiornaMossaAl();
 
             if (scacchiera.isScaccoMatto) {
-                stampaMessaggio('SACCO MATTOOOO - PARTITA TERMINATA');
+                scacchiera.messaggi = 'SACCO MATTOOOO - PARTITA TERMINATA';
             }
 
             return true;
