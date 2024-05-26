@@ -5,9 +5,10 @@ class Pedone extends Pezzo {
 
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, Costanti.PAWN, posizioneIniziale)
+        super(colore, Costanti.PAWN, posizioneIniziale);
         this.primaMossa = true;
         this.promozione = false;
+        this.notazione = Costanti.NOTAZIONE_PAWN;
     }
 
 

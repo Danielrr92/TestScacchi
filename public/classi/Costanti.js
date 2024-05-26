@@ -15,3 +15,12 @@ const KING = 'King';
 // Costanti per le righe e le colonne
 const COLONNE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const RIGHE = [1, 2, 3, 4, 5, 6, 7, 8];
+
+
+// Costanti per i tipi di pezzi degli scacchi
+const NOTAZIONE_PAWN = '';
+const NOTAZIONE_ROOK = 'T';
+const NOTAZIONE_KNIGHT = 'C';
+const NOTAZIONE_BISHOP = 'A';
+const NOTAZIONE_QUEEN = 'D';
+const NOTAZIONE_KING = 'R';

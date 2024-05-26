@@ -2,10 +2,10 @@ let gameId = "";
 let scacchieraClient = new ScacchieraClient();
 
 //produzione
-const socket = new WebSocket('wss://testscacchi.onrender.com');
+//const socket = new WebSocket('wss://testscacchi.onrender.com');
 
 //test locale
-// const socket = new WebSocket('ws://localhost:10000');
+const socket = new WebSocket('ws://localhost:10001');
 
 socket.onopen = () => {
     console.log('Connected to server');
@@ -29,6 +29,7 @@ socket.onmessage = (event) => {
             console.log('Game created with ID:', data.gameId);
             document.getElementById('labelIdPartita').innerHTML = data.gameId;
             document.getElementById('divIdPartita').classList.remove('hidden');
+            document.getElementById('panelJoinGame').classList.add('hidden');
             gameId = data.gameId;
             break;
 
@@ -56,9 +57,11 @@ socket.onmessage = (event) => {
         case 'move':
             // La mossa è legale, aggiorno la scacchiera
             updateBoard(data.scacchiera, data.mossa);
+            aggiungiMossa(data.scacchiera.listaMossePartita);
             break;
         case 'moveValidated':
             updateBoardLogically(data.scacchiera)
+            aggiungiMossa(data.scacchiera.listaMossePartita);
             break;
         case 'invalidMove':
             
@@ -109,3 +112,58 @@ function getGameId() {
 }
 
 
+// function aggiungiMossa(listaMossePartita) {
+//     const ultimoElemento = listaMossePartita.at(-1);
+//     const mosseLista = document.getElementById('mosse-lista');
+//     const nuovaMossa = document.createElement('div');
+//     const numeroMossa = listaMossePartita.length.toString();
+//     let ultimaMossaEffettuata = '';
+//     if (ultimoElemento.mossaNero) {
+//         //in questo caso devo aggiungere una mossa del nero
+//         ultimaMossaEffettuata = ultimoElemento.mossaNero.notazione
+//         nuovaMossa.textContent = numeroMossa + ')' + ultimoElemento.mossaBianco.notazione + ' .... ' + ultimaMossaEffettuata
+//     }else{
+//         //in questo caso devo aggiungere una mossa del bianco
+//         ultimaMossaEffettuata = ultimoElemento.mossaBianco.notazione
+//         nuovaMossa.textContent = numeroMossa + ')' + ultimaMossaEffettuata
+//     }
+    
+//     mosseLista.appendChild(nuovaMossa);
+// }
+
+
+function aggiungiMossa(listaMossePartita) {
+    const movesContainer = document.querySelector('.moves');
+
+    const ultimoElemento = listaMossePartita.at(-1);
+    if (ultimoElemento.mossaNero) {
+         // Mossa del nero
+         const lastMoveRow = movesContainer.lastElementChild;
+         const blackMoveDiv = lastMoveRow.querySelectorAll('.move')[2];
+         blackMoveDiv.textContent = ultimoElemento.mossaNero.notazione;
+    } else {
+        // Mossa del bianco
+        const moveRow = document.createElement('div');
+        moveRow.classList.add('move-row');
+
+        const counterDiv = document.createElement('div');
+        counterDiv.classList.add('move');
+        counterDiv.textContent = listaMossePartita.length + ')'
+
+        const whiteMoveDiv = document.createElement('div');
+        whiteMoveDiv.classList.add('move');
+        whiteMoveDiv.textContent = ultimoElemento.mossaBianco.notazione
+
+        const blackMoveDiv = document.createElement('div');
+        blackMoveDiv.classList.add('move');
+        blackMoveDiv.textContent = ''; // Placeholder per la mossa del nero
+
+        moveRow.appendChild(counterDiv);
+        moveRow.appendChild(whiteMoveDiv);
+        moveRow.appendChild(blackMoveDiv);
+
+        movesContainer.appendChild(moveRow);
+       
+    }
+
+}

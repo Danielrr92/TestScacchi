@@ -5,8 +5,9 @@ class Re extends Pezzo {
 
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, Costanti.KING, posizioneIniziale)
+        super(colore, Costanti.KING, posizioneIniziale);
         this.isSottoScacco = false;
+        this.notazione = Costanti.NOTAZIONE_KING;
     }
 
     

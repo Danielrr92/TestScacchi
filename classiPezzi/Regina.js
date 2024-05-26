@@ -5,7 +5,8 @@ class Regina extends Pezzo {
     
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, Costanti.QUEEN, posizioneIniziale)
+        super(colore, Costanti.QUEEN, posizioneIniziale);
+        this.notazione = Costanti.NOTAZIONE_QUEEN;
     }
 
     isLegalMove(scacchiera, casellaDestinazione) {

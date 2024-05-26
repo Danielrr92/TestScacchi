@@ -82,7 +82,7 @@ function eseguiMossaGraficamente(scacchiera, mossa){
 
     
     if (scacchiera.pezzoMangiato) {
-        const divPezzoMangiato = document.getElementById(scacchiera.pezzoMangiato.posizione)
+        const imgPezzoMangiato = document.getElementById(scacchiera.pezzoMangiato.id);
         //elimino il pezzo mangiato dal DOM
         divCasellaDestinazione.removeChild(imgPezzoMangiato);
     }

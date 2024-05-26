@@ -1,8 +1,9 @@
 class Torre extends Pezzo {
 
     // Costruttore della classe
-    constructor(colore, posizioneIniziale) {
-        super(colore, ROOK, posizioneIniziale)
+    constructor(colore, posizione) {
+        super(colore, ROOK, posizione)
+        this.notazione = NOTAZIONE_ROOK;
     }
 
     isLegalMove(scacchiera, casellaDestinazione) {

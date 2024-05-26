@@ -99,7 +99,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
         pezzoSelezionato.style.left = 0;
         pezzoSelezionato.style.top = 0;
 
-        if(pezzoSelezionato.dataset.colore !== coloreGiocatore){
+        if (pezzoSelezionato.dataset.colore !== coloreGiocatore) {
             throw new Error('Non puoi muovere i pezzi dell\'avversario');
         }
 
@@ -125,7 +125,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
 
 
 
-        
+
         //mossa che sto effettuando ad es. Ab3
         const mossa = new Mossa(pezzo, casellaPartenza, casellaDestinazione);
 
@@ -153,12 +153,24 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
             const lato = colonnaCasellaDestinazione === 6 ? KING : QUEEN;
             [posizioneInizialeTorre, posizioneArrivoTorre] = scacchieraClient.eseguiArrocco(pezzo.colore, lato, mossa.casellaDestinazione);
         } else if (pezzo.tipo === PAWN && (rigaCasellaDestinazione === 0 || rigaCasellaDestinazione === 7)) {
+
             //mossa promozione pedone
             mostraSelezionePromozione(pezzo, casellaDestinazione, scacchieraClient);
 
             const pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchieraClient);
             if (pezzoInchiodatoSulProprioRe) {
-                //gestisci annulla mossa promozione nel caso in cui il pezzo è inciodato sul proprio re
+                //gestisci annulla mossa promozione nel caso in cui il pezzo è inciodato sul proprio re (DA CONTROLLARE PER VEDERE SE è CORRETTO)
+                pezzo.posizione = casellaPartenza;
+                pezzo.tipo = PAWN;
+                if (pezzoMangiato) {
+                    //se dopo aver promosso il pedone(mangiando anche un pezzo avversario) mi accorgo che la mossa è illegale dev rimettere il pezzo avversario nella posizione di prima
+                    //il pezzo mangiato nella scacchiera logica non c'è proprio più e devo ricrearlo
+                    scacchieraClient.annullaUltimaMossa(pezzo, casellaPartenza)
+                    const imgPezzoMangiato = document.getElementById(pezzoMangiato.id);
+                    //rimetto il pezzo graficamente al posto suo
+                    divCasellaDestinazione.appendChild(imgPezzoMangiato);
+                    throw new exception("Il pezzo che cerchi di muovere è inchiodato sul tuo re")
+                }
             }
 
         } else {
@@ -176,43 +188,6 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
         //invio la mossa al server
         sendMove(scacchieraClient.gameId, mossa);
 
-        //se la mossa va bene, tolgo il mio re da qualsiasi eventuale posizione di scacco(altrimenti non avrei potuto fare la mossa)
-        // const posizioneMioRe = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReBianco : scacchiera.posizioneReNero;
-        // const mioRe = scacchiera.ottieniPezzo(posizioneMioRe)
-        // mioRe.isSottoScacco = false;
-
-        //QUESTI CONTROLLI LI FACCIO SOLAMENTE A LIVELLO SERVER - NON POSSO DIRE CHE è SCACCO MATTO SENZA AVER VALIDATO LA MOSSA A LIVELLO SERVER(A LIVELLO CLIENT POTREBBERO MANOMETTERMI IL CODICE I CATTIVI)
-        // //controllo se sto dando uno scacco al re avversario
-        // const stoDandoScaccoAlReAvversario = checks.isCheckReAvversario(scacchiera);
-        // if (stoDandoScaccoAlReAvversario) {
-        //     //se sto dando scacco al re avversario salvo la variabile isSottoScacco a true
-        //     const posizioneReAvversario = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
-        //     const reAvversario = scacchiera.ottieniPezzo(posizioneReAvversario)
-        //     reAvversario.isSottoScacco = true;
-        //     //devo controllare se è scacco matto, se si finisce la partita
-        //     if (checks.checkIfIsScaccoMatto(scacchiera)) {
-        //         scacchiera.isScaccoMatto = true;
-        //     } else {
-        //         stampaMessaggio('Scacco al Re ' + reAvversario.colore + '!')
-        //     }
-        // }
-        // else {
-        //     //cancello la lavagna messaggi
-        //     stampaMessaggio('');
-        // }
-        //terminati i controlli e verificato che la mossa è legale, effettuo la mossa graficamente ed aggiorno alcune proprietà del pezzo e della scacchiera. infine aggiorno chi deve muovere tra il bianco e il nero
-        // switch (pezzo.tipo) {
-        //     case PAWN:
-        //         pezzo.primaMossa = false;
-        //         break;
-        //     case KING:
-        //         if (scacchiera.mossaAl == COLOR_WHITE)
-        //             scacchiera.posizioneReBianco = casellaDestinazione;
-        //         else
-        //             scacchiera.posizioneReNero = casellaDestinazione;
-        //         break;
-        // }
-        //scacchiera.aggiornaMossaAl();
 
         //variabili per la verifica di un eventuale pezzo mangiato (modifiche DOM)
         if (pezzoMangiato) {
@@ -308,10 +283,10 @@ function mostraSelezionePromozione(pezzo, casellaDestinazione, scacchiera) {
     const divSelezionePromozione = document.createElement('div');
     divSelezionePromozione.id = 'selezione-promozione';
     divSelezionePromozione.innerHTML = `
-        <button data-pezzo="QUEEN">Regina</button>
-        <button data-pezzo="ROOK">Torre</button>
-        <button data-pezzo="BISHOP">Alfiere</button>
-        <button data-pezzo="KNIGHT">Cavallo</button>
+        <button data-pezzo="Queen">Regina</button>
+        <button data-pezzo="Rook">Torre</button>
+        <button data-pezzo="Bishop">Alfiere</button>
+        <button data-pezzo="Knight">Cavallo</button>
     `;
     document.body.appendChild(divSelezionePromozione);
 
@@ -320,27 +295,24 @@ function mostraSelezionePromozione(pezzo, casellaDestinazione, scacchiera) {
         button.addEventListener('click', (event) => {
             const tipoPezzo = event.target.getAttribute('data-pezzo');
             promuoviPedone(pezzo, tipoPezzo, casellaDestinazione, scacchiera);
-            document.body.removeChild(divSelezionePromozione);
         });
     });
 }
 
+
 function promuoviPedone(pezzo, tipoPezzo, casellaDestinazione, scacchiera) {
     pezzo.tipo = tipoPezzo;
     scacchiera.aggiornaPosizionePezzo(new Mossa(pezzo, pezzo.posizione, casellaDestinazione));
-    pezzo.posizione = casellaDestinazione;
 
-    const pezzoPromosso = document.createElement('img');
-    pezzoPromosso.src = pezzo.getImmagineUrl();
-    pezzoPromosso.id = pezzo.id;
-    pezzoPromosso.classList.add('piece');
-    pezzoPromosso.style.draggable = false;
-    pezzoPromosso.dataset.dataNome = pezzo.tipo
+    const imgPezzoPromosso = document.getElementById(pezzo.id);
+    imgPezzoPromosso.src = getImmagineUrl(pezzo.colore, pezzo.tipo);
+    imgPezzoPromosso.dataset.nome = pezzo.tipo;
+    imgPezzoPromosso.dataset.colore = pezzo.colore;
 
 
 
     const divCasellaDestinazione = document.getElementById(casellaDestinazione);
     divCasellaDestinazione.innerHTML = '';
-    divCasellaDestinazione.appendChild(pezzoPromosso);
+    divCasellaDestinazione.appendChild(imgPezzoPromosso);
 
 }

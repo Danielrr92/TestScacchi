@@ -1,8 +1,9 @@
 class Cavallo extends Pezzo {
 
     // Costruttore della classe
-    constructor(colore, posizioneIniziale) {
-        super(colore, KNIGHT, posizioneIniziale)
+    constructor(colore, posizione) {
+        super(colore, KNIGHT, posizione);
+        this.notazione = NOTAZIONE_KNIGHT;
     }
 
 

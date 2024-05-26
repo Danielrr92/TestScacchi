@@ -88,27 +88,36 @@ class ScacchieraClient {
             for (let colonna = 0; colonna < 8; colonna++) {
                 const pezzo = scacchiera.matrice[riga][colonna];
                 if (pezzo) {
+                    let nuovoPezzo;// = new Pezzo("","","");
                     switch (pezzo.tipo) {
                         case PAWN:
-                            this.posizionaPezzo(new Pedone(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Pedone(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                         case KING:
-                            this.posizionaPezzo(new Re(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Re(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                         case QUEEN:
-                            this.posizionaPezzo(new Regina(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Regina(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                         case ROOK:
-                            this.posizionaPezzo(new Torre(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Torre(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                         case BISHOP:
-                            this.posizionaPezzo(new Alfiere(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Alfiere(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                         case KNIGHT:
-                            this.posizionaPezzo(new Cavallo(pezzo.colore, pezzo.posizione));
+                            nuovoPezzo = new Cavallo(pezzo.colore, pezzo.posizione);
+                            nuovoPezzo.id = pezzo.id;
                             break;
                     }
+                    this.posizionaPezzo(nuovoPezzo);
                 }
+                
             }
         }
 

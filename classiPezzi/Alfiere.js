@@ -5,7 +5,8 @@ class Alfiere extends Pezzo {
 
     // Costruttore della classe
     constructor(colore, posizioneIniziale) {
-        super(colore, Costanti.BISHOP, posizioneIniziale)
+        super(colore, Costanti.BISHOP, posizioneIniziale);
+        this.notazione = Costanti.NOTAZIONE_BISHOP;
     }
 
     isLegalMove(scacchiera, casellaDestinazione) {

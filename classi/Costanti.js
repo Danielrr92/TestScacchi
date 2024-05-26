@@ -16,6 +16,14 @@ const KING = 'King';
 const COLONNE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const RIGHE = [1, 2, 3, 4, 5, 6, 7, 8];
 
+// Costanti per i tipi di pezzi degli scacchi
+const NOTAZIONE_PAWN = '';
+const NOTAZIONE_ROOK = 'T';
+const NOTAZIONE_KNIGHT = 'C';
+const NOTAZIONE_BISHOP = 'A';
+const NOTAZIONE_QUEEN = 'D';
+const NOTAZIONE_KING = 'R';
+
 // Esporta le costanti
 module.exports = {
     COLOR_WHITE,
@@ -27,5 +35,11 @@ module.exports = {
     QUEEN,
     KING,
     COLONNE,
-    RIGHE
+    RIGHE,
+    NOTAZIONE_PAWN,
+    NOTAZIONE_ROOK,
+    NOTAZIONE_KNIGHT,
+    NOTAZIONE_BISHOP,
+    NOTAZIONE_QUEEN,
+    NOTAZIONE_KING
 };

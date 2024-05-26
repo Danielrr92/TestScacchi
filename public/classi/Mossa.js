@@ -4,7 +4,7 @@ class Mossa {
         this.pezzo = pezzo;
         this.casellaPartenza = casellaPartenza;
         this.casellaDestinazione = casellaDestinazione; 
-        this.notazione = this.pezzo.tipo + "" + this.casellaDestinazione;
+        this.notazione = this.pezzo.notazione + this.casellaDestinazione;
         this.isArrocco = false;
     }
 

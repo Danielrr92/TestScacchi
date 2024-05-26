@@ -38,7 +38,6 @@
                         <div class="square light" id="h7"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 6 -->
                         <div class="square light" id="a6"></div>
                         <div class="square dark" id="b6"></div>
@@ -50,7 +49,6 @@
                         <div class="square dark" id="h6"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 5 -->
                         <div class="square dark" id="a5"></div>
                         <div class="square light" id="b5"></div>
@@ -62,7 +60,6 @@
                         <div class="square light" id="h5"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 4 -->
                         <div class="square light" id="a4"></div>
                         <div class="square dark" id="b4"></div>
@@ -74,7 +71,6 @@
                         <div class="square dark" id="h4"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 3 -->
                         <div class="square dark" id="a3"></div>
                         <div class="square light" id="b3"></div>
@@ -86,7 +82,6 @@
                         <div class="square light" id="h3"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 2 -->
                         <div class="square light" id="a2"></div>
                         <div class="square dark" id="b2"></div>
@@ -98,7 +93,6 @@
                         <div class="square dark" id="h2"></div>
                     </div>
                     <div class="row-Scacchiera">
-
                         <!-- 1 -->
                         <div class="square dark" id="a1"></div>
                         <div class="square light" id="b1"></div>
@@ -122,22 +116,31 @@
                         <button id="btnCreateGame" onclick="createGame()">Crea Nuova Partita</button>
                     </div>
                     <div id="divIdPartita" class="col-xl-12 hidden">
-                        <label id="labelIdPartita"></label>
-                        <div><code lang="markup"
-                                class="language-markup"> <button  onclick="getElementById('labelIdPartita').innerHtml.execCommand('copy');">Copia ID</button></code>
+                        <p>ID: <label id="labelIdPartita"></label></p>
+                        <div><code lang="markup" class="language-markup"> <button  onclick="getElementById('labelIdPartita').innerHtml.execCommand('copy');">Copia ID</button></code>
                         </div>
                     </div>
-                    <div class="col-xl-12">
-                        <p>Altrimenti unisciti ad una partita già iniziata</p>
-                        <input type="text" id="textBoxIdPartita"
-                            placeholder="inserisci l'id della partita alla quale ti vuoi unire" />
+                    <div id="panelJoinGame">
+                        <div class="col-xl-12">
+                            <p>Altrimenti unisciti ad una partita già iniziata</p>
+                            <input type="text" id="textBoxIdPartita"
+                                placeholder="inserisci l'id della partita alla quale ti vuoi unire" />
+                        </div>
+                        <div class="col-xl-12">
+                            <button id="btnJoinGame"
+                                onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti A una
+                                Partita
+                                Esistente</button>
+                        </div>
                     </div>
-                    <div class="col-xl-12">
-                        <button id="btnJoinGame"
-                            onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti A una
-                            Partita
-                            Esistente</button>
-                    </div>
+                </div>
+            </div>
+            <div class="moves-container">
+                <div class="moves-header">
+                    <span>Mosse</span>
+                </div>
+                <div class="moves">
+                    <!-- Le mosse verranno inserite qui dinamicamente -->
                 </div>
             </div>
         </div>

@@ -100,3 +100,44 @@
 .row-Scacchiera.black {
   height: 12.5%;
 }
+
+#mosse-container {
+  width: 200px;
+  max-height: 480px; /* Assicurati che l'altezza corrisponda alla scacchiera */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+.moves-container {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.moves-header {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.moves {
+  display: flex;
+  flex-direction: column;
+}
+
+.move-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.move {
+  width: 45%;
+  text-align: center;
+}
