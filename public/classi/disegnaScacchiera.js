@@ -7,10 +7,21 @@ function togliTutteLePedineDallaScacchiera() {
     });
 }
 
-function disegnaPezziImgHtml(scacchiera) {
+function disegnaPezziImgHtml(scacchiera, colore) {
+    //istruzioni per la visione della scacchiera da nero
+    const scacchieraElement = document.getElementById('scacchiera');
+    const rowScacchiera = document.querySelectorAll('.row-Scacchiera');
+    if (colore == 'Nero') {       
+        scacchieraElement.classList.add('black');
+        
+        rowScacchiera.forEach((riga) => riga.classList.add('black'))
+    } else {
+        scacchieraElement.classList.remove('black');
+        rowScacchiera.forEach((riga) => riga.classList.remove('black'))
+    }
+    
     // Ottieni tutte le caselle della scacchiera
     const caselle = document.querySelectorAll('.square');
-
     // Attraversa ogni casella e posiziona il pezzo corrispondente
     caselle.forEach((casella) => {
         const [riga, colonna] = convertiPosizioneInIndice(casella.id);
@@ -26,7 +37,9 @@ function disegnaPezziImgHtml(scacchiera) {
             htmlPieceImg.dataset.dataNome = pezzo.tipo
             casella.appendChild(htmlPieceImg);
         }
+
     });
+
 }
 
 // Metodo per convertire una posizione nella notazione 'a1' in un indice di matrice [riga][colonna]
@@ -58,5 +71,5 @@ function convertiIndiceInPosizione(riga, colonna) {
 
 function getImmagineUrl(colore, tipo) {
     // Costruisci il percorso dell'immagine del pezzo
-    return `./img/${colore}_${tipo}.png`; 
+    return `./img/${colore}_${tipo}.png`;
 }

@@ -1,5 +1,3 @@
-const Costanti = require('./Costanti')
-
 class Checks {
 
     constructor() {
@@ -9,8 +7,8 @@ class Checks {
     //VERIFICO SE LA MOSSA GENERA UNO SCACCO AL MIO RE, IN TAL CASO è UNA MOSSA ILLEGALE
     checkIsPezzoInchiodatoSulMioRe(scacchiera) {
         // Posizione del mio re
-        const posizioneMioRe = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? scacchiera.posizioneReBianco : scacchiera.posizioneReNero;
-        const coloreAttaccante = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? Costanti.COLOR_WHITE : Costanti.COLOR_WHITE;
+        const posizioneMioRe = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReBianco : scacchiera.posizioneReNero;
+        const coloreAttaccante = (scacchiera.mossaAl === COLOR_WHITE) ? COLOR_BLACK : COLOR_WHITE;
 
         // Se il mio re è sotto scacco nella nuova configurazione della scacchiera è una mossa illegale 
         if (this.isPosizioneAttaccata(posizioneMioRe, scacchiera, coloreAttaccante)) {
@@ -44,8 +42,8 @@ class Checks {
     isCheckReAvversario(scacchiera) {
         //VERIFICO SE LA MOSSA GENERA UNO SCACCO AL RE AVVERSARIO
         // Posizione del re avversario
-        const posizioneReAvversario = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
-        const coloreAttaccante = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? Costanti.COLOR_WHITE : Costanti.COLOR_WHITE;
+        const posizioneReAvversario = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
+        const coloreAttaccante = (scacchiera.mossaAl === COLOR_WHITE) ? COLOR_WHITE : COLOR_BLACK;
         // Verifica se il re avversario è sotto attacco nella nuova configurazione della scacchiera
         if (this.isPosizioneAttaccata(posizioneReAvversario, scacchiera, coloreAttaccante)) {
             stampaMessaggio("Non puoi muovere il pezzo perchè è inchiodato sul tuo re");
@@ -57,7 +55,7 @@ class Checks {
     // Funzione per verificare se è scacco matto
     checkIfIsScaccoMatto(scacchiera) {
         // Ottieni la posizione del re avversario
-        const posizioneReAvversario = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
+        const posizioneReAvversario = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
         const re = scacchiera.ottieniPezzo(posizioneReAvversario);
 
         // Ottieni tutte le mosse legali del re
@@ -111,4 +109,8 @@ class Checks {
         return mosseLegali;
     }
 }
-module.exports = Checks;
+
+
+
+
+

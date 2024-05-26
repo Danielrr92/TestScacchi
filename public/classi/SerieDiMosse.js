@@ -15,4 +15,3 @@ class SerieDiMosse {
 
 
 }
-module.exports = SerieDiMosse

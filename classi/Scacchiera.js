@@ -5,6 +5,7 @@ const Re = require('../classiPezzi/Re');
 const Regina = require('../classiPezzi/Regina');
 const Torre = require('../classiPezzi/Torre');
 const Costanti = require('./Costanti');
+const SerieDiMosse = require('./SerieDiMosse');
 
 class Scacchiera {
 
@@ -49,7 +50,7 @@ class Scacchiera {
         this.aggiornaListaMosseEffettuate(mossa);
         //segno che il pezzo ha mosso almeno una mossa
         mossa.pezzo.hasMoved = true;
-        if (mossa.pezzo.tipo == KING) {
+        if (mossa.pezzo.tipo == Costanti.KING) {
             if (mossa.pezzo.colore == Costanti.COLOR_WHITE) {
                 this.posizioneReBianco = mossa.pezzo.posizione;
             }

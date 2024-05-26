@@ -1,23 +1,22 @@
 let pezzoSelezionato = null; // Variabile globale per memorizzare il pezzo selezionato
 
-function inizializzaGestoriEventiMouse(scacchiera) {
+function inizializzaGestoriEventiMouse(scacchieraClient) {
     const pezzi = document.querySelectorAll('.piece');
 
     pezzi.forEach((pezzo) => {
         // cambia iniziaTrascinamento con selezione pezzo / integra in modo che posso effettuare la mossa anche cliccando sul pezzo e poi cliccando sulla casella 
-        pezzo.addEventListener('mousedown', (event) => iniziaTrascinamento(event, scacchiera));
-        pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchiera));
+        pezzo.addEventListener('mousedown', (event) => iniziaTrascinamento(event, scacchieraClient));
+        pezzo.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchieraClient));
     });
 
-    //document.addEventListener('mouseup', (event) => terminaTrascinamento(event, scacchiera));
 }
 
-function iniziaTrascinamento(event, scacchiera) {
+function iniziaTrascinamento(event, scacchieraClient) {
     event.preventDefault();
 
     pezzoSelezionato = event.target; // Imposta il pezzo selezionato
     //per debug
-    //console.log('Inizio Trascinameto: ' + pezzoSelezionato.id + ' Casella iniziale ' + pezzoSelezionato.offsetParent.id);
+    console.log('Inizio Trascinameto: ' + pezzoSelezionato.id + ' Casella iniziale ' + pezzoSelezionato.offsetParent.id + 'z-index: ' + pezzoSelezionato.zIndex);
 
     // Memorizza le coordinate del punto in cui è iniziato il trascinamento
     pezzoSelezionato.inizioX = event.clientX;
@@ -36,9 +35,8 @@ function iniziaTrascinamento(event, scacchiera) {
     document.addEventListener('mousemove', muoviPezzoGraficamente);
 
     //istruzione che colora le caselle disponibili per ogni pezzo che seleziono
-    //pezzo che sto muovendo
-    const pezzo = scacchiera.ottieniPezzo(pezzoSelezionato.offsetParent.id);
-    const mossePossibili = pezzo.trovaMosseDisponibili(scacchiera);
+    const pezzo = scacchieraClient.ottieniPezzo(pezzoSelezionato.offsetParent.id);
+    const mossePossibili = pezzo.trovaMosseDisponibili(scacchieraClient);
     mossePossibili.forEach((mossa) => {
         const casellaMossaPossibile = document.getElementById(mossa);
         casellaMossaPossibile.classList.add('casellaMossaPossibile');
@@ -85,14 +83,11 @@ function muoviPezzoGraficamente(event) {
 }
 
 
-function terminaTrascinamento(event, scacchiera) {
+function terminaTrascinamento(event, scacchieraClient) {
     try {
         // Imposta il cursore a 'grabbing' durante il trascinamento
         pezzoSelezionato.style.cursor = 'grab';
         pezzoSelezionato.style.zIndex = 1000;
-
-
-
 
         if (!pezzoSelezionato) {
             throw new Error("Errore pezzo selezionato. WTF")
@@ -121,26 +116,29 @@ function terminaTrascinamento(event, scacchiera) {
         }
 
         //pezzo che sto muovendo
-        const pezzo = scacchiera.ottieniPezzo(casellaPartenza);
+        const pezzo = scacchieraClient.ottieniPezzo(casellaPartenza);
 
+
+
+        
         //mossa che sto effettuando ad es. Ab3
         const mossa = new Mossa(pezzo, casellaPartenza, casellaDestinazione);
 
         //verifico se sto eseguendo l'arrocco
-        const [rigaCasellaDestinazione, colonnaCasellaDestinazione] = scacchiera.convertiPosizioneInIndice(casellaDestinazione);
-        const [rigaCasellaPartenza, colonnaCasellaPartenza] = scacchiera.convertiPosizioneInIndice(casellaPartenza);
+        const [rigaCasellaDestinazione, colonnaCasellaDestinazione] = scacchieraClient.convertiPosizioneInIndice(casellaDestinazione);
+        const [rigaCasellaPartenza, colonnaCasellaPartenza] = scacchieraClient.convertiPosizioneInIndice(casellaPartenza);
         if (pezzo.tipo === KING && Math.abs(colonnaCasellaDestinazione - colonnaCasellaPartenza) === 2) {
             mossa.isArrocco = true;
         }
 
 
         //controllo se è una mossa compresa nelle possibilità di quel pezzo
-        if (!checkIsLegalMove(scacchiera, mossa)) {
+        if (!checkIsLegalMove(scacchieraClient, mossa)) {
             throw new Error("Questo pezzo non può fare questa mossa")
         }
 
         //se c'è un pezzo nella casella di destinazione me lo salvo così dopo i controlli non va perduto
-        const pezzoMangiato = scacchiera.ottieniPezzo(mossa.casellaDestinazione);
+        const pezzoMangiato = scacchieraClient.ottieniPezzo(mossa.casellaDestinazione);
 
         const checks = new Checks()
         let posizioneInizialeTorre;
@@ -148,65 +146,68 @@ function terminaTrascinamento(event, scacchiera) {
         if (mossa.isArrocco) {
             //mossa arrocco
             const lato = colonnaCasellaDestinazione === 6 ? KING : QUEEN;
-            [posizioneInizialeTorre, posizioneArrivoTorre] = scacchiera.eseguiArrocco(pezzo.colore, lato, mossa.casellaDestinazione);
+            [posizioneInizialeTorre, posizioneArrivoTorre] = scacchieraClient.eseguiArrocco(pezzo.colore, lato, mossa.casellaDestinazione);
         } else if (pezzo.tipo === PAWN && (rigaCasellaDestinazione === 0 || rigaCasellaDestinazione === 7)) {
             //mossa promozione pedone
-            mostraSelezionePromozione(pezzo, casellaDestinazione, scacchiera);
+            mostraSelezionePromozione(pezzo, casellaDestinazione, scacchieraClient);
 
-            const pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchiera);
+            const pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchieraClient);
             if (pezzoInchiodatoSulProprioRe) {
                 //gestisci annulla mossa promozione nel caso in cui il pezzo è inciodato sul proprio re
             }
 
         } else {
             //aggiorno scacchiera con nuova posizione              
-            scacchiera.aggiornaPosizionePezzo(mossa);
+            scacchieraClient.aggiornaPosizionePezzo(mossa);
 
             //verifica che il pezzo che sto muovendo non sia inchiodato sul proprio re
-            const pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchiera);
+            const pezzoInchiodatoSulProprioRe = checks.checkIsPezzoInchiodatoSulMioRe(scacchieraClient);
             if (pezzoInchiodatoSulProprioRe) {
                 //ripristino la scacchiera a com'era prima della mossa illegale (pezzo inchiodato)
-                scacchiera.annullaUltimaMossa(pezzo, casellaPartenza);
+                scacchieraClient.annullaUltimaMossa(pezzo, casellaPartenza);
                 throw new Error("Il pezzo che cerchi di muovere è inchiodato sul tuo re")
             }
         }
+        //invio la mossa al server
+        sendMove(scacchieraClient.gameId, mossa);
 
         //se la mossa va bene, tolgo il mio re da qualsiasi eventuale posizione di scacco(altrimenti non avrei potuto fare la mossa)
-        const posizioneMioRe = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReBianco : scacchiera.posizioneReNero;
-        const mioRe = scacchiera.ottieniPezzo(posizioneMioRe)
-        mioRe.isSottoScacco = false;
+        // const posizioneMioRe = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReBianco : scacchiera.posizioneReNero;
+        // const mioRe = scacchiera.ottieniPezzo(posizioneMioRe)
+        // mioRe.isSottoScacco = false;
 
-        //controllo se sto dando uno scacco al re avversario
-        const stoDandoScaccoAlReAvversario = checks.isCheckReAvversario(scacchiera);
-        if (stoDandoScaccoAlReAvversario) {
-            //se sto dando scacco al re avversario salvo la variabile isSottoScacco a true
-            const posizioneReAvversario = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
-            const reAvversario = scacchiera.ottieniPezzo(posizioneReAvversario)
-            reAvversario.isSottoScacco = true;
-            //devo controllare se è scacco matto, se si finisce la partita
-            if (checks.checkIfIsScaccoMatto(scacchiera)) {
-                scacchiera.isScaccoMatto = true;
-            } else {
-                stampaMessaggio('Scacco al Re ' + reAvversario.colore + '!')
-            }
-        }
-        else {
-            //cancello la lavagna messaggi
-            stampaMessaggio('');
-        }
+        //QUESTI CONTROLLI LI FACCIO SOLAMENTE A LIVELLO SERVER - NON POSSO DIRE CHE è SCACCO MATTO SENZA AVER VALIDATO LA MOSSA A LIVELLO SERVER(A LIVELLO CLIENT POTREBBERO MANOMETTERMI IL CODICE I CATTIVI)
+        // //controllo se sto dando uno scacco al re avversario
+        // const stoDandoScaccoAlReAvversario = checks.isCheckReAvversario(scacchiera);
+        // if (stoDandoScaccoAlReAvversario) {
+        //     //se sto dando scacco al re avversario salvo la variabile isSottoScacco a true
+        //     const posizioneReAvversario = (scacchiera.mossaAl === COLOR_WHITE) ? scacchiera.posizioneReNero : scacchiera.posizioneReBianco;
+        //     const reAvversario = scacchiera.ottieniPezzo(posizioneReAvversario)
+        //     reAvversario.isSottoScacco = true;
+        //     //devo controllare se è scacco matto, se si finisce la partita
+        //     if (checks.checkIfIsScaccoMatto(scacchiera)) {
+        //         scacchiera.isScaccoMatto = true;
+        //     } else {
+        //         stampaMessaggio('Scacco al Re ' + reAvversario.colore + '!')
+        //     }
+        // }
+        // else {
+        //     //cancello la lavagna messaggi
+        //     stampaMessaggio('');
+        // }
         //terminati i controlli e verificato che la mossa è legale, effettuo la mossa graficamente ed aggiorno alcune proprietà del pezzo e della scacchiera. infine aggiorno chi deve muovere tra il bianco e il nero
-        switch (pezzo.tipo) {
-            case PAWN:
-                pezzo.primaMossa = false;
-                break;
-            case KING:
-                if (scacchiera.mossaAl == COLOR_WHITE)
-                    scacchiera.posizioneReBianco = casellaDestinazione;
-                else
-                    scacchiera.posizioneReNero = casellaDestinazione;
-                break;
-        }
-        scacchiera.aggiornaMossaAl();
+        // switch (pezzo.tipo) {
+        //     case PAWN:
+        //         pezzo.primaMossa = false;
+        //         break;
+        //     case KING:
+        //         if (scacchiera.mossaAl == COLOR_WHITE)
+        //             scacchiera.posizioneReBianco = casellaDestinazione;
+        //         else
+        //             scacchiera.posizioneReNero = casellaDestinazione;
+        //         break;
+        // }
+        //scacchiera.aggiornaMossaAl();
 
         //variabili per la verifica di un eventuale pezzo mangiato (modifiche DOM)
         if (pezzoMangiato) {

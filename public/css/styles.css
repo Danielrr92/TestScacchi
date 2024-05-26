@@ -22,7 +22,7 @@
 
 .square {
   width: 12.5%;
-  height: 12.5%;
+  height: 100%;
   position: relative;
   /* Aggiunto il posizionamento relativo */
 }
@@ -46,7 +46,7 @@
 }
 
 .bordoScacchiera {
-  border: 10px solid rgb(41, 41, 41);
+  border: 10px solid #8b742e;
 }
 
 .chessBoardRow {
@@ -78,4 +78,25 @@
 
 .hidden{
   display: none;
+}
+
+.row-Scacchiera{
+  display: flex;
+  width: 100%;
+}
+
+/* .rotated {
+  transform: rotate(180deg);
+} */
+
+#scacchiera.black {
+  flex-direction: column-reverse;
+}
+
+#scacchiera.black .row-Scacchiera {
+  flex-direction: row-reverse;
+}
+
+.row-Scacchiera.black {
+  height: 12.5%;
 }

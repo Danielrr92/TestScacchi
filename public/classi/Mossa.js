@@ -12,5 +12,3 @@ class Mossa {
         this.pezzo.isLegalMove(scacchiera, this.casellaDestinazione);
     }
 }
-
-module.exports = Mossa

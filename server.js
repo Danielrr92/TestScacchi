@@ -4,6 +4,7 @@ const WebSocket = require('ws');
 const path = require('path');
 const Scacchiera = require('./classi/Scacchiera');
 const Costanti = require('./classi/Costanti');
+const ControllaMossaServer = require('./classi/ControllaMossaServer');
 
 const app = express();
 const server = http.createServer(app);
@@ -37,8 +38,12 @@ wss.on('connection', (ws) => {
                 break;
 
             case 'move':
-                const currentGame = games[data.gameId];
+                const currentGame = games[data.gameId];                
                 if (currentGame) {
+                    //valido la mossa
+                    const controlloMossaServer = new ControllaMossaServer();
+                    //questo metodo controlla se la mossa è legale, se si aggiorna la scacchiera a livello server che è quella ufficiale del gioco
+                    controlloMossaServer.verificaMossa(currentGame.scacchiera, data.mossa);
                     currentGame.scacchiera = data.scacchiera;
                     currentGame.players.forEach(player => {
                         if (player !== ws) {
@@ -81,7 +86,7 @@ server.listen(process.env.PORT || 10000, () => {
 
 
 function decidiColoreGiocatoreUno() {
-    if (Math.random() == 0) {
+    if (Math.random() > 0.5) {
         return Costanti.COLOR_WHITE;
     }
     else {

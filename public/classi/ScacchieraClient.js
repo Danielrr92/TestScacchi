@@ -1,14 +1,16 @@
-class Scacchiera {
+class ScacchieraClient {
 
-    constructor() {
+    constructor(scacchiera) {
         // Inizializzazione della scacchiera con una matrice di pezzi vuota
         this.matrice = Array(8).fill(null).map(() => Array(8).fill(null));
-        this.pezzoMangiato = null;
-        this.isScaccoMatto = false;
-        this.mossaAl = COLOR_WHITE;
-        this.posizioneReBianco = COLONNE[4] + RIGHE[0];
-        this.posizioneReNero = COLONNE[4] + RIGHE[7];
-        this.listaMossePartita = [];
+        this.generaPosizioneInizialePezziMatrice(scacchiera);
+        this.pezzoMangiato = scacchiera.pezzoMangiato;
+        this.isScaccoMatto = scacchiera.isScaccoMatto;
+        this.mossaAl = scacchiera.mossaAl;
+        this.posizioneReBianco = scacchiera.posizioneReBianco;
+        this.posizioneReNero = scacchiera.posizioneReNero;
+        this.listaMossePartita = scacchiera.listaMossePartita;
+        this.gameId;
     }
 
 
@@ -70,49 +72,76 @@ class Scacchiera {
         else {
             this.posizioneReNero = mossaRe.pezzo.posizione;
         }
-        
+
         //la lista la aggiorno una sola volta perchè arrocco pur essendo lo spostamento di due pezzi conta come una mossa sola
         this.aggiornaListaMosseEffettuate(mossaRe);
     }
 
     // Metodo per generare la disposizione iniziale dei pezzi sulla scacchiera
-    generaPosizioneInizialePezziMatrice() {
+    generaPosizioneInizialePezziMatrice(scacchiera) {
+        for (let riga = 0; riga < 8; riga++) {
+            for (let colonna = 0; colonna < 8; colonna++) {
+                const pezzo = scacchiera.matrice[riga][colonna];
+                if (pezzo) {
+                    switch (pezzo.tipo) {
+                        case PAWN:
+                            this.posizionaPezzo(new Pedone(pezzo.colore, pezzo.posizione));
+                            break;
+                        case KING:
+                            this.posizionaPezzo(new Re(pezzo.colore, pezzo.posizione));
+                            break;
+                        case QUEEN:
+                            this.posizionaPezzo(new Regina(pezzo.colore, pezzo.posizione));
+                            break;
+                        case ROOK:
+                            this.posizionaPezzo(new Torre(pezzo.colore, pezzo.posizione));
+                            break;
+                        case BISHOP:
+                            this.posizionaPezzo(new Alfiere(pezzo.colore, pezzo.posizione));
+                            break;
+                        case KNIGHT:
+                            this.posizionaPezzo(new Cavallo(pezzo.colore, pezzo.posizione));
+                            break;
+                    }
+                }
+            }
+        }
         // Pezzi bianchi
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'a2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'b2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'c2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'd2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'e2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'f2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'g2'));
-        this.posizionaPezzo(new Pedone(COLOR_WHITE, 'h2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'a2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'b2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'c2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'd2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'e2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'f2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'g2'));
+        // this.posizionaPezzo(new Pedone(COLOR_WHITE, 'h2'));
 
-        this.posizionaPezzo(new Torre(COLOR_WHITE, 'a1'));
-        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'b1'));
-        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'c1'));
-        this.posizionaPezzo(new Regina(COLOR_WHITE, 'd1'));
-        this.posizionaPezzo(new Re(COLOR_WHITE, 'e1'));
-        this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'f1'));
-        this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'g1'));
-        this.posizionaPezzo(new Torre(COLOR_WHITE, 'h1'));
+        // this.posizionaPezzo(new Torre(COLOR_WHITE, 'a1'));
+        // this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'b1'));
+        // this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'c1'));
+        // this.posizionaPezzo(new Regina(COLOR_WHITE, 'd1'));
+        // this.posizionaPezzo(new Re(COLOR_WHITE, 'e1'));
+        // this.posizionaPezzo(new Alfiere(COLOR_WHITE, 'f1'));
+        // this.posizionaPezzo(new Cavallo(COLOR_WHITE, 'g1'));
+        // this.posizionaPezzo(new Torre(COLOR_WHITE, 'h1'));
 
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'a7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'b7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'c7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'd7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'e7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'f7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'g7'));
-        this.posizionaPezzo(new Pedone(COLOR_BLACK, 'h7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'a7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'b7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'c7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'd7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'e7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'f7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'g7'));
+        // this.posizionaPezzo(new Pedone(COLOR_BLACK, 'h7'));
 
-        this.posizionaPezzo(new Torre(COLOR_BLACK, 'a8'));
-        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'b8'));
-        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'c8'));
-        this.posizionaPezzo(new Regina(COLOR_BLACK, 'd8'));
-        this.posizionaPezzo(new Re(COLOR_BLACK, 'e8'));
-        this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'f8'));
-        this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'g8'));
-        this.posizionaPezzo(new Torre(COLOR_BLACK, 'h8'));
+        // this.posizionaPezzo(new Torre(COLOR_BLACK, 'a8'));
+        // this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'b8'));
+        // this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'c8'));
+        // this.posizionaPezzo(new Regina(COLOR_BLACK, 'd8'));
+        // this.posizionaPezzo(new Re(COLOR_BLACK, 'e8'));
+        // this.posizionaPezzo(new Alfiere(COLOR_BLACK, 'f8'));
+        // this.posizionaPezzo(new Cavallo(COLOR_BLACK, 'g8'));
+        // this.posizionaPezzo(new Torre(COLOR_BLACK, 'h8'));
 
     }
 
