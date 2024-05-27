@@ -114,6 +114,9 @@
   border: 1px solid #ccc;
   padding: 10px;
   background-color: #f9f9f9;
+  margin-top: 10px;  
+  overflow-y: auto;
+  max-height: 60vh;
 }
 
 .moves-header {

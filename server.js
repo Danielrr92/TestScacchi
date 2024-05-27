@@ -44,6 +44,16 @@ wss.on('connection', (ws) => {
                     const controlloMossaServer = new ControllaMossaServer();
                     //questo metodo controlla se la mossa è legale, se si, aggiorna la scacchiera a livello server che è quella ufficiale del gioco
                     if (controlloMossaServer.verificaMossa(currentGame.scacchiera, data.mossa)){
+                        if(currentGame.scacchiera.isScaccoMatto){
+                            currentGame.players.forEach(player => {
+                                if (player !== ws) {
+                                    player.send(JSON.stringify({ type: 'checkMated', scacchiera: currentGame.scacchiera , mossa: data.mossa }));
+                                }else{
+                                    player.send(JSON.stringify({ type: 'checkMate', scacchiera: currentGame.scacchiera , mossa: data.mossa }));
+                                }
+                            });
+                            break;
+                        }
                         //mossa valida, aggiorno la scacchiera del giocatore avversario
                         currentGame.players.forEach(player => {
                             if (player !== ws) {

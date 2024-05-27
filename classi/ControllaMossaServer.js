@@ -32,16 +32,14 @@ class ControllaMossaServer {
                 throw new Error("Questo pezzo non può fare questa mossa")
             }
 
-            //se c'è un pezzo nella casella di destinazione me lo salvo così dopo i controlli non va perduto
-            const pezzoMangiato = scacchiera.ottieniPezzo(mossa.casellaDestinazione);
-
-            const checks = new Checks()
+            const checks = new Checks();
             let posizioneInizialeTorre;
             let posizioneArrivoTorre;
             if (mossa.isArrocco) {
                 //mossa arrocco
                 const lato = colonnaCasellaDestinazione === 6 ? Costanti.KING : Costanti.QUEEN;
                 [posizioneInizialeTorre, posizioneArrivoTorre] = scacchiera.eseguiArrocco(pezzo.colore, lato, mossa.casellaDestinazione);
+                scacchiera.pezzoMangiato = null;
             } else if (pezzo.tipo === Costanti.PAWN && (rigaCasellaDestinazione === 0 || rigaCasellaDestinazione === 7)) {
                 //mossa promozione pedone
                 mostraSelezionePromozione(pezzo, casellaDestinazione, scacchiera);
@@ -85,7 +83,7 @@ class ControllaMossaServer {
                 }
             }
             else {
-                //cancello la lavagna messaggi
+                //cancello i messaggi
                 scacchiera.messaggi = '';
             }
 
@@ -94,7 +92,7 @@ class ControllaMossaServer {
                     pezzo.primaMossa = false;
                     break;
                 case Costanti.KING:
-                    if (scacchiera.mossaAl == COLOR_WHITE)
+                    if (scacchiera.mossaAl == Costanti.COLOR_WHITE)
                         scacchiera.posizioneReBianco = casellaDestinazione;
                     else
                         scacchiera.posizioneReNero = casellaDestinazione;
@@ -112,15 +110,6 @@ class ControllaMossaServer {
             return error.message;
         }
 
-        // Rimuovi la classe highlighted da tutte le caselle
-        const caselleMossePossibili = document.querySelectorAll('.square');
-        caselleMossePossibili.forEach((casella) => {
-            casella.classList.remove('casellaMossaPossibile');
-            casella.classList.remove('highlighted');
-        });
-
-        //stampo la nuova posizione della scacchiera
-        //console.log(scacchiera);
 
     }
 

@@ -182,7 +182,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
             if (pezzoInchiodatoSulProprioRe) {
                 //ripristino la scacchiera a com'era prima della mossa illegale (pezzo inchiodato)
                 scacchieraClient.annullaUltimaMossa(pezzo, casellaPartenza);
-                throw new Error("Il pezzo che cerchi di muovere è inchiodato sul tuo re")
+                throw new Error("Questa mossa non è valida perchè sei sotto scacco oppure questo pezzo è inchiodato sul tuo re.")
             }
         }
         //invio la mossa al server
@@ -203,7 +203,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
             //riposiziono la torre arroccata nella nuova posizione graficamente
             const divTorrePrimaDiArroccare = document.getElementById(posizioneInizialeTorre);
             const divTorreArroccata = document.getElementById(posizioneArrivoTorre);
-            const torreArroccata = scacchiera.ottieniPezzo(posizioneArrivoTorre);
+            const torreArroccata = scacchieraClient.ottieniPezzo(posizioneInizialeTorre);
             //elimino la torre da dove si trovava
             const imgTorreArrocco = document.getElementById(torreArroccata.id);
             divTorrePrimaDiArroccare.removeChild(imgTorreArrocco);
@@ -217,7 +217,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
 
         pezzoSelezionato = null;
     } catch (error) {
-        if (scacchiera.isScaccoMatto) {
+        if (scacchieraClient.isScaccoMatto) {
             stampaMessaggio('SACCO MATTOOOO - PARTITA TERMINATA');
         } else {
             stampaMessaggio(error.message);

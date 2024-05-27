@@ -250,12 +250,7 @@ class ScacchieraClient {
 
     // Metodo per annullare l'ultima coppia di mosse
     annullaUltimaMossa(pezzo, casellaPartenza) {
-        if (this.mossaAl === COLOR_WHITE) {
-            this.listaMossePartita.pop(); // Rimuove l'ultima coppia di mosse            
-        } else {
-            this.listaMossePartita[this.listaMossePartita.length - 1].setMossaNero(null);
-        }
-        //tolgo il pezzo dalla posizione illegale
+         //tolgo il pezzo dalla posizione illegale
         this.rimuoviPezzo(pezzo.posizione);
         //rimetto il pezzo che stavo muovendo nella posizione di partenza
         pezzo.posizione = casellaPartenza;
@@ -301,7 +296,7 @@ class ScacchieraClient {
         const mossaRe = new Mossa(re, posizioneRe, casellaDestinazioneRe);
         mossaRe.isArrocco = true
         const mossaTorre = new Mossa(torre, torre.posizione, nuovaPosizioneTorre);
-        this.aggiornaPosizioneArrocco(mossaRe, mossaTorre);
+        //this.aggiornaPosizioneArrocco(mossaRe, mossaTorre);
 
         re.hasMoved = true;
         torre.hasMoved = true;

@@ -12,6 +12,7 @@ class Checks {
 
         // Se il mio re è sotto scacco nella nuova configurazione della scacchiera è una mossa illegale 
         if (this.isPosizioneAttaccata(posizioneMioRe, scacchiera, coloreAttaccante)) {
+            stampaMessaggio("Questa mossa non è valida");
             return true
         }
         return false;
@@ -46,7 +47,7 @@ class Checks {
         const coloreAttaccante = (scacchiera.mossaAl === COLOR_WHITE) ? COLOR_WHITE : COLOR_BLACK;
         // Verifica se il re avversario è sotto attacco nella nuova configurazione della scacchiera
         if (this.isPosizioneAttaccata(posizioneReAvversario, scacchiera, coloreAttaccante)) {
-            stampaMessaggio("Non puoi muovere il pezzo perchè è inchiodato sul tuo re");
+            stampaMessaggio("Questa mossa non è valida");
             return true
         }
         return false;

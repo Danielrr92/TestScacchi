@@ -57,15 +57,22 @@ socket.onmessage = (event) => {
         case 'move':
             // La mossa è legale, aggiorno la scacchiera
             updateBoard(data.scacchiera, data.mossa);
-            aggiungiMossa(data.scacchiera.listaMossePartita);
+            stampaMossaGraficamente(data.scacchiera.listaMossePartita);
             break;
         case 'moveValidated':
             updateBoardLogically(data.scacchiera)
-            aggiungiMossa(data.scacchiera.listaMossePartita);
+            stampaMossaGraficamente(data.scacchiera.listaMossePartita);
             break;
         case 'invalidMove':
-            
+            stampaMessaggio('Hai perso per scaccomatto.')
             break;
+        case 'checkMate':
+            stampaMessaggio('Hai vinto pezzo di merda coglione!')
+            break;
+        case 'checkMated':
+
+            break;
+
         case 'opponentLeft':
             stampaMessaggio('L\'avversario ha lasciato la partita')
             console.log('Opponent left the game');
@@ -112,35 +119,17 @@ function getGameId() {
 }
 
 
-// function aggiungiMossa(listaMossePartita) {
-//     const ultimoElemento = listaMossePartita.at(-1);
-//     const mosseLista = document.getElementById('mosse-lista');
-//     const nuovaMossa = document.createElement('div');
-//     const numeroMossa = listaMossePartita.length.toString();
-//     let ultimaMossaEffettuata = '';
-//     if (ultimoElemento.mossaNero) {
-//         //in questo caso devo aggiungere una mossa del nero
-//         ultimaMossaEffettuata = ultimoElemento.mossaNero.notazione
-//         nuovaMossa.textContent = numeroMossa + ')' + ultimoElemento.mossaBianco.notazione + ' .... ' + ultimaMossaEffettuata
-//     }else{
-//         //in questo caso devo aggiungere una mossa del bianco
-//         ultimaMossaEffettuata = ultimoElemento.mossaBianco.notazione
-//         nuovaMossa.textContent = numeroMossa + ')' + ultimaMossaEffettuata
-//     }
-    
-//     mosseLista.appendChild(nuovaMossa);
-// }
 
 
-function aggiungiMossa(listaMossePartita) {
+function stampaMossaGraficamente(listaMossePartita) {
     const movesContainer = document.querySelector('.moves');
 
     const ultimoElemento = listaMossePartita.at(-1);
     if (ultimoElemento.mossaNero) {
-         // Mossa del nero
-         const lastMoveRow = movesContainer.lastElementChild;
-         const blackMoveDiv = lastMoveRow.querySelectorAll('.move')[2];
-         blackMoveDiv.textContent = ultimoElemento.mossaNero.notazione;
+        // Mossa del nero
+        const lastMoveRow = movesContainer.lastElementChild;
+        const blackMoveDiv = lastMoveRow.querySelectorAll('.move')[2];
+        blackMoveDiv.textContent = ultimoElemento.mossaNero.notazione;
     } else {
         // Mossa del bianco
         const moveRow = document.createElement('div');
@@ -163,7 +152,7 @@ function aggiungiMossa(listaMossePartita) {
         moveRow.appendChild(blackMoveDiv);
 
         movesContainer.appendChild(moveRow);
-       
+
     }
 
 }

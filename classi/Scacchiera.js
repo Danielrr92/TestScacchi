@@ -6,6 +6,8 @@ const Regina = require('../classiPezzi/Regina');
 const Torre = require('../classiPezzi/Torre');
 const Costanti = require('./Costanti');
 const SerieDiMosse = require('./SerieDiMosse');
+const Checks = require('./Checks');
+const Mossa = require('./Mossa');
 
 class Scacchiera {
 
@@ -216,10 +218,10 @@ class Scacchiera {
         }
         this.pezzoMangiato = null;
         //reimposto la posizione del re in caso stia annullando una sua mossa
-        if (pezzo.tipo == KING && pezzo.colore == Costanti.COLOR_WHITE) {
+        if (pezzo.tipo == Costanti.KING && pezzo.colore == Costanti.COLOR_WHITE) {
             this.posizioneReBianco = pezzo.posizione;
         }
-        if (pezzo.tipo == KING && pezzo.colore == Costanti.COLOR_BLACK) {
+        if (pezzo.tipo == Costanti.KING && pezzo.colore == Costanti.COLOR_BLACK) {
             this.posizioneReNero = pezzo.posizione;
         }
     }
@@ -227,7 +229,7 @@ class Scacchiera {
     eseguiArrocco(colore, lato, casellaDestinazioneRe) {
         const posizioneRe = (colore === Costanti.COLOR_WHITE) ? this.posizioneReBianco : this.posizioneReNero;
         const re = this.ottieniPezzo(posizioneRe)
-        const torre = (lato === KING) ? this.ottieniTorreRe(colore) : this.ottieniTorreRegina(colore);
+        const torre = (lato === Costanti.KING) ? this.ottieniTorreRe(colore) : this.ottieniTorreRegina(colore);
 
         let posizioneInizialeTorre = torre.posizione;
 
@@ -260,7 +262,7 @@ class Scacchiera {
 
 
     isArroccoLegale(re, lato) {
-        const torre = (lato === KING) ? this.ottieniTorreRe(re.colore) : this.ottieniTorreRegina(re.colore);
+        const torre = (lato === Costanti.KING) ? this.ottieniTorreRe(re.colore) : this.ottieniTorreRegina(re.colore);
         //per fare arrocco ne il re, ne la torre devono essersi mai mossi
         if (re.hasMoved || torre.hasMoved) return false;
 

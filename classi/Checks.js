@@ -1,4 +1,5 @@
-const Costanti = require('./Costanti')
+const Costanti = require('./Costanti');
+const Mossa = require('./Mossa');
 
 class Checks {
 
@@ -48,7 +49,6 @@ class Checks {
         const coloreAttaccante = (scacchiera.mossaAl === Costanti.COLOR_WHITE) ? Costanti.COLOR_WHITE : Costanti.COLOR_WHITE;
         // Verifica se il re avversario è sotto attacco nella nuova configurazione della scacchiera
         if (this.isPosizioneAttaccata(posizioneReAvversario, scacchiera, coloreAttaccante)) {
-            stampaMessaggio("Non puoi muovere il pezzo perchè è inchiodato sul tuo re");
             return true
         }
         return false;
