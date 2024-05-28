@@ -2,10 +2,10 @@ let gameId = "";
 let scacchieraClient = new ScacchieraClient();
 
 //produzione
-//const socket = new WebSocket('wss://testscacchi.onrender.com');
+const socket = new WebSocket('wss://testscacchi.onrender.com');
 
 //test locale
-const socket = new WebSocket('ws://localhost:10001');
+//const socket = new WebSocket('ws://localhost:10001');
 
 socket.onopen = () => {
     console.log('Connected to server');
