@@ -90,7 +90,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
         pezzoSelezionato.style.zIndex = 1000;
 
         if (!pezzoSelezionato) {
-            throw new Error("Errore pezzo selezionato. WTF")
+            throw new Error("Errore selezione")
         }
         // Rimuove l'evento mousemove dal documento
         document.removeEventListener('mousemove', muoviPezzoGraficamente);
@@ -100,7 +100,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
         pezzoSelezionato.style.top = 0;
 
         if (pezzoSelezionato.dataset.colore !== coloreGiocatore) {
-            throw new Error('Non puoi muovere i pezzi dell\'avversario');
+            throw new Error('');
         }
 
         // Ottieni la caselle di partenza e di destinazione        
@@ -109,7 +109,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
 
         //se sto spostando il pezzo fuori dalla scacchiera non faccio nulla, altrimenti procedo
         if (!divCasellaDestinazione) {
-            throw new Error("Non puoi spostare il pezzo fuori dalla scacchiera")
+            throw new Error("")
         }
         const casellaPartenza = divCasellaPartenza.id;
         const casellaDestinazione = divCasellaDestinazione.id;
@@ -117,7 +117,7 @@ function terminaTrascinamento(event, scacchieraClient, coloreGiocatore) {
         //ovviamente se ho solamente cliccato il pezzo anche solo per una frazione di secondo l'evento viene scatenato ma se ho rilasciato subito il mouse casella di partenza e casella di destinazione saranno equivalenti. 
         //in quel caso non faccio nulla.
         if (casellaPartenza == casellaDestinazione) {
-            throw new Error("Non hai spostato il pezzo dalla sua casella iniziale")
+            throw new Error("")
         }
 
         //pezzo che sto muovendo

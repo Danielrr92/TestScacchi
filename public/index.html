@@ -113,7 +113,7 @@
             <div class="btn-new-game" id="pannelloBtnInizioPartita">
                 <div class="row">
                     <div class="col-xl-12">
-                        <button id="btnCreateGame" onclick="createGame()">Crea Nuova Partita</button>
+                        <button id="btnCreateGame" onclick="createGame()">NEW GAME</button>
                     </div>
                     <div id="divIdPartita" class="col-xl-12 hidden">
                         <p>ID: <label id="labelIdPartita"></label></p>
@@ -122,13 +122,12 @@
                     </div>
                     <div id="panelJoinGame">
                         <div class="col-xl-12">
-                            <p>Altrimenti unisciti ad una partita già iniziata</p>
-                            <input type="text" id="textBoxIdPartita"
-                                placeholder="inserisci l'id della partita alla quale ti vuoi unire" />
+                            <p>Altrimenti unisciti ad una partita già iniziata tramite ID</p>
+                            <input type="text" id="textBoxIdPartita" placeholder="ID Partita" />
                         </div>
                         <div class="col-xl-12">
                             <button id="btnJoinGame"
-                                onclick="joinGame(document.getElementById('textBoxIdPartita').value)">Unisciti tramite ID partita</button>
+                                onclick="joinGame(document.getElementById('textBoxIdPartita').value)">JOIN</button>
                         </div>
                     </div>
                 </div>
@@ -137,12 +136,12 @@
                 <div class="moves-header">
                     <span>Mosse</span>
                 </div>
-                <div class="moves">
+                <div id="moves" class="moves">
                     <!-- Le mosse verranno inserite qui dinamicamente -->
                 </div>
             </div>
-            <div class="panelBtnRestart">
-                <button id="btnRestart"
+            <div id="pannelloBtnRestart"" class="hidden">
+                <button id="btnRestart" onclick="restartGame()">RESTART</button>
             </div>
         </div>
     </div>

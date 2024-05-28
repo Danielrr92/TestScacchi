@@ -39,6 +39,7 @@ socket.onmessage = (event) => {
             coloreItaliano = (colorePlayer == COLOR_WHITE) ? 'Bianco' : 'Nero';
             document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + coloreItaliano;
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
+            document.getElementById('pannelloBtnRestart').classList.add('hidden');
             //disegnamo sta scacchiera
             setBoardInitial(data.scacchiera, colorePlayer, data.gameId);
             break;
@@ -50,6 +51,7 @@ socket.onmessage = (event) => {
             coloreItaliano = (colorePlayer == COLOR_WHITE) ? 'Bianco' : 'Nero';
             document.getElementById('messaggi').innerHTML = 'Benvenuto - giochi con il ' + coloreItaliano;
             document.getElementById('pannelloBtnInizioPartita').classList.add('hidden');
+            document.getElementById('pannelloBtnRestart').classList.add('hidden');
             //disegnamo sta scacchiera
             setBoardInitial(data.scacchiera, colorePlayer);
             break;
@@ -57,25 +59,31 @@ socket.onmessage = (event) => {
         case 'move':
             // La mossa è legale, aggiorno la scacchiera
             updateBoard(data.scacchiera, data.mossa);
-            stampaMossaGraficamente(data.scacchiera.listaMossePartita);
+            aggiornaListaMosse(data.scacchiera.listaMossePartita);
             break;
         case 'moveValidated':
             updateBoardLogically(data.scacchiera)
-            stampaMossaGraficamente(data.scacchiera.listaMossePartita);
+            aggiornaListaMosse(data.scacchiera.listaMossePartita);
             break;
         case 'invalidMove':
-            stampaMessaggio('Hai perso per scaccomatto.')
+            //se la mossa non è data valida dal server devo annullarla graficamente e ristabilire la scacchiera
             break;
         case 'checkMate':
-            stampaMessaggio('Hai vinto pezzo di merda coglione!')
+            updateBoardLogically(data.scacchiera)
+            aggiornaListaMosse(data.scacchiera.listaMossePartita);
+            stampaMessaggio('Hai vinto. Fai schifo al cazzo ugualmente. pezzo di merda infame');
+            document.getElementById('pannelloBtnRestart').classList.remove('hidden');
             break;
         case 'checkMated':
-
+            updateBoard(data.scacchiera, data.mossa);
+            aggiornaListaMosse(data.scacchiera.listaMossePartita);
+            stampaMessaggio('Hai perso. Fai schifo al cazzo.')
+            document.getElementById('pannelloBtnRestart').classList.remove('hidden');
             break;
 
         case 'opponentLeft':
             stampaMessaggio('L\'avversario ha lasciato la partita')
-            console.log('Opponent left the game');
+            console.log('L\'avversario ha abbandonato la partita.');
             break;
         case 'error':
             console.log('Errore: ', data.message);
@@ -118,10 +126,21 @@ function getGameId() {
     return gameId;
 }
 
+function restartGame() {
+    togliTutteLePedineDallaScacchiera();
+    stampaMessaggio('');
+    document.getElementById('pannelloBtnInizioPartita').classList.remove('hidden');
+    document.getElementById('pannelloBtnRestart').classList.add('hidden');
+    document.getElementById('moves').innerHTML = '';
+    document.getElementById('panelJoinGame').classList.remove('hidden');
+    document.getElementById('textBoxIdPartita').value = '';
+    document.getElementById('divIdPartita').classList.add('hidden');
+    document.getElementById('labelIdPartita').innerHTML = '';
+}
 
 
 
-function stampaMossaGraficamente(listaMossePartita) {
+function aggiornaListaMosse(listaMossePartita) {
     const movesContainer = document.querySelector('.moves');
 
     const ultimoElemento = listaMossePartita.at(-1);
